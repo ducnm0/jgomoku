@@ -121,6 +121,11 @@ public class GraphicalInterface extends javax.swing.JPanel {
         flipBackImage();
     }
 
+    public void drawBackgroundCell(int row , int column){
+        drawBackground(row , column);
+        flipBackImage();
+    }
+
     private void drawBackground(int row , int column){
         BufferedImage img;
 
@@ -155,13 +160,13 @@ public class GraphicalInterface extends javax.swing.JPanel {
         drawBackImage(img , row , column);
     }
 
-    private void drawBlackStone(int row , int column){
+    public void drawBlackStone(int row , int column){
         BufferedImage img=blackStone;
         drawBackImage(img , row , column);
         flipBackImage();
     }
 
-    private void drawWhiteStone(int row , int column){
+    public void drawWhiteStone(int row , int column){
         BufferedImage img=whiteStone;
         drawBackImage(img , row , column);
         flipBackImage();
@@ -206,36 +211,71 @@ public class GraphicalInterface extends javax.swing.JPanel {
     private void initComponents() {
 
         boardCanvas = new BoardCanvas();
-        jButton5 = new javax.swing.JButton();
+        previousMoveButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton4 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        nextMoveButton = new javax.swing.JButton();
+        whitePlayerComboBox = new javax.swing.JComboBox();
+        startGameButton = new javax.swing.JButton();
+        blackPlayerComboBox = new javax.swing.JComboBox();
+        newGameButton = new javax.swing.JButton();
+        saveGameButton = new javax.swing.JButton();
+        loadGameButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         boardCanvas.setBackground(new java.awt.Color(232, 196, 25));
+        boardCanvas.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                boardCanvasMouseMoved(evt);
+            }
+        });
 
-        jButton5.setText("Previous move");
+        previousMoveButton.setText("Previous move");
+        previousMoveButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                previousMoveButtonMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("black player");
 
-        jButton6.setText("Next move");
+        nextMoveButton.setText("Next move");
+        nextMoveButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nextMoveButtonMouseClicked(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Human", "Computer" }));
+        whitePlayerComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Human", "Computer" }));
 
-        jButton4.setText("Start game");
+        startGameButton.setText("Start game");
+        startGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                startGameButtonMouseClicked(evt);
+            }
+        });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Human", "Computer" }));
+        blackPlayerComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Human", "Computer" }));
 
-        jButton3.setText("New game");
+        newGameButton.setText("New game");
+        newGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newGameButtonMouseClicked(evt);
+            }
+        });
 
-        jButton1.setText("Save game");
+        saveGameButton.setText("Save game");
+        saveGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveGameButtonMouseClicked(evt);
+            }
+        });
 
-        jButton2.setText("Load game");
+        loadGameButton.setText("Load game");
+        loadGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loadGameButtonMouseClicked(evt);
+            }
+        });
 
         jLabel2.setText("white player");
 
@@ -248,15 +288,15 @@ public class GraphicalInterface extends javax.swing.JPanel {
                 .addComponent(boardCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(previousMoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, 222, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(nextMoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(whitePlayerComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 121, Short.MAX_VALUE)
+                    .addComponent(startGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(blackPlayerComboBox, 0, 121, Short.MAX_VALUE)
+                    .addComponent(newGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(saveGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(loadGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -268,42 +308,70 @@ public class GraphicalInterface extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jButton3)
+                .addComponent(newGameButton)
                 .addGap(8, 8, 8)
-                .addComponent(jButton1)
+                .addComponent(saveGameButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(loadGameButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(blackPlayerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(whitePlayerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(startGameButton)
                 .addGap(44, 44, 44)
-                .addComponent(jButton5)
+                .addComponent(previousMoveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
+                .addComponent(nextMoveButton)
                 .addGap(40, 40, 40))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void newGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newGameButtonMouseClicked
+        // TODO add your handling code here:
+}//GEN-LAST:event_newGameButtonMouseClicked
+
+    private void saveGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveGameButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveGameButtonMouseClicked
+
+    private void loadGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadGameButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loadGameButtonMouseClicked
+
+    private void startGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startGameButtonMouseClicked
+
+    private void previousMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMoveButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previousMoveButtonMouseClicked
+
+    private void nextMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMoveButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nextMoveButtonMouseClicked
+
+    private void boardCanvasMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boardCanvasMouseMoved
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox blackPlayerComboBox;
     private java.awt.Canvas boardCanvas;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton loadGameButton;
+    private javax.swing.JButton newGameButton;
+    private javax.swing.JButton nextMoveButton;
+    private javax.swing.JButton previousMoveButton;
+    private javax.swing.JButton saveGameButton;
+    private javax.swing.JButton startGameButton;
+    private javax.swing.JComboBox whitePlayerComboBox;
     // End of variables declaration//GEN-END:variables
 
 }

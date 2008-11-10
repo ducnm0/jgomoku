@@ -10,9 +10,8 @@ package jgomoku;
  * @author colacristian
  */
 public class BoardData {
-    private static char board[][];
-    private static int size;
-    char winner;
+    protected static char board[][];
+    protected static int size;
 
     
  public BoardData(){
@@ -24,7 +23,6 @@ public class BoardData {
                 board[row][column]='o';
             }
         }
-        winner='o';
  }
  public BoardData(int size){
         int row , column;
@@ -35,7 +33,6 @@ public class BoardData {
                 board[row][column]='o';
             }
         }
-        winner='o';
  }
   public boolean moveWhite(int row , int column){
         if(board[row][column] == 'o'){
