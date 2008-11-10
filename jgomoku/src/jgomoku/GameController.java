@@ -23,14 +23,14 @@ public class GameController {
 
     GameController(){
         gomokuBoard=new GomokuBoard();
-        humanUserInterface=new GraphicalInterfaceController();
+        humanUserInterface=new GraphicalInterfaceController(15 , 15);
         humanUserInterface.setCallback(this);
     }
 
     GameController(boolean graphical){
         gomokuBoard=new GomokuBoard();
         if(graphical == true){
-            humanUserInterface=new GraphicalInterfaceController();
+            humanUserInterface=new GraphicalInterfaceController(15 , 15);
             humanUserInterface.setCallback(this);
         }
         else{

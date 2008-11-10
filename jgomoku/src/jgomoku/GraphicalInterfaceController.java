@@ -24,9 +24,9 @@ public class GraphicalInterfaceController implements UserInterface{
     private JFrame guiFrame;
     GameController gc;
 
-    GraphicalInterfaceController(){
+    GraphicalInterfaceController(int maxrow , int maxcolumn){
 
-        GraphicalInterface guiPanel=new GraphicalInterface();
+        GraphicalInterface guiPanel=new GraphicalInterface(maxrow , maxcolumn);
         guiFrame=new JFrame("jgomoku");
         guiFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         guiFrame.setContentPane(guiPanel);

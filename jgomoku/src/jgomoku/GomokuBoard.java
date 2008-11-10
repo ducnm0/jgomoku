@@ -99,19 +99,19 @@ public class GomokuBoard {
                 if(s != 'o' && s == side){
                     {
                         if(column <= limit){
-                            if(check_horizontal_winner(aux , row , column)){
+                            if(checkHorizontalWinner(aux , row , column)){
                                 winner=s;
                                 return s;
                             }
                         }
                         if(row <= limit){
-                            if(check_vertical_winner(aux , row , column)){
+                            if(checkVerticalWinner(aux , row , column)){
                                 winner=s;
                                 return s;
                             }
                         }
                         if(row <= limit && column <= limit){
-                            if(check_diagonal_winner(aux , row , column)){
+                            if(checkDiagonalWinner(aux , row , column)){
                                 winner='s';
                                 return s;
                             }
@@ -124,7 +124,7 @@ public class GomokuBoard {
         return 'o';
     }
 
-    private boolean check_horizontal_winner(char aux[][] , int row , int column){
+    private boolean checkHorizontalWinner(char aux[][] , int row , int column){
         int length=1;
         char s=aux[row][column];
         
@@ -143,7 +143,7 @@ public class GomokuBoard {
         return false;
     }
     
-    private boolean check_vertical_winner(char aux[][] , int row , int column){
+    private boolean checkVerticalWinner(char aux[][] , int row , int column){
         int length=1;
         char s=aux[row][column];
 
@@ -162,7 +162,7 @@ public class GomokuBoard {
         return false;
     }
 
-    private boolean check_diagonal_winner(char aux[][] , int row , int column){
+    private boolean checkDiagonalWinner(char aux[][] , int row , int column){
         int length=1;
         char s=aux[row][column];
 

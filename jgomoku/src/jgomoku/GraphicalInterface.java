@@ -20,8 +20,12 @@ package jgomoku;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.RenderingHints;
 
 public class GraphicalInterface extends javax.swing.JPanel {
+
+    private BufferedImage boardImage;
 
     private BufferedImage blackStone;
     private BufferedImage whiteStone;
@@ -35,8 +39,13 @@ public class GraphicalInterface extends javax.swing.JPanel {
     private BufferedImage westNode;
     private BufferedImage northWestNode;
 
-    /** Creates new form GInterface */
-    public GraphicalInterface() {
+    private static int MAXROW;
+    private static int MAXCOLUMN;
+
+    private int boardImageHeight;
+    private int boardImageWidth;
+
+    private void imageInitialisation(){
         InputStream imageReader;
 
         //loading images from files in artwork folder in jar file
@@ -88,20 +97,103 @@ public class GraphicalInterface extends javax.swing.JPanel {
         catch(Exception e){
             e.printStackTrace();
         }
-        
+    }
+
+    /** Creates new form GInterface */
+    public GraphicalInterface(int maxrow , int maxcolumn) {
+        int row , column;
+
+        MAXROW=maxrow;
+        MAXCOLUMN=maxcolumn;
+
+        imageInitialisation();
+
         initComponents();
+
+        boardCanvas.setSize(450, 450);
+        boardImage=new BufferedImage(450 , 450 , BufferedImage.TYPE_INT_ARGB);
+
+        for(row=1 ; row <= MAXROW ; row++){
+            for(column=1 ; column <= MAXCOLUMN ; column++){
+                drawBackground(row , column);
+            }
+        }
+        flipBackImage();
     }
 
     private void drawBackground(int row , int column){
-        
+        BufferedImage img;
+
+        if(row == 1 && column == 1){
+            img=northWestNode;
+        }
+        else if(row == 1 && column==MAXCOLUMN){
+            img=northEastNode;
+        }
+        else if(row==MAXROW && column==1){
+            img=southWestNode;
+        }
+        else if(row==MAXROW && column==MAXCOLUMN){
+            img=southEastNode;
+        }
+        else if(row==1){
+            img=northNode;
+        }
+        else if(row==MAXROW){
+            img=southNode;
+        }
+        else if(column==1){
+            img=westNode;
+        }
+        else if(column==MAXCOLUMN){
+            img=eastNode;
+        }
+        else{
+            img=middleNode;
+        }
+
+        drawBackImage(img , row , column);
     }
 
     private void drawBlackStone(int row , int column){
-
+        BufferedImage img=blackStone;
+        drawBackImage(img , row , column);
+        flipBackImage();
     }
 
     private void drawWhiteStone(int row , int column){
+        BufferedImage img=whiteStone;
+        drawBackImage(img , row , column);
+        flipBackImage();
+    }
+
+    private void drawBackImage(Image img , int row , int column){
+        int width , height;
+        int cellWidth , cellHeight;
+        int imageWidth , imageHeight;
+        int scaledWidth , scaledHeight;
+        Graphics2D g;
+        BufferedImage scaledImage;
         
+        height=boardCanvas.getHeight();
+        width=boardCanvas.getWidth();
+
+        cellWidth=width/MAXCOLUMN;
+        cellHeight=height/MAXROW;
+
+        imageWidth=img.getWidth(this);
+        imageHeight=img.getHeight(this);
+
+        g=(Graphics2D) boardImage.getGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION , RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(img , cellWidth * (column - 1) , cellHeight * (row - 1) , cellWidth , cellHeight , this);
+        //System.out.println(cellWidth * (column - 1) + " " + cellHeight * (row - 1));
+    }
+
+    private void flipBackImage(){
+        BoardCanvas bc=(BoardCanvas) boardCanvas;
+        bc.updateBackImage(boardImage);
+        bc.repaint();
     }
 
     /** This method is called from within the constructor to
@@ -113,7 +205,7 @@ public class GraphicalInterface extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        canvas1 = new java.awt.Canvas();
+        boardCanvas = new BoardCanvas();
         jButton5 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
@@ -124,6 +216,8 @@ public class GraphicalInterface extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+
+        boardCanvas.setBackground(new java.awt.Color(232, 196, 25));
 
         jButton5.setText("Previous move");
 
@@ -151,18 +245,18 @@ public class GraphicalInterface extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                .addComponent(boardCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 127, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, 127, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, 222, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -170,7 +264,7 @@ public class GraphicalInterface extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(boardCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
@@ -179,7 +273,7 @@ public class GraphicalInterface extends javax.swing.JPanel {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,7 +293,7 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Canvas canvas1;
+    private java.awt.Canvas boardCanvas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
