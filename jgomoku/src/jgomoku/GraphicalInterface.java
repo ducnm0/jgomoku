@@ -223,6 +223,11 @@ public class GraphicalInterface extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
 
         boardCanvas.setBackground(new java.awt.Color(232, 196, 25));
+        boardCanvas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                boardCanvasMouseClicked(evt);
+            }
+        });
         boardCanvas.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 boardCanvasMouseMoved(evt);
@@ -358,6 +363,10 @@ public class GraphicalInterface extends javax.swing.JPanel {
     private void boardCanvasMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseMoved
         // TODO add your handling code here:
     }//GEN-LAST:event_boardCanvasMouseMoved
+
+    private void boardCanvasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boardCanvasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

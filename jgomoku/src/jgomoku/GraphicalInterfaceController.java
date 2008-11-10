@@ -23,6 +23,7 @@ public class GraphicalInterfaceController implements UserInterface{
 
     private JFrame guiFrame;
     GameController gc;
+    BoardData boardData;
 
     GraphicalInterfaceController(int maxrow , int maxcolumn){
 
@@ -33,6 +34,7 @@ public class GraphicalInterfaceController implements UserInterface{
         guiFrame.pack();
         guiFrame.setResizable(false);
         guiFrame.setVisible(true);
+        boardData=new BoardData();
     }
 
     public void printText(String text){

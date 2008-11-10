@@ -39,7 +39,7 @@ public class GameController {
         }
     }
 
-    public void newGame(){
+    private void newGame(){
         
     }
 
@@ -48,19 +48,16 @@ public class GameController {
         
     }
 
-    public void saveGame(String fileName){
+    private void saveGame(String fileName){
         
     }
 
-    public void loadGame(String fileName){
+    private void loadGame(String fileName){
         
     }
 
-    public void interfaceCallbackEntryPoint(String message){
-        
-    }
-
-    public void gameAiCallbackEntryPoint(int row , int column){
+    //the callback function from gomokuai , graphicalinterface or textinterface
+    public void sendPlayerInput(String input){
         
     }
 }

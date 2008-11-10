@@ -19,7 +19,6 @@ package jgomoku;
 
 interface UserInterface {
     void setCallback(GameController gameController);
-    String getUserInput();
     boolean moveWhite(int row , int column);
     boolean moveBlack(int row , int column);
     boolean removeWhite(int row , int column);
