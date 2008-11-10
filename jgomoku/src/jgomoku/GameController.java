@@ -16,10 +16,13 @@
   */
 package jgomoku;
 
+import java.util.*;
+
 public class GameController {
     private GomokuBoard gomokuBoard;
     private UserInterface humanUserInterface;
     private boolean humanWhite;
+    private GomokuGameHistory gameHistory;
 
     GameController(){
         gomokuBoard=new GomokuBoard();
@@ -58,6 +61,6 @@ public class GameController {
 
     //the callback function from gomokuai , graphicalinterface or textinterface
     public void sendPlayerInput(String input){
-        
+        StringTokenizer st=new StringTokenizer(input);
     }
 }
