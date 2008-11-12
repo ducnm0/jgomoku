@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.RenderingHints;
 
-public class GraphicalInterface extends javax.swing.JPanel implements UserInterface{
+public class GraphicalInterface extends javax.swing.JPanel {
 
     private BufferedImage boardImage;
 
@@ -44,8 +44,6 @@ public class GraphicalInterface extends javax.swing.JPanel implements UserInterf
 
     private int boardImageHeight;
     private int boardImageWidth;
-
-    GameController gc;
 
     private void imageInitialisation(){
         InputStream imageReader;
@@ -112,9 +110,6 @@ public class GraphicalInterface extends javax.swing.JPanel implements UserInterf
 
         initComponents();
 
-        saveGameButton.setEnabled(false);
-        newGameButton.setEnabled(false);
-
         boardCanvas.setSize(450, 450);
         boardImage=new BufferedImage(450 , 450 , BufferedImage.TYPE_INT_ARGB);
 
@@ -124,29 +119,6 @@ public class GraphicalInterface extends javax.swing.JPanel implements UserInterf
             }
         }
         flipBackImage();
-    }
-
-    public void printText(String input){
-        
-    }
-    public void setCallback(GameController gc){
-        this.gc=gc;
-    }
-    
-    public boolean moveWhite(int row , int column){
-        return true;
-    }
-
-    public boolean moveBlack(int row , int column){
-        return true;
-    }
-
-    public boolean removeWhite(int row , int column){
-        return true;
-    }
-
-    public boolean removeBlack(int row , int column){
-        return true;
     }
 
     public void drawBackgroundCell(int row , int column){
@@ -378,22 +350,6 @@ public class GraphicalInterface extends javax.swing.JPanel implements UserInterf
 
     private void startGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameButtonMouseClicked
         // TODO add your handling code here:
-        boolean blackHuman , whiteHuman;
-
-        if(blackPlayerComboBox.getSelectedIndex() == 0){
-            blackHuman=true;
-        }
-        else{
-            blackHuman=false;
-        }
-        if(whitePlayerComboBox.getSelectedIndex() == 0){
-            whiteHuman=true;
-        }
-        else{
-            whiteHuman=false;
-        }
-        
-        gc.startGame(blackHuman , whiteHuman);
     }//GEN-LAST:event_startGameButtonMouseClicked
 
     private void previousMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMoveButtonMouseClicked
