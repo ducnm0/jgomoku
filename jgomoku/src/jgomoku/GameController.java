@@ -30,7 +30,6 @@ public class GameController {
     }
 
     GameController(boolean graphical){
-        gomokuBoard=new GomokuBoard();
         if(graphical == true){
             humanUserInterface=new GraphicalInterfaceController(15 , 15);
             humanUserInterface.setCallback(this);
@@ -42,7 +41,8 @@ public class GameController {
     }
 
     public void newGame(boolean blackHuman , boolean whiteHuman){
-        
+        gomokuBoard=new GomokuBoard(15);
+        humanUserInterface.printText("waiting for black move");
     }
 
     public void updateInterface(int row , int column ,

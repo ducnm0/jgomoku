@@ -31,24 +31,31 @@ class LocalBoardData extends BoardData{
 public class GraphicalInterfaceController implements UserInterface{
 
     private JFrame guiFrame;
+    private GraphicalInterface graphicalInterface;
     private GameController gc;
     private LocalBoardData boardData;
     private boolean blackToMove;
+    private boolean waitForMove;
+    boolean formerDrawn;
+    int formerRow;
+    int formerColumn;
 
     GraphicalInterfaceController(int maxrow , int maxcolumn){
 
-        GraphicalInterface guiPanel=new GraphicalInterface(this , maxrow , maxcolumn);
+        graphicalInterface=new GraphicalInterface(this , maxrow , maxcolumn);
+        graphicalInterface.setDoubleBuffered(true);
         guiFrame=new JFrame("jgomoku");
         guiFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        guiFrame.setContentPane(guiPanel);
+        guiFrame.setContentPane(this.graphicalInterface);
         guiFrame.pack();
         guiFrame.setResizable(false);
         guiFrame.setVisible(true);
         boardData=new LocalBoardData();
+        formerDrawn=false;
     }
 
     public void printText(String text){
-
+        guiFrame.setTitle("jgomoku " + text);
     }
 
     public boolean removeBlack(int row , int column){
@@ -85,6 +92,48 @@ public class GraphicalInterfaceController implements UserInterface{
     }
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
-        
+        gc.newGame(blackHuman, whiteHuman);
+        waitForMove=true;
+        blackToMove=true;
     }
+
+    public void mouseMoved(int row , int column){
+        boolean aux=false;
+        
+        if(waitForMove){
+            if(row == -1 && column == -1){
+                if(formerDrawn == true){
+                    graphicalInterface.drawBackgroundCell(formerRow, formerColumn);
+                    formerDrawn=false;
+                }
+            }
+            else{
+                if(row != formerRow || column != formerColumn){
+                    if(boardData.isBlanck(row, column)){
+                        if(blackToMove){
+                            graphicalInterface.drawBlackStone(row, column);
+                        }
+                        else{
+                            graphicalInterface.drawWhiteStone(row, column);
+                        }
+                        aux=true;
+                    }
+                    
+                    if(formerDrawn){
+                        graphicalInterface.drawBackgroundCell(formerRow, formerColumn);
+                        if(aux){
+                            formerRow=row;
+                            formerColumn=column;
+                        }
+                    }
+                    else if(aux){
+                        formerDrawn=true;
+                        formerRow=row;
+                        formerColumn=column;
+                    }
+                }
+            }
+        }
+    }
+        
 }

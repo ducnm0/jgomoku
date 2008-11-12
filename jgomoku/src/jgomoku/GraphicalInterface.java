@@ -129,7 +129,7 @@ public class GraphicalInterface extends javax.swing.JPanel {
     }
 
     public void drawBackgroundCell(int row , int column){
-        drawBackground(row , column);
+        drawBackground(row+1 , column+1);
         flipBackImage();
     }
 
@@ -169,13 +169,13 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     public void drawBlackStone(int row , int column){
         BufferedImage img=blackStone;
-        drawBackImage(img , row , column);
+        drawBackImage(img , row+1 , column+1);
         flipBackImage();
     }
 
     public void drawWhiteStone(int row , int column){
         BufferedImage img=whiteStone;
-        drawBackImage(img , row , column);
+        drawBackImage(img , row+1 , column+1);
         flipBackImage();
     }
 
@@ -233,6 +233,9 @@ public class GraphicalInterface extends javax.swing.JPanel {
         boardCanvas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 boardCanvasMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                boardCanvasMouseExited(evt);
             }
         });
         boardCanvas.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -385,11 +388,35 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     private void boardCanvasMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseMoved
         // TODO add your handling code here:
+        int xPress , yPress;
+        int canvasWidth , canvasHeight;
+        int cellWidth , cellHeight;
+        int row , column;
+
+        xPress=evt.getX();
+        yPress=evt.getY();
+
+        canvasWidth=boardCanvas.getWidth();
+        canvasHeight=boardCanvas.getHeight();
+
+        cellWidth=(int)((float)canvasWidth / (float)MAXROW);
+        cellHeight=(int)((float)canvasHeight / (float)MAXCOLUMN);
+
+        row=(int) ((float)yPress /  (float) cellHeight);
+        column=(int)((float)xPress /  (float)cellWidth);
+
+        gic.mouseMoved(row, column);
     }//GEN-LAST:event_boardCanvasMouseMoved
 
     private void boardCanvasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseClicked
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_boardCanvasMouseClicked
+
+    private void boardCanvasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseExited
+        // TODO add your handling code here:
+        gic.mouseMoved(-1 , -1);
+    }//GEN-LAST:event_boardCanvasMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
