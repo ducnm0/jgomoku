@@ -19,11 +19,21 @@ package jgomoku;
 
 import javax.swing.*;
 
+class LocalBoardData extends BoardData{
+    public boolean isBlanck(int row , int column){
+        if(board[row][column] == 'o'){
+            return true;
+        }
+        return false;
+    }
+}
+
 public class GraphicalInterfaceController implements UserInterface{
 
     private JFrame guiFrame;
-    GameController gc;
-    BoardData boardData;
+    private GameController gc;
+    private LocalBoardData boardData;
+    private boolean blackToMove;
 
     GraphicalInterfaceController(int maxrow , int maxcolumn){
 
@@ -34,7 +44,7 @@ public class GraphicalInterfaceController implements UserInterface{
         guiFrame.pack();
         guiFrame.setResizable(false);
         guiFrame.setVisible(true);
-        boardData=new BoardData();
+        boardData=new LocalBoardData();
     }
 
     public void printText(String text){
@@ -70,7 +80,7 @@ public class GraphicalInterfaceController implements UserInterface{
         this.gc=gc;
     }
 
-    public void getMove(boolean isWhite){
+    public void getMoves(boolean whiteMoves , boolean blackMoves){
     
     }
 

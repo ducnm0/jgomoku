@@ -25,7 +25,6 @@ public class GameController {
     private GomokuGameHistory gameHistory;
 
     GameController(){
-        gomokuBoard=new GomokuBoard();
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
         humanUserInterface.setCallback(this);
     }
@@ -42,7 +41,7 @@ public class GameController {
         }
     }
 
-    private void newGame(){
+    public void newGame(boolean blackHuman , boolean whiteHuman){
         
     }
 
@@ -56,7 +55,16 @@ public class GameController {
     }
 
     private void loadGame(String fileName){
-        
+        GomokuGameHistory ggh;
+
+        ggh=new GomokuGameHistory();
+        if(ggh.loadGame(fileName)){
+            gameHistory=ggh;
+            gomokuBoard=new GomokuBoard(gameHistory);
+        }
+        else{
+            humanUserInterface.printText("game file loading failed");
+        }
     }
 
     //the callback function from gomokuai , graphicalinterface or textinterface

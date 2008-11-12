@@ -24,5 +24,5 @@ interface UserInterface {
     boolean removeWhite(int row , int column);
     boolean removeBlack(int row , int column);
     void printText(String text);
-    void getMove(boolean isWhite);
+    void getMoves(boolean whiteMoves , boolean blackMoves);
 }

@@ -61,4 +61,8 @@ public class GomokuGameHistory {
         currentMove--;
         return (Move) moves.get(currentMove);
     }
+
+    public boolean loadGame(String filename){
+        return false;
+    }
 }

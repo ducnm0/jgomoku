@@ -51,7 +51,7 @@ public class TextInterface implements UserInterface{
 
     }
 
-    public void getMove(boolean isWhite){
+    public void getMoves(boolean whiteMoves , boolean blackMoves){
         
     }
 

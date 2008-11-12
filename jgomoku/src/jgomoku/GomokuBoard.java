@@ -30,6 +30,10 @@ public class GomokuBoard extends BoardData{
         winner='o';
     }
 
+    public GomokuBoard(GomokuGameHistory ggh){
+        
+    }
+
     public char checkWinner(char side){
         char aux[][]=new char[size][size];
         int row,column;
