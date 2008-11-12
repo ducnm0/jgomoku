@@ -26,14 +26,14 @@ public class GameController {
 
     GameController(){
         gomokuBoard=new GomokuBoard();
-        humanUserInterface=new GraphicalInterfaceController(15 , 15);
+        humanUserInterface=new GraphicalInterface(15 , 15);
         humanUserInterface.setCallback(this);
     }
 
     GameController(boolean graphical){
         gomokuBoard=new GomokuBoard();
         if(graphical == true){
-            humanUserInterface=new GraphicalInterfaceController(15 , 15);
+            humanUserInterface=new GraphicalInterface(15 , 15);
             humanUserInterface.setCallback(this);
         }
         else{
@@ -57,6 +57,12 @@ public class GameController {
 
     private void loadGame(String fileName){
         
+    }
+
+    public void startGame(boolean blackHuman , boolean whiteHuman){
+        if(blackHuman == true && whiteHuman == true){
+            
+        }
     }
 
     //the callback function from gomokuai , graphicalinterface or textinterface
