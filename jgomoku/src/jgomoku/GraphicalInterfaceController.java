@@ -95,6 +95,7 @@ public class GraphicalInterfaceController implements UserInterface{
         gc.newGame(blackHuman, whiteHuman);
         waitForMove=true;
         blackToMove=true;
+        graphicalInterface.startGameButton.setEnabled(false);
     }
 
     public void mouseMoved(int row , int column){
@@ -134,6 +135,10 @@ public class GraphicalInterfaceController implements UserInterface{
                 }
             }
         }
+    }
+
+    public void mouseClicked(int row , int column){
+        gc.sendPlayerInput("move " + row + " " + column);
     }
         
 }

@@ -23,6 +23,7 @@ public class GomokuGameHistory {
     private ArrayList moves;
     private int currentMove;
     private boolean gameFinished;
+    private boolean blackWin;
 
     GomokuGameHistory(){
         moves=new ArrayList();

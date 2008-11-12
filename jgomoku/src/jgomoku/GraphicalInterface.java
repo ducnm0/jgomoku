@@ -410,7 +410,24 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     private void boardCanvasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseClicked
         // TODO add your handling code here:
-        
+        int xPress , yPress;
+        int canvasWidth , canvasHeight;
+        int cellWidth , cellHeight;
+        int row , column;
+
+        xPress=evt.getX();
+        yPress=evt.getY();
+
+        canvasWidth=boardCanvas.getWidth();
+        canvasHeight=boardCanvas.getHeight();
+
+        cellWidth=(int)((float)canvasWidth / (float)MAXROW);
+        cellHeight=(int)((float)canvasHeight / (float)MAXCOLUMN);
+
+        row=(int) ((float)yPress /  (float) cellHeight);
+        column=(int)((float)xPress /  (float)cellWidth);
+
+        gic.mouseClicked(row, column);
     }//GEN-LAST:event_boardCanvasMouseClicked
 
     private void boardCanvasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseExited
@@ -425,11 +442,11 @@ public class GraphicalInterface extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loadGameButton;
-    private javax.swing.JButton newGameButton;
-    private javax.swing.JButton nextMoveButton;
-    private javax.swing.JButton previousMoveButton;
-    private javax.swing.JButton saveGameButton;
-    private javax.swing.JButton startGameButton;
+    public javax.swing.JButton newGameButton;
+    public javax.swing.JButton nextMoveButton;
+    public javax.swing.JButton previousMoveButton;
+    public javax.swing.JButton saveGameButton;
+    public javax.swing.JButton startGameButton;
     private javax.swing.JComboBox whitePlayerComboBox;
     // End of variables declaration//GEN-END:variables
 

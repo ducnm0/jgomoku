@@ -23,6 +23,8 @@ public class GameController {
     private UserInterface humanUserInterface;
     private boolean humanWhite;
     private GomokuGameHistory gameHistory;
+    boolean waitMove;
+    boolean waitWhite;
 
     GameController(){
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
@@ -67,8 +69,121 @@ public class GameController {
         }
     }
 
+    private void makeMove(int row , int column){
+        
+    }
+
+    private void previousMove(){
+        
+    }
+
+    private void nextMove(){
+        
+    }
+
     //the callback function from gomokuai , graphicalinterface or textinterface
     public void sendPlayerInput(String input){
+        String token;
         StringTokenizer st=new StringTokenizer(input);
+        int value1 , value2;
+        boolean blackHuman , whiteHuman;
+        /*
+         * all posible input commands:
+         * 
+         * move row column
+         * previous
+         * next
+         * new blackplayer whiteplayer ; whiteplayer,blackplayer=human | computer
+         * load filelocationandnamestring
+         * save filelocationandnamestring
+         */
+        
+        if(! st.hasMoreTokens()){
+            return;
+        }
+        token=st.nextToken();
+
+        if(token.equals("move")){
+            if(! st.hasMoreTokens()){
+                return;
+            }
+            token=st.nextToken();
+
+            try{
+                value1=Integer.parseInt(token);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                return;
+            }
+            if(! st.hasMoreTokens()){
+                return;
+            }
+            token=st.nextToken();
+
+            try{
+                value2=Integer.parseInt(token);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                return;
+            }
+
+            makeMove(value1 , value2);
+        }
+        else if(token.equals("previous")){
+            previousMove();
+        }
+        else if(token.equals("next")){
+            nextMove();
+        }
+        else if(token.equals("new")){
+            if(! st.hasMoreTokens()){
+                return;
+            }
+            token=st.nextToken();
+
+            if(token.equals("human")){
+                blackHuman=true;
+            }
+            else if(token.equals("computer")){
+                blackHuman=false;
+            }
+            else{
+                return;
+            }
+            if(! st.hasMoreTokens()){
+                return;
+            }
+            token=st.nextToken();
+
+            if(token.equals("human")){
+                whiteHuman=true;
+            }
+            else if(token.equals("computer")){
+                whiteHuman=false;
+            }
+            else{
+                return;
+            }
+
+            newGame(blackHuman , whiteHuman);
+        }
+        else if(token.equals("load")){
+            if(! st.hasMoreTokens()){
+                return;
+            }
+            token=st.nextToken();
+
+            loadGame(token);
+        }
+        else if(token.equals("save")){
+            if(! st.hasMoreTokens()){
+                return;
+            }
+            token=st.nextToken();
+
+            saveGame(token);
+        }
     }
 }

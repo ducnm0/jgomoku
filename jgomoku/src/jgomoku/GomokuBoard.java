@@ -19,6 +19,8 @@ package jgomoku;
 public class GomokuBoard extends BoardData{
 
     private char winner;
+    private boolean newGame=true;
+    GomokuGameHistory gameHistory;
 
     public GomokuBoard(){
         super();
@@ -31,7 +33,21 @@ public class GomokuBoard extends BoardData{
     }
 
     public GomokuBoard(GomokuGameHistory ggh){
-        
+        gameHistory=ggh;
+    }
+
+    @Override
+    public boolean moveWhite(int row , int column){
+        boolean result=super.moveWhite(size, size);
+        newGame=false;
+        return result;
+    }
+
+    @Override
+    public boolean moveBlack(int row , int column){
+        boolean result=super.moveBlack(row, column);
+        newGame=false;
+        return result;
     }
 
     public char checkWinner(char side){
@@ -137,5 +153,16 @@ public class GomokuBoard extends BoardData{
         }
 
         return false;
+    }
+
+    public boolean gameFinished(){
+        if(winner == 'o'){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isNewGame(){
+        return newGame;
     }
 }
