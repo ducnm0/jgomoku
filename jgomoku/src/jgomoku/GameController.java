@@ -21,10 +21,10 @@ import java.util.*;
 public class GameController {
     private GomokuBoard gomokuBoard;
     private UserInterface humanUserInterface;
-    private boolean humanWhite;
+    private boolean blackHuman , whiteHuman;
     private GomokuGameHistory gameHistory;
     boolean waitMove;
-    boolean waitWhite;
+    boolean waitBlack;
 
     GameController(){
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
@@ -45,6 +45,8 @@ public class GameController {
     public void newGame(boolean blackHuman , boolean whiteHuman){
         gomokuBoard=new GomokuBoard(15);
         humanUserInterface.printText("waiting for black move");
+        this.blackHuman=blackHuman;
+        this.whiteHuman=whiteHuman;
     }
 
     public void updateInterface(int row , int column ,
