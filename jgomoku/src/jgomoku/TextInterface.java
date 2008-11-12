@@ -18,8 +18,60 @@
 package jgomoku;
 
 public class TextInterface implements UserInterface{
-    public void printText(String text){
+    private TextBoardData board=null;
+    private GameController gc;
+    private int size=0;
 
+    public TextInterface(){
+        size=15;
+        board=new TextBoardData();
+        printBoard();
+    }
+
+    public TextInterface(int size){
+        board=new TextBoardData(size);
+        printBoard();
+    }
+
+    public void printBoard(){
+       System.out.print(" ");
+       for(int i=0;i<size;i++){
+           if(i<10)
+            System.out.print("  "+(i+1));
+           else
+              System.out.print(" "+(i+1));
+       }
+       System.out.println();
+       for(int j=0;j<size;j++){
+           if(j<9)System.out.print((j+1)+" ");
+           else System.out.print((j+1)+"");
+        for(int i=0;i<size;i++){
+           if(board.getValue(j,i)=='o')
+                System.out.print("|  ");
+           else if(board.getValue(j, i)=='w')
+               System.out.print("|X ");
+           else
+               System.out.print("|O ");
+           if(i==size-1)System.out.print("|"+(j+1));
+        }
+        System.out.println();
+        System.out.print("  ");
+        for(int i=0;i<size;i++){
+            System.out.print("---");
+       }
+        System.out.println();
+       }
+        System.out.print(" ");
+        for(int i=0;i<size;i++){
+           if(i<10)
+            System.out.print("  "+(i+1));
+           else
+              System.out.print(" "+(i+1));
+       }
+        System.out.println();
+    }
+    public void printText(String text){
+      
     }
 
     public boolean removeBlack(int row , int column){
@@ -48,7 +100,7 @@ public class TextInterface implements UserInterface{
     }
 
     public void setCallback(GameController gc){
-
+        this.gc=gc;
     }
 
     public void getMoves(boolean whiteMoves , boolean blackMoves){

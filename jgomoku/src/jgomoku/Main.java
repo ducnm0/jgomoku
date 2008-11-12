@@ -24,10 +24,10 @@ public class Main {
             gc=new GameController();
         }
         else{
-            if(args[1].equals("-g")){
+            if(args[0].equals("-g")){
                 gc=new GameController();
             }
-            else if(args[1].equals("-t")){
+            else if(args[0].equals("-t")){
                 gc=new GameController(false);
             }
         }
