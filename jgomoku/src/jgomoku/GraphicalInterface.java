@@ -45,6 +45,8 @@ public class GraphicalInterface extends javax.swing.JPanel {
     private int boardImageHeight;
     private int boardImageWidth;
 
+    GraphicalInterfaceController gic;
+
     private void imageInitialisation(){
         InputStream imageReader;
 
@@ -100,8 +102,10 @@ public class GraphicalInterface extends javax.swing.JPanel {
     }
 
     /** Creates new form GInterface */
-    public GraphicalInterface(int maxrow , int maxcolumn) {
+    public GraphicalInterface(GraphicalInterfaceController gic , int maxrow , int maxcolumn) {
         int row , column;
+
+        this.gic=gic;
 
         MAXROW=maxrow;
         MAXCOLUMN=maxcolumn;
@@ -109,6 +113,9 @@ public class GraphicalInterface extends javax.swing.JPanel {
         imageInitialisation();
 
         initComponents();
+
+        newGameButton.setEnabled(false);
+        saveGameButton.setEnabled(false);
 
         boardCanvas.setSize(450, 450);
         boardImage=new BufferedImage(450 , 450 , BufferedImage.TYPE_INT_ARGB);
@@ -350,6 +357,22 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     private void startGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameButtonMouseClicked
         // TODO add your handling code here:
+        boolean blackHuman , whiteHuman;
+
+        if(blackPlayerComboBox.getSelectedIndex() == 0){
+            blackHuman=true;
+        }
+        else{
+            blackHuman=false;
+        }
+        if(whitePlayerComboBox.getSelectedIndex() == 0){
+            whiteHuman=true;
+        }
+        else{
+            whiteHuman=false;
+        }
+
+        gic.startGame(blackHuman , whiteHuman);
     }//GEN-LAST:event_startGameButtonMouseClicked
 
     private void previousMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMoveButtonMouseClicked

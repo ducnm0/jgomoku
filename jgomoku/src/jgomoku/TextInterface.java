@@ -51,4 +51,8 @@ public class TextInterface implements UserInterface{
 
     }
 
+    public void getMove(boolean isWhite){
+        
+    }
+
 }

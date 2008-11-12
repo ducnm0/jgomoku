@@ -27,7 +27,7 @@ public class GraphicalInterfaceController implements UserInterface{
 
     GraphicalInterfaceController(int maxrow , int maxcolumn){
 
-        GraphicalInterface guiPanel=new GraphicalInterface(maxrow , maxcolumn);
+        GraphicalInterface guiPanel=new GraphicalInterface(this , maxrow , maxcolumn);
         guiFrame=new JFrame("jgomoku");
         guiFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         guiFrame.setContentPane(guiPanel);
@@ -68,5 +68,13 @@ public class GraphicalInterfaceController implements UserInterface{
 
     public void setCallback(GameController gc){
         this.gc=gc;
+    }
+
+    public void getMove(boolean isWhite){
+    
+    }
+
+    public void startGame(boolean blackHuman , boolean whiteHuman){
+        
     }
 }
