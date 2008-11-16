@@ -21,6 +21,7 @@ public class GomokuBoard extends BoardData{
     private char winner;
     private boolean newGame=true;
     GomokuGameHistory gameHistory;
+    private boolean isOver;
 
     public GomokuBoard(){
         super();
@@ -48,6 +49,18 @@ public class GomokuBoard extends BoardData{
         boolean result=super.moveBlack(row, column);
         newGame=false;
         return result;
+    }
+
+    public Move previousMove(){
+        Move m=new Move(1,1);
+
+        return m;
+    }
+
+    public Move nextMove(){
+        Move m=new Move(1,1);
+
+        return m;
     }
 
     public char checkWinner(char side){

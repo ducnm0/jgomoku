@@ -54,25 +54,30 @@ public class GraphicalInterfaceController implements UserInterface{
         formerDrawn=false;
     }
 
+    @Override
     public void printText(String text){
         guiFrame.setTitle("jgomoku " + text);
     }
 
+    @Override
     public boolean removeBlack(int row , int column){
 
         return true;
     }
 
+    @Override
     public boolean removeWhite(int row , int column){
 
         return true;
     }
 
+    @Override
     public boolean moveBlack(int row , int column){
 
         return true;
     }
 
+    @Override
     public boolean moveWhite(int row , int column){
 
         return true;
@@ -83,10 +88,12 @@ public class GraphicalInterfaceController implements UserInterface{
         return "";
     }
 
+    @Override
     public void setCallback(GameController gc){
         this.gc=gc;
     }
 
+    @Override
     public void getMoves(boolean whiteMoves , boolean blackMoves){
     
     }

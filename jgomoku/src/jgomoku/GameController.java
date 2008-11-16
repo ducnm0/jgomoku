@@ -72,7 +72,39 @@ public class GameController {
     }
 
     private void makeMove(int row , int column){
-        
+        if(! waitMove){
+            System.out.println("error not waiting move");
+            return;
+        }
+        if(waitBlack){
+            if(gomokuBoard.moveBlack(row, column)){
+                if(whiteHuman){
+
+                }
+                else{
+
+                }
+            }
+            else{
+                humanUserInterface.printText("illegal move");
+            }
+        }
+        else{
+            if(! waitMove){
+                System.out.println("error not waiting move");
+            }
+            if(gomokuBoard.moveWhite(row, column)){
+                if(blackHuman){
+
+                }
+                else{
+
+                }
+            }
+            else{
+                humanUserInterface.printText("illegal move");
+            }
+        }
     }
 
     private void previousMove(){
