@@ -89,6 +89,7 @@ public class GameController {
                     humanUserInterface.waitAiMove(true , row , column);
                 }
                 humanUserInterface.moveBlack(row, column);
+                waitBlack=false;
             }
             else{
                 humanUserInterface.printText("illegal move");
@@ -105,6 +106,7 @@ public class GameController {
                     humanUserInterface.waitAiMove(false , row , column);
                 }
                 humanUserInterface.moveWhite(row, column);
+                waitBlack=true;
             }
             else{
                 humanUserInterface.printText("illegal move");

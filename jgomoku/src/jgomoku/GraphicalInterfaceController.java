@@ -20,6 +20,21 @@ package jgomoku;
 import javax.swing.*;
 
 class LocalBoardData extends BoardData{
+
+    public boolean isBlack(int row , int column){
+        if(board[row][column] == 'b'){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isWhite(int row , int column){
+        if(board[row][column] == 'w'){
+            return true;
+        }
+        return false;
+    }
+
     public boolean isBlanck(int row , int column){
         if(board[row][column] == 'o'){
             return true;
@@ -61,22 +76,26 @@ public class GraphicalInterfaceController implements UserInterface{
 
     @Override
     public void removeBlack(int row , int column){
-
+        boardData.removeBlack(row, column);
+        graphicalInterface.drawBackgroundCell(row, column);
     }
 
     @Override
     public void removeWhite(int row , int column){
-
+        boardData.removeWhite(row, column);
+        graphicalInterface.drawBackgroundCell(row, column);
     }
 
     @Override
     public void moveBlack(int row , int column){
         boardData.moveBlack(row, column);
+        graphicalInterface.drawBlackStone(row, column);
     }
 
     @Override
     public void moveWhite(int row , int column){
         boardData.moveWhite(row, column);
+        graphicalInterface.drawWhiteStone(row, column);
     }
 
     @Override
@@ -89,6 +108,7 @@ public class GraphicalInterfaceController implements UserInterface{
         waitForMove=true;
         blackToMove=true;
         moveWhite(whiteMoveRow , whiteMoveColumn);
+        formerDrawn=false;
     }
 
     @Override
@@ -96,6 +116,7 @@ public class GraphicalInterfaceController implements UserInterface{
         waitForMove=true;
         blackToMove=false;
         moveBlack(blackMoveRow , blackMoveColumn);
+        formerDrawn=false;
     }
 
     @Override

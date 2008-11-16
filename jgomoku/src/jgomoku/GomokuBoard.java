@@ -26,28 +26,45 @@ public class GomokuBoard extends BoardData{
     public GomokuBoard(){
         super();
         winner='o';
+        isOver=false;
     }
 
     public GomokuBoard(int size){
         super(size);
         winner='o';
+        isOver=false;
     }
 
     public GomokuBoard(GomokuGameHistory ggh){
         gameHistory=ggh;
+        isOver=true;
     }
 
     @Override
     public boolean moveWhite(int row , int column){
-        boolean result=super.moveWhite(size, size);
-        newGame=false;
+        if(isOver){
+            return false;
+        }
+        boolean result=super.moveWhite(row , column);
+        if(result){
+            newGame=false;
+            gameHistory.addMove(row , column);
+            checkWinner('w');
+        }
         return result;
     }
 
     @Override
     public boolean moveBlack(int row , int column){
+        if(isOver){
+            return false;
+        }
         boolean result=super.moveBlack(row, column);
-        newGame=false;
+        if(result){
+            newGame=false;
+            gameHistory.addMove(row , column);
+            checkWinner('b');
+        }
         return result;
     }
 
@@ -63,7 +80,7 @@ public class GomokuBoard extends BoardData{
         return m;
     }
 
-    public char checkWinner(char side){
+    public void checkWinner(char side){
         char aux[][]=new char[size][size];
         int row,column;
         char s='o';
@@ -87,27 +104,28 @@ public class GomokuBoard extends BoardData{
                         if(column <= limit){
                             if(checkHorizontalWinner(aux , row , column)){
                                 winner=s;
-                                return s;
+                                isOver=true;
+                                return;
                             }
                         }
                         if(row <= limit){
                             if(checkVerticalWinner(aux , row , column)){
                                 winner=s;
-                                return s;
+                                isOver=true;
+                                return;
                             }
                         }
                         if(row <= limit && column <= limit){
                             if(checkDiagonalWinner(aux , row , column)){
-                                winner='s';
-                                return s;
+                                winner=s;
+                                isOver=true;
+                                return;
                             }
                         }
                     }
                 }
             }
         }
-
-        return 'o';
     }
 
     private boolean checkHorizontalWinner(char aux[][] , int row , int column){
@@ -177,5 +195,9 @@ public class GomokuBoard extends BoardData{
 
     public boolean isNewGame(){
         return newGame;
+    }
+
+    public boolean isOver(){
+        return isOver;
     }
 }
