@@ -77,7 +77,7 @@ public class GameController {
             System.out.println("error not waiting move");
             return;
         }
-        if(waitBlack){
+        if(waitBlack && blackHuman){
             if(gomokuBoard.moveBlack(row, column)){
                 if(whiteHuman){
 
@@ -90,7 +90,7 @@ public class GameController {
                 humanUserInterface.printText("illegal move");
             }
         }
-        else{
+        else if(!waitBlack && whiteHuman){
             if(gomokuBoard.moveWhite(row, column)){
                 if(blackHuman){
 

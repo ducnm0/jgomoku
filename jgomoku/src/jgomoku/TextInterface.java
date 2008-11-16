@@ -1,5 +1,5 @@
  /*
-  *Copyright 2008 Cristian Achim
+  *Copyright 2008 Cristian Cola
   *
   * Licensed under the Apache License, Version 2.0 (the "License");
   * you may not use this file except in compliance with the License.
@@ -70,25 +70,31 @@ public class TextInterface implements UserInterface{
        }
         System.out.println();
     }
+    
+    @Override
     public void printText(String text){
       
     }
 
+    @Override
     public boolean removeBlack(int row , int column){
 
         return true;
     }
 
+    @Override
     public boolean removeWhite(int row , int column){
 
         return true;
     }
 
+    @Override
     public boolean moveBlack(int row , int column){
 
         return true;
     }
 
+    @Override
     public boolean moveWhite(int row , int column){
 
         return true;
@@ -99,11 +105,23 @@ public class TextInterface implements UserInterface{
         return "";
     }
 
+    @Override
     public void setCallback(GameController gc){
         this.gc=gc;
     }
 
-    public void getMoves(boolean whiteMoves , boolean blackMoves){
+    @Override
+    public void getBlackMove(){
+
+    }
+
+    @Override
+    public void getWhiteMove(){
+
+    }
+
+    @Override
+    public void waitAiMove(){
         
     }
 

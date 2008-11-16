@@ -36,10 +36,9 @@ public class GraphicalInterfaceController implements UserInterface{
     private LocalBoardData boardData;
     private boolean blackToMove;
     private boolean waitForMove;
-    private boolean blackHuman , whiteHuman;
-    boolean formerDrawn;
-    int formerRow;
-    int formerColumn;
+    private boolean formerDrawn;
+    private int formerRow;
+    private int formerColumn;
 
     GraphicalInterfaceController(int maxrow , int maxcolumn){
 
@@ -53,8 +52,6 @@ public class GraphicalInterfaceController implements UserInterface{
         guiFrame.setVisible(true);
         boardData=new LocalBoardData();
         formerDrawn=false;
-        blackHuman=false;
-        whiteHuman=false;
     }
 
     @Override
@@ -97,8 +94,17 @@ public class GraphicalInterfaceController implements UserInterface{
     }
 
     @Override
-    public void getMoves(boolean whiteMoves , boolean blackMoves){
-    
+    public void getBlackMove(){
+        
+    }
+
+    @Override
+    public void getWhiteMove(){
+
+    }
+
+    public void waitAiMove(){
+        
     }
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
