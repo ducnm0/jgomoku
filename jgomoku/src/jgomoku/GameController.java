@@ -34,12 +34,11 @@ public class GameController {
     GameController(boolean graphical){
         if(graphical == true){
             humanUserInterface=new GraphicalInterfaceController(15 , 15);
-            humanUserInterface.setCallback(this);
         }
         else{
             humanUserInterface=new TextInterface();
-            humanUserInterface.setCallback(this);
         }
+        humanUserInterface.setCallback(this);
     }
 
     public void newGame(boolean blackHuman , boolean whiteHuman){
@@ -47,6 +46,8 @@ public class GameController {
         humanUserInterface.printText("waiting for black move");
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
+        waitMove=true;
+        waitBlack=true;
     }
 
     public void updateInterface(int row , int column ,
@@ -90,9 +91,6 @@ public class GameController {
             }
         }
         else{
-            if(! waitMove){
-                System.out.println("error not waiting move");
-            }
             if(gomokuBoard.moveWhite(row, column)){
                 if(blackHuman){
 

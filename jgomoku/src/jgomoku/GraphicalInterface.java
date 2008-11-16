@@ -441,7 +441,7 @@ public class GraphicalInterface extends javax.swing.JPanel {
     private java.awt.Canvas boardCanvas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JButton loadGameButton;
+    public javax.swing.JButton loadGameButton;
     public javax.swing.JButton newGameButton;
     public javax.swing.JButton nextMoveButton;
     public javax.swing.JButton previousMoveButton;

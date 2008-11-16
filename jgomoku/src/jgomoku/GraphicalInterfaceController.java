@@ -36,6 +36,7 @@ public class GraphicalInterfaceController implements UserInterface{
     private LocalBoardData boardData;
     private boolean blackToMove;
     private boolean waitForMove;
+    private boolean blackHuman , whiteHuman;
     boolean formerDrawn;
     int formerRow;
     int formerColumn;
@@ -52,6 +53,8 @@ public class GraphicalInterfaceController implements UserInterface{
         guiFrame.setVisible(true);
         boardData=new LocalBoardData();
         formerDrawn=false;
+        blackHuman=false;
+        whiteHuman=false;
     }
 
     @Override
@@ -103,6 +106,9 @@ public class GraphicalInterfaceController implements UserInterface{
         waitForMove=true;
         blackToMove=true;
         graphicalInterface.startGameButton.setEnabled(false);
+        graphicalInterface.nextMoveButton.setEnabled(false);
+        graphicalInterface.previousMoveButton.setEnabled(false);
+        graphicalInterface.loadGameButton.setEnabled(false);
     }
 
     public void mouseMoved(int row , int column){
@@ -145,7 +151,9 @@ public class GraphicalInterfaceController implements UserInterface{
     }
 
     public void mouseClicked(int row , int column){
-        gc.sendPlayerInput("move " + row + " " + column);
+        if(waitForMove){
+            gc.sendPlayerInput("move " + row + " " + column);
+        }
     }
         
 }
