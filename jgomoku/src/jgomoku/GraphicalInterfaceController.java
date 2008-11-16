@@ -131,8 +131,14 @@ public class GraphicalInterfaceController implements UserInterface{
     }
 
     @Override
-    public void gameFinished(){
-        
+    public void gameFinished(boolean blackMove , int row , int column){
+        waitForMove=false;
+        if(blackMove){
+            moveBlack(row , column);
+        }
+        else{
+            moveWhite(row , column);
+        }
     }
 
     public void startGame(boolean blackHuman , boolean whiteHuman){

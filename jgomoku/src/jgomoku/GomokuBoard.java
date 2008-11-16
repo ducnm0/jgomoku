@@ -21,30 +21,30 @@ public class GomokuBoard extends BoardData{
     private char winner;
     private boolean newGame=true;
     GomokuGameHistory gameHistory;
-    private boolean isOver;
+    private boolean isGameOver;
 
     public GomokuBoard(){
         super();
         gameHistory=new GomokuGameHistory();
         winner='o';
-        isOver=false;
+        isGameOver=false;
     }
 
     public GomokuBoard(int size){
         super(size);
         gameHistory=new GomokuGameHistory();
         winner='o';
-        isOver=false;
+        isGameOver=false;
     }
 
     public GomokuBoard(GomokuGameHistory ggh){
         gameHistory=ggh;
-        isOver=true;
+        isGameOver=true;
     }
 
     @Override
     public boolean moveWhite(int row , int column){
-        if(isOver){
+        if(isGameOver){
             return false;
         }
         boolean result=super.moveWhite(row , column);
@@ -58,7 +58,7 @@ public class GomokuBoard extends BoardData{
 
     @Override
     public boolean moveBlack(int row , int column){
-        if(isOver){
+        if(isGameOver){
             return false;
         }
         boolean result=super.moveBlack(row, column);
@@ -93,14 +93,15 @@ public class GomokuBoard extends BoardData{
             if(!isOver && checkVerticalWinner('b')){
                 isOver=true;
             }
-            if(!isOver && checkDiagonalRightWinner('b')){
+            if(!isOver && checkMainDiagonalWinner('b')){
                 isOver=true;
             }
-            if(!isOver && checkDiagonalLeftWinner('b')){
+            if(!isOver && checkSecondaryDiagonalWinner('b')){
                 isOver=true;
             }
             if(isOver){
                 winner='b';
+                isGameOver=true;
                 return;
             }
         }
@@ -111,32 +112,141 @@ public class GomokuBoard extends BoardData{
             if(!isOver && checkVerticalWinner('w')){
                 isOver=true;
             }
-            if(!isOver && checkDiagonalRightWinner('w')){
+            if(!isOver && checkMainDiagonalWinner('w')){
                 isOver=true;
             }
-            if(!isOver && checkDiagonalLeftWinner('w')){
+            if(!isOver && checkSecondaryDiagonalWinner('w')){
                 isOver=true;
             }
             if(isOver){
                 winner='w';
+                isGameOver=true;
                 return;
             }
         }
     }
 
     private boolean checkHorizontalWinner(char side){
+        int row , column;
+        int length=0;
+
+        for(row=0 ; row<size ; row++){
+            for(column=0 ; column<size ; column++){
+                if(board[row][column] == side){
+                    length++;
+                }
+                else{
+                    length=0;
+                }
+                if(length == 5){
+                    return true;
+                }
+            }
+            length=0;
+        }
+        
         return false;
     }
     
     private boolean checkVerticalWinner(char side){
+        int row , column;
+        int length=0;
+
+        for(column=0 ; column<size ; column++){
+            for(row=0 ; row<size ; row++){
+                if(board[row][column] == side){
+                    length++;
+                }
+                else{
+                    length=0;
+                }
+                if(length == 5){
+                    return true;
+                }
+            }
+            length=0;
+        }
+        
         return false;
     }
 
-    private boolean checkDiagonalRightWinner(char side){
+    private boolean checkMainDiagonalWinner(char side){
+        int row , column;
+        int length=0;
+        int aux;
+
+        //diagonals above , parallel to and including the main board matrice diagonal
+        for(aux=0 ; aux<size ; aux++){
+            for(column=size-1-aux , row=0 ; column<size ; column++ , row++){
+                if(board[row][column] == side){
+                    length++;
+                }
+                else{
+                    length=0;
+                }
+                if(length == 5){
+                    return true;
+                }
+            }
+            length=0;
+        }
+
+        //diagonals below and parallel to the main board matrice diagonal
+        for(aux=0 ; aux<size-1 ; aux++){
+            for(row=size-1-aux , column=0 ; row<=size-1 ; row++ , column++){
+                if(board[row][column] == side){
+                    length++;
+                }
+                else{
+                    length=0;
+                }
+                if(length == 5){
+                    return true;
+                }
+            }
+            length=0;
+        }
+
         return false;
     }
 
-    private boolean checkDiagonalLeftWinner(char side){
+    private boolean checkSecondaryDiagonalWinner(char side){
+        int row , column;
+        int length=0;
+        int aux;
+
+        //diagonals above , parallel to and including the secondary board matrice diagonal
+        for(aux=0 ; aux<size ; aux++){
+            for(row=aux , column=0 ; row>=0 ; row-- , column++){
+                if(board[row][column] == side){
+                    length++;
+                }
+                else{
+                    length=0;
+                }
+                if(length == 5){
+                    return true;
+                }
+            }
+            length=0;
+        }
+
+        //diagonals below and parallel to the secondary board matrice diagonal
+        for(aux=0 ; aux<size-1 ; aux++){
+            for(column=size-1-aux , row=size-1 ; column<=size-1 ; column++ , row--){
+                if(board[row][column] == side){
+                    length++;
+                }
+                else{
+                    length=0;
+                }
+                if(length == 5){
+                    return true;
+                }
+            }
+            length=0;
+        }
+        
         return false;
     }
 
@@ -145,6 +255,6 @@ public class GomokuBoard extends BoardData{
     }
 
     public boolean isGameOver(){
-        return isOver;
+        return isGameOver;
     }
 }

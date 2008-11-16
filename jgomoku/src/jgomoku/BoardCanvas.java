@@ -29,6 +29,7 @@ public class BoardCanvas extends Canvas{
 
     @Override
     public void paint(Graphics g){
-        g.drawImage(backImage , 0 , 0 , this);
+        Graphics2D g2d=(Graphics2D) g;
+        g2d.drawImage(backImage , 0 , 0 , this);
     }
 }

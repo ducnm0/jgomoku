@@ -122,7 +122,7 @@ public class TextInterface implements UserInterface{
     }
 
     @Override
-    public void gameFinished(){
+    public void gameFinished(boolean blackMove , int row , int column){
         
     }
 

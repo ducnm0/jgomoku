@@ -27,5 +27,5 @@ interface UserInterface {
     void getBlackMove(int whiteMoveRow , int whiteMoveColumn);
     void getWhiteMove(int blackMoveRow , int blackMoveColumn);
     void waitAiMove(boolean blackMove , int row , int column);
-    void gameFinished();
+    void gameFinished(boolean blackMove , int row , int column);
 }

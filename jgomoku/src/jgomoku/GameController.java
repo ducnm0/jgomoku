@@ -82,7 +82,7 @@ public class GameController {
             if(gomokuBoard.moveBlack(row, column)){
                 if(gomokuBoard.isGameOver()){
                     humanUserInterface.printText("game over");
-                    humanUserInterface.gameFinished();
+                    humanUserInterface.gameFinished(true , row , column);
                 }
                 else if(whiteHuman){
                     humanUserInterface.printText("waiting for white move");
@@ -102,7 +102,7 @@ public class GameController {
             if(gomokuBoard.moveWhite(row, column)){
                 if(gomokuBoard.isGameOver()){
                     humanUserInterface.printText("game over");
-                    humanUserInterface.gameFinished();
+                    humanUserInterface.gameFinished(false , row , column);
                 }
                 else if(blackHuman){
                     humanUserInterface.printText("waiting for black move");
