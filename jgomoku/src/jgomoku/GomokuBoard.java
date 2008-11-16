@@ -85,116 +85,59 @@ public class GomokuBoard extends BoardData{
     }
 
     public void checkWinner(char side){
-        char aux[][]=new char[size][size];
-        int row,column;
-        char s='o';
-        int limit=size - 5;
-        for(row=0 ; row<size ; row++){
-            for(column=0 ; column<size ; column++){
-                aux[row][column]=board[row][column];
+        boolean isOver=false;
+        if(side != 'w'){
+            if(checkHorizontalWinner('b')){
+                isOver=true;
+            }
+            if(!isOver && checkVerticalWinner('b')){
+                isOver=true;
+            }
+            if(!isOver && checkDiagonalRightWinner('b')){
+                isOver=true;
+            }
+            if(!isOver && checkDiagonalLeftWinner('b')){
+                isOver=true;
+            }
+            if(isOver){
+                winner='b';
+                return;
             }
         }
-
-        for(row=0 ; row<size ; row++){
-            for(column=0 ; column<size ; column++){
-                if(aux[row][column] == 'z'){
-                    continue;
-                }
-                if(side == 'o'){
-                    s=aux[row][column];
-                }
-                if(s != 'o' && s == side){
-                    {
-                        if(column <= limit){
-                            if(checkHorizontalWinner(aux , row , column)){
-                                winner=s;
-                                isOver=true;
-                                return;
-                            }
-                        }
-                        if(row <= limit){
-                            if(checkVerticalWinner(aux , row , column)){
-                                winner=s;
-                                isOver=true;
-                                return;
-                            }
-                        }
-                        if(row <= limit && column <= limit){
-                            if(checkDiagonalWinner(aux , row , column)){
-                                winner=s;
-                                isOver=true;
-                                return;
-                            }
-                        }
-                    }
-                }
+        if(side != 'b'){
+            if(checkHorizontalWinner('w')){
+                isOver=true;
+            }
+            if(!isOver && checkVerticalWinner('w')){
+                isOver=true;
+            }
+            if(!isOver && checkDiagonalRightWinner('w')){
+                isOver=true;
+            }
+            if(!isOver && checkDiagonalLeftWinner('w')){
+                isOver=true;
+            }
+            if(isOver){
+                winner='w';
+                return;
             }
         }
     }
 
-    private boolean checkHorizontalWinner(char aux[][] , int row , int column){
-        int length=1;
-        char s=aux[row][column];
-        
-        while(column < size){
-            column++;
-            if(aux[row][column] != s){
-                break;
-            }
-            length++;
-            aux[row][column]='z';
-        }
-        if(length == 5){
-            return true;
-        }
-
+    private boolean checkHorizontalWinner(char side){
         return false;
     }
     
-    private boolean checkVerticalWinner(char aux[][] , int row , int column){
-        int length=1;
-        char s=aux[row][column];
-
-        while(row < size){
-            row++;
-            if(aux[row][column] != s){
-                break;
-            }
-            length++;
-            aux[row][column]='z';
-        }
-        if(length == 5){
-            return true;
-        }
-
+    private boolean checkVerticalWinner(char side){
         return false;
     }
 
-    private boolean checkDiagonalWinner(char aux[][] , int row , int column){
-        int length=1;
-        char s=aux[row][column];
-
-        while(row < size && column < size){
-            row++;
-            column++;
-            if(aux[row][column] != s){
-                break;
-            }
-            length++;
-            aux[row][column]='z';
-        }
-        if(length == 5){
-            return true;
-        }
-
+    private boolean checkDiagonalRightWinner(char side){
         return false;
     }
 
-    public boolean gameFinished(){
-        if(winner == 'o'){
-            return false;
-        }
-        return true;
+    private boolean checkDiagonalLeftWinner(char side){
+        return false;
     }
 
     public boolean isNewGame(){

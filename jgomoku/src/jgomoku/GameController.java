@@ -80,7 +80,11 @@ public class GameController {
         }
         if(waitBlack && blackHuman){
             if(gomokuBoard.moveBlack(row, column)){
-                if(whiteHuman){
+                if(gomokuBoard.isGameOver()){
+                    humanUserInterface.printText("game over");
+                    humanUserInterface.gameFinished();
+                }
+                else if(whiteHuman){
                     humanUserInterface.printText("waiting for white move");
                     humanUserInterface.getWhiteMove(row , column);
                 }
@@ -88,7 +92,6 @@ public class GameController {
                     humanUserInterface.printText("waiting for ai move");
                     humanUserInterface.waitAiMove(true , row , column);
                 }
-                humanUserInterface.moveBlack(row, column);
                 waitBlack=false;
             }
             else{
@@ -97,7 +100,11 @@ public class GameController {
         }
         else if(!waitBlack && whiteHuman){
             if(gomokuBoard.moveWhite(row, column)){
-                if(blackHuman){
+                if(gomokuBoard.isGameOver()){
+                    humanUserInterface.printText("game over");
+                    humanUserInterface.gameFinished();
+                }
+                else if(blackHuman){
                     humanUserInterface.printText("waiting for black move");
                     humanUserInterface.getBlackMove(row , column);
                 }
@@ -105,7 +112,6 @@ public class GameController {
                     humanUserInterface.printText("waiting for ai move");
                     humanUserInterface.waitAiMove(false , row , column);
                 }
-                humanUserInterface.moveWhite(row, column);
                 waitBlack=true;
             }
             else{
