@@ -130,6 +130,11 @@ public class GraphicalInterfaceController implements UserInterface{
         }
     }
 
+    @Override
+    public void gameFinished(){
+        
+    }
+
     public void startGame(boolean blackHuman , boolean whiteHuman){
         gc.newGame(blackHuman, whiteHuman);
         graphicalInterface.startGameButton.setEnabled(false);
@@ -138,6 +143,7 @@ public class GraphicalInterfaceController implements UserInterface{
         graphicalInterface.loadGameButton.setEnabled(false);
         waitForMove=true;
         blackToMove=true;
+        graphicalInterface.newGameButton.setEnabled(true);
     }
 
     public void mouseMoved(int row , int column){

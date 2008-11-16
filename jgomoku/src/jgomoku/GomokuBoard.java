@@ -25,12 +25,14 @@ public class GomokuBoard extends BoardData{
 
     public GomokuBoard(){
         super();
+        gameHistory=new GomokuGameHistory();
         winner='o';
         isOver=false;
     }
 
     public GomokuBoard(int size){
         super(size);
+        gameHistory=new GomokuGameHistory();
         winner='o';
         isOver=false;
     }
@@ -69,15 +71,17 @@ public class GomokuBoard extends BoardData{
     }
 
     public Move previousMove(){
-        Move m=new Move(1,1);
-
+        Move m=gameHistory.getPreviousMove();
         return m;
     }
 
     public Move nextMove(){
-        Move m=new Move(1,1);
-
+        Move m=gameHistory.getNextMove();
         return m;
+    }
+
+    public boolean saveGame(String file){
+        return gameHistory.saveGame(file);
     }
 
     public void checkWinner(char side){
@@ -197,7 +201,7 @@ public class GomokuBoard extends BoardData{
         return newGame;
     }
 
-    public boolean isOver(){
+    public boolean isGameOver(){
         return isOver;
     }
 }

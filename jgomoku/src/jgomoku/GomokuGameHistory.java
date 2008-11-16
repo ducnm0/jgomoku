@@ -37,8 +37,9 @@ public class GomokuGameHistory {
         currentMove++;
     }
 
-    public void setGameFinished(){
+    public void setGameFinished(boolean blackWin){
         gameFinished=true;
+        this.blackWin=blackWin;
     }
 
     public Move getNextMove(){
@@ -64,6 +65,10 @@ public class GomokuGameHistory {
     }
 
     public boolean loadGame(String filename){
+        return false;
+    }
+
+    public boolean saveGame(String file){
         return false;
     }
 }
