@@ -19,12 +19,12 @@ package jgomoku;
 
 interface UserInterface {
     void setCallback(GameController gameController);
-    boolean moveWhite(int row , int column);
-    boolean moveBlack(int row , int column);
-    boolean removeWhite(int row , int column);
-    boolean removeBlack(int row , int column);
+    void moveWhite(int row , int column);
+    void moveBlack(int row , int column);
+    void removeWhite(int row , int column);
+    void removeBlack(int row , int column);
     void printText(String text);
-    void getBlackMove();
-    void getWhiteMove();
-    void waitAiMove();
+    void getBlackMove(int whiteMoveRow , int whiteMoveColumn);
+    void getWhiteMove(int blackMoveRow , int blackMoveColumn);
+    void waitAiMove(boolean blackMove , int row , int column);
 }

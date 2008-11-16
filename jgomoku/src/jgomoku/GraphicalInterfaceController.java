@@ -60,32 +60,23 @@ public class GraphicalInterfaceController implements UserInterface{
     }
 
     @Override
-    public boolean removeBlack(int row , int column){
+    public void removeBlack(int row , int column){
 
-        return true;
     }
 
     @Override
-    public boolean removeWhite(int row , int column){
+    public void removeWhite(int row , int column){
 
-        return true;
     }
 
     @Override
-    public boolean moveBlack(int row , int column){
-
-        return true;
+    public void moveBlack(int row , int column){
+        boardData.moveBlack(row, column);
     }
 
     @Override
-    public boolean moveWhite(int row , int column){
-
-        return true;
-    }
-
-    public String getUserInput(){
-
-        return "";
+    public void moveWhite(int row , int column){
+        boardData.moveWhite(row, column);
     }
 
     @Override
@@ -94,27 +85,38 @@ public class GraphicalInterfaceController implements UserInterface{
     }
 
     @Override
-    public void getBlackMove(){
-        
+    public void getBlackMove(int whiteMoveRow , int whiteMoveColumn){
+        waitForMove=true;
+        blackToMove=true;
+        moveWhite(whiteMoveRow , whiteMoveColumn);
     }
 
     @Override
-    public void getWhiteMove(){
-
+    public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
+        waitForMove=true;
+        blackToMove=false;
+        moveBlack(blackMoveRow , blackMoveColumn);
     }
 
-    public void waitAiMove(){
-        
+    @Override
+    public void waitAiMove(boolean blackMove , int row , int column){
+        waitForMove=false;
+        if(blackMove){
+            moveBlack(row , column);
+        }
+        else{
+            moveWhite(row , column);
+        }
     }
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
         gc.newGame(blackHuman, whiteHuman);
-        waitForMove=true;
-        blackToMove=true;
         graphicalInterface.startGameButton.setEnabled(false);
         graphicalInterface.nextMoveButton.setEnabled(false);
         graphicalInterface.previousMoveButton.setEnabled(false);
         graphicalInterface.loadGameButton.setEnabled(false);
+        waitForMove=true;
+        blackToMove=true;
     }
 
     public void mouseMoved(int row , int column){

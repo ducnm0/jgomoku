@@ -77,27 +77,23 @@ public class TextInterface implements UserInterface{
     }
 
     @Override
-    public boolean removeBlack(int row , int column){
-
-        return true;
+    public void removeBlack(int row , int column){
+        
     }
 
     @Override
-    public boolean removeWhite(int row , int column){
+    public void removeWhite(int row , int column){
 
-        return true;
     }
 
     @Override
-    public boolean moveBlack(int row , int column){
-
-        return true;
+    public void moveBlack(int row , int column){
+        
     }
 
     @Override
-    public boolean moveWhite(int row , int column){
-
-        return true;
+    public void moveWhite(int row , int column){
+        
     }
 
     public String getUserInput(){
@@ -111,17 +107,17 @@ public class TextInterface implements UserInterface{
     }
 
     @Override
-    public void getBlackMove(){
+    public void getBlackMove(int whiteMoveRow , int whiteMoveColumn){
 
     }
 
     @Override
-    public void getWhiteMove(){
+    public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
 
     }
 
     @Override
-    public void waitAiMove(){
+    public void waitAiMove(boolean blackMove , int row , int column){
         
     }
 

@@ -25,6 +25,7 @@ public class GameController {
     private GomokuGameHistory gameHistory;
     boolean waitMove;
     boolean waitBlack;
+    private GomokuAi ai;
 
     GameController(){
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
@@ -80,11 +81,14 @@ public class GameController {
         if(waitBlack && blackHuman){
             if(gomokuBoard.moveBlack(row, column)){
                 if(whiteHuman){
-
+                    humanUserInterface.printText("waiting for white move");
+                    humanUserInterface.getWhiteMove(row , column);
                 }
                 else{
-
+                    humanUserInterface.printText("waiting for ai move");
+                    humanUserInterface.waitAiMove(true , row , column);
                 }
+                humanUserInterface.moveBlack(row, column);
             }
             else{
                 humanUserInterface.printText("illegal move");
@@ -93,15 +97,21 @@ public class GameController {
         else if(!waitBlack && whiteHuman){
             if(gomokuBoard.moveWhite(row, column)){
                 if(blackHuman){
-
+                    humanUserInterface.printText("waiting for black move");
+                    humanUserInterface.getBlackMove(row , column);
                 }
                 else{
-
+                    humanUserInterface.printText("waiting for ai move");
+                    humanUserInterface.waitAiMove(false , row , column);
                 }
+                humanUserInterface.moveWhite(row, column);
             }
             else{
                 humanUserInterface.printText("illegal move");
             }
+        }
+        else{
+            //todo implement for ai
         }
     }
 
