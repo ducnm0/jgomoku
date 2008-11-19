@@ -17,19 +17,28 @@
 
 package jgomoku;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class TextInterface implements UserInterface{
     private TextBoardData board=null;
     private GameController gc;
     private int size=0;
+    private boolean blackHuman=false;
+    private boolean whiteHuman=false;
 
     public TextInterface(){
         size=15;
         board=new TextBoardData();
+
         printBoard();
+        
     }
 
     public TextInterface(int size){
         board=new TextBoardData(size);
+
         printBoard();
     }
 
@@ -69,8 +78,14 @@ public class TextInterface implements UserInterface{
               System.out.print(" "+(i+1));
        }
         System.out.println();
+        getUserInput();
     }
-    
+
+
+    public void startGame(boolean blackHuman , boolean whiteHuman){
+        gc.newGame(blackHuman, whiteHuman);
+
+    }
     @Override
     public void printText(String text){
       
@@ -97,10 +112,43 @@ public class TextInterface implements UserInterface{
     }
 
     public String getUserInput(){
+        if(!blackHuman && !whiteHuman){
+            getPlayer();
+        }else{
+            startGame(blackHuman, whiteHuman);
+        }
 
         return "";
     }
-
+    public void getPlayer(){
+        System.out.println("1. for black");
+        System.out.println("2. for white");
+        System.out.print("Your choice=");
+        String player=new String();
+        StringTokenizer st;
+        BufferedReader flux_intrare = new BufferedReader(new InputStreamReader(System.in));
+        try{
+            player=flux_intrare.readLine();
+            System.out.println(player);
+            int tmpPlayer;
+            tmpPlayer=Integer.parseInt(player);
+            if(tmpPlayer==1){
+                blackHuman=true;
+                System.out.println("you choose black");
+            }
+            else if(tmpPlayer==2){
+                whiteHuman=true;
+                System.out.println("you choose white");
+            }
+            else{
+                System.out.println("Invalid choiche");
+                getPlayer();
+            }
+        }catch(Exception e){
+            System.out.println("Invalid entry");
+            getPlayer();
+        }
+    }
     @Override
     public void setCallback(GameController gc){
         this.gc=gc;
