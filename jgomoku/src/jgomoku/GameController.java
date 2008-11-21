@@ -81,7 +81,7 @@ public class GameController {
         if(waitBlack && blackHuman){
             if(gomokuGame.moveBlack(row, column)){
                 if(gomokuGame.isGameOver()){
-                    humanUserInterface.printText("game over");
+                    humanUserInterface.printText("black won the game");
                     humanUserInterface.gameFinished(true , row , column);
                 }
                 else if(whiteHuman){
@@ -101,12 +101,7 @@ public class GameController {
         else if(!waitBlack && whiteHuman){
             if(gomokuGame.moveWhite(row, column)){
                 if(gomokuGame.isGameOver()){
-                    if(gomokuGame.isBlackWinner()){
-                        humanUserInterface.printText("black won the game");
-                    }
-                    else{
-                        humanUserInterface.printText("white won the game");
-                    }
+                    humanUserInterface.printText("white won the game");
                     humanUserInterface.gameFinished(false , row , column);
                 }
                 else if(blackHuman){

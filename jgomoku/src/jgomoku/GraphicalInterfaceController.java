@@ -139,6 +139,7 @@ public class GraphicalInterfaceController implements UserInterface{
         else{
             moveWhite(row , column);
         }
+        graphicalInterface.saveGameButton.setEnabled(true);
     }
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
