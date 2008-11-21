@@ -19,7 +19,7 @@ package jgomoku;
 import java.util.*;
 
 public class GameController {
-    private GomokuBoard gomokuBoard;
+    private GomokuGame gomokuBoard;
     private UserInterface humanUserInterface;
     private boolean blackHuman , whiteHuman;
     private GomokuGameHistory gameHistory;
@@ -43,7 +43,7 @@ public class GameController {
     }
 
     public void newGame(boolean blackHuman , boolean whiteHuman){
-        gomokuBoard=new GomokuBoard(15);
+        gomokuBoard=new GomokuGame(15);
         humanUserInterface.printText("waiting for black move");
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
@@ -66,7 +66,7 @@ public class GameController {
         ggh=new GomokuGameHistory();
         if(ggh.loadGame(fileName)){
             gameHistory=ggh;
-            gomokuBoard=new GomokuBoard(gameHistory);
+            gomokuBoard=new GomokuGame(gameHistory);
         }
         else{
             humanUserInterface.printText("game file loading failed");

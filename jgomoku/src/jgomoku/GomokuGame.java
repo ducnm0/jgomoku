@@ -16,28 +16,28 @@
   */
 package jgomoku;
 
-public class GomokuBoard extends BoardData{
+public class GomokuGame extends BoardData{
 
     private char winner;
     private boolean newGame=true;
     GomokuGameHistory gameHistory;
     private boolean isGameOver;
 
-    public GomokuBoard(){
+    public GomokuGame(){
         super();
         gameHistory=new GomokuGameHistory();
         winner='o';
         isGameOver=false;
     }
 
-    public GomokuBoard(int size){
+    public GomokuGame(int size){
         super(size);
         gameHistory=new GomokuGameHistory();
         winner='o';
         isGameOver=false;
     }
 
-    public GomokuBoard(GomokuGameHistory ggh){
+    public GomokuGame(GomokuGameHistory ggh){
         gameHistory=ggh;
         isGameOver=true;
     }
@@ -256,5 +256,12 @@ public class GomokuBoard extends BoardData{
 
     public boolean isGameOver(){
         return isGameOver;
+    }
+
+    public boolean isBlackWinner(){
+        if(winner == 'b'){
+            return true;
+        }
+        return false;
     }
 }
