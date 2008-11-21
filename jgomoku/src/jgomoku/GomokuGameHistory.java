@@ -23,7 +23,6 @@ public class GomokuGameHistory {
     private ArrayList moves;
     private int currentMove;
     private boolean gameFinished;
-    private boolean blackWin;
 
     GomokuGameHistory(){
         moves=new ArrayList();
@@ -37,23 +36,34 @@ public class GomokuGameHistory {
         currentMove++;
     }
 
-    public void setGameFinished(boolean blackWin){
+    public void setGameFinished(){
         gameFinished=true;
-        this.blackWin=blackWin;
     }
 
     public Move getNextMove(){
+        Move m;
+        
         if(! gameFinished){
             return null;
         }
-        if(currentMove >= moves.size() - 1){
+        if(currentMove == moves.size()){
             return null;
         }
+        m= (Move) moves.get(currentMove);
+        if(currentMove%2 == 0){
+            m.isBlack=true;
+        }
+        else{
+            m.isBlack=false;
+        }
         currentMove++;
-        return (Move) moves.get(currentMove);
+
+        return m;
     }
 
     public Move getPreviousMove(){
+        Move m;
+        
         if(! gameFinished){
             return null;
         }
@@ -61,7 +71,19 @@ public class GomokuGameHistory {
             return null;
         }
         currentMove--;
-        return (Move) moves.get(currentMove);
+        m= (Move) moves.get(currentMove);
+        if(currentMove%2 == 0){
+            m.isBlack=true;
+        }
+        else{
+            m.isBlack=false;
+        }
+        
+        return m;
+    }
+    
+    public void advanceMove(){
+        
     }
 
     public boolean loadGame(String filename){

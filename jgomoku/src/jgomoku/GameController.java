@@ -151,7 +151,12 @@ public class GameController {
                 humanUserInterface.printText("reached first move");
             }
             else{
-                waitBlack=! waitBlack;
+                if(m.isBlack){
+                    humanUserInterface.removeBlack(m.row, m.column);
+                }
+                else{
+                    humanUserInterface.removeWhite(m.row, m.column);
+                }
             }
         }
         else{
@@ -162,6 +167,17 @@ public class GameController {
     private void nextMove(){
         if(doingReplay){
             Move m=gomokuGame.nextMove();
+            if(m == null){
+                humanUserInterface.printText("reached last move");
+            }
+            else{
+                if(m.isBlack){
+                    humanUserInterface.moveBlack(m.row, m.column);
+                }
+                else{
+                    humanUserInterface.moveWhite(m.row, m.column);
+                }
+            }
         }
         else{
             humanUserInterface.printText("error no game replay");

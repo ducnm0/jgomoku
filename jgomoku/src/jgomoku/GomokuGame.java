@@ -255,6 +255,8 @@ public class GomokuGame extends BoardData{
     }
 
     public boolean isGameOver(){
+        gameHistory.setGameFinished();
+
         return isGameOver;
     }
 
