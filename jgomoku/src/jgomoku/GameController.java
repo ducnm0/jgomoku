@@ -57,7 +57,7 @@ public class GameController {
     }
 
 
-    public boolean endGame(){
+    public boolean removeOldGame(){
         if(waitMove || doingReplay){
             waitMove=false;
             doingReplay=false;
@@ -100,6 +100,8 @@ public class GameController {
                 if(gomokuGame.isGameOver()){
                     humanUserInterface.printText("black won the game");
                     humanUserInterface.gameFinished(true , row , column);
+                    doingReplay=true;
+                    waitMove=false;
                 }
                 else if(whiteHuman){
                     humanUserInterface.printText("waiting for white move");
@@ -120,6 +122,8 @@ public class GameController {
                 if(gomokuGame.isGameOver()){
                     humanUserInterface.printText("white won the game");
                     humanUserInterface.gameFinished(false , row , column);
+                    doingReplay=true;
+                    waitMove=false;
                 }
                 else if(blackHuman){
                     humanUserInterface.printText("waiting for black move");
@@ -141,11 +145,27 @@ public class GameController {
     }
 
     private void previousMove(){
-        
+        if(doingReplay){
+            Move m=gomokuGame.previousMove();
+            if(m == null){
+                humanUserInterface.printText("reached first move");
+            }
+            else{
+                waitBlack=! waitBlack;
+            }
+        }
+        else{
+            humanUserInterface.printText("error no game replay");
+        }
     }
 
     private void nextMove(){
-        
+        if(doingReplay){
+            Move m=gomokuGame.nextMove();
+        }
+        else{
+            humanUserInterface.printText("error no game replay");
+        }
     }
 
     //the callback function from gomokuai , graphicalinterface or textinterface

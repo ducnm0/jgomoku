@@ -51,6 +51,7 @@ public class GomokuGame extends BoardData{
         if(result){
             newGame=false;
             gameHistory.addMove(row , column);
+            gameHistory.getNextMove();
             checkWinner('w');
         }
         return result;
@@ -65,19 +66,18 @@ public class GomokuGame extends BoardData{
         if(result){
             newGame=false;
             gameHistory.addMove(row , column);
+            gameHistory.getNextMove();
             checkWinner('b');
         }
         return result;
     }
 
     public Move previousMove(){
-        Move m=gameHistory.getPreviousMove();
-        return m;
+        return gameHistory.getPreviousMove();
     }
 
     public Move nextMove(){
-        Move m=gameHistory.getNextMove();
-        return m;
+        return gameHistory.getNextMove();
     }
 
     public boolean saveGame(String file){

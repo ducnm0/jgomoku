@@ -20,9 +20,16 @@ package jgomoku;
 public class Move {
     public int row;
     public int column;
+    public boolean isBlack;
 
     Move(int row , int column){
         this.row=row;
         this.column=column;
+    }
+
+    Move(int row , int column , boolean isBlack){
+        this.row=row;
+        this.column=column;
+        this.isBlack=isBlack;
     }
 }

@@ -140,6 +140,8 @@ public class GraphicalInterfaceController implements UserInterface{
             moveWhite(row , column);
         }
         graphicalInterface.saveGameButton.setEnabled(true);
+        graphicalInterface.previousMoveButton.setEnabled(true);
+        graphicalInterface.nextMoveButton.setEnabled(true);
     }
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
@@ -198,8 +200,16 @@ public class GraphicalInterfaceController implements UserInterface{
         }
     }
 
+    public void getNextMove() {
+        gc.sendPlayerInput("next");
+    }
+
+    public void getPreviousMove() {
+        gc.sendPlayerInput("previous");
+    }
+
     void newGameButtonClicked() {
-        if(gc.endGame()){
+        if(gc.removeOldGame()){
             graphicalInterface.newGameButton.setEnabled(false);
             graphicalInterface.saveGameButton.setEnabled(false);
             graphicalInterface.nextMoveButton.setEnabled(false);

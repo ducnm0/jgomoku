@@ -385,10 +385,12 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     private void previousMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMoveButtonMouseClicked
         // TODO add your handling code here:
+        gic.getPreviousMove();
     }//GEN-LAST:event_previousMoveButtonMouseClicked
 
     private void nextMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMoveButtonMouseClicked
         // TODO add your handling code here:
+        gic.getNextMove();
     }//GEN-LAST:event_nextMoveButtonMouseClicked
 
     private void boardCanvasMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardCanvasMouseMoved
