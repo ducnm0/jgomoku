@@ -19,7 +19,7 @@ package jgomoku;
 import java.util.*;
 
 public class GameController {
-    private GomokuGame gomokuBoard;
+    private GomokuGame gomokuGame;
     private UserInterface humanUserInterface;
     private boolean blackHuman , whiteHuman;
     private GomokuGameHistory gameHistory;
@@ -43,7 +43,7 @@ public class GameController {
     }
 
     public void newGame(boolean blackHuman , boolean whiteHuman){
-        gomokuBoard=new GomokuGame(15);
+        gomokuGame=new GomokuGame(15);
         humanUserInterface.printText("waiting for black move");
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
@@ -66,7 +66,7 @@ public class GameController {
         ggh=new GomokuGameHistory();
         if(ggh.loadGame(fileName)){
             gameHistory=ggh;
-            gomokuBoard=new GomokuGame(gameHistory);
+            gomokuGame=new GomokuGame(gameHistory);
         }
         else{
             humanUserInterface.printText("game file loading failed");
@@ -79,8 +79,8 @@ public class GameController {
             return;
         }
         if(waitBlack && blackHuman){
-            if(gomokuBoard.moveBlack(row, column)){
-                if(gomokuBoard.isGameOver()){
+            if(gomokuGame.moveBlack(row, column)){
+                if(gomokuGame.isGameOver()){
                     humanUserInterface.printText("game over");
                     humanUserInterface.gameFinished(true , row , column);
                 }
@@ -99,9 +99,14 @@ public class GameController {
             }
         }
         else if(!waitBlack && whiteHuman){
-            if(gomokuBoard.moveWhite(row, column)){
-                if(gomokuBoard.isGameOver()){
-                    humanUserInterface.printText("game over");
+            if(gomokuGame.moveWhite(row, column)){
+                if(gomokuGame.isGameOver()){
+                    if(gomokuGame.isBlackWinner()){
+                        humanUserInterface.printText("black won the game");
+                    }
+                    else{
+                        humanUserInterface.printText("white won the game");
+                    }
                     humanUserInterface.gameFinished(false , row , column);
                 }
                 else if(blackHuman){
