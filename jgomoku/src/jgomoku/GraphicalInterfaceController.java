@@ -197,5 +197,18 @@ public class GraphicalInterfaceController implements UserInterface{
             gc.sendPlayerInput("move " + row + " " + column);
         }
     }
+
+    void newGameButtonClicked() {
+        if(gc.endGame()){
+            graphicalInterface.newGameButton.setEnabled(false);
+            graphicalInterface.saveGameButton.setEnabled(false);
+            graphicalInterface.nextMoveButton.setEnabled(false);
+            graphicalInterface.previousMoveButton.setEnabled(false);
+            graphicalInterface.drawAllBackgroundCells();
+            graphicalInterface.startGameButton.setEnabled(true);
+            graphicalInterface.loadGameButton.setEnabled(true);
+        }
+        
+    }
         
 }

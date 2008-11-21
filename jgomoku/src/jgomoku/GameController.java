@@ -23,13 +23,16 @@ public class GameController {
     private UserInterface humanUserInterface;
     private boolean blackHuman , whiteHuman;
     private GomokuGameHistory gameHistory;
-    boolean waitMove;
-    boolean waitBlack;
+    private boolean waitMove;
+    private boolean waitBlack;
+    private boolean doingReplay;
     private GomokuAi ai;
 
     GameController(){
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
         humanUserInterface.setCallback(this);
+        waitMove=false;
+        doingReplay=false;
     }
 
     GameController(boolean graphical){
@@ -40,6 +43,8 @@ public class GameController {
             humanUserInterface=new TextInterface();
         }
         humanUserInterface.setCallback(this);
+        waitMove=false;
+        doingReplay=false;
     }
 
     public void newGame(boolean blackHuman , boolean whiteHuman){
@@ -51,13 +56,25 @@ public class GameController {
         waitBlack=true;
     }
 
-    public void updateInterface(int row , int column ,
-            boolean remove , boolean white){
-        
+
+    public boolean endGame(){
+        if(waitMove || doingReplay){
+            waitMove=false;
+            doingReplay=false;
+
+            return true;
+        }
+
+        return false;
     }
 
     private void saveGame(String fileName){
-        
+        if(gomokuGame.saveGame(fileName)){
+            humanUserInterface.printText("game saved");
+        }
+        else{
+            humanUserInterface.printText("game saving failed");
+        }
     }
 
     private void loadGame(String fileName){

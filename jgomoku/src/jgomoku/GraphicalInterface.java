@@ -103,8 +103,6 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     /** Creates new form GInterface */
     public GraphicalInterface(GraphicalInterfaceController gic , int maxrow , int maxcolumn) {
-        int row , column;
-
         this.gic=gic;
 
         MAXROW=maxrow;
@@ -119,6 +117,12 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
         boardCanvas.setSize(450, 450);
         boardImage=new BufferedImage(450 , 450 , BufferedImage.TYPE_INT_ARGB);
+
+        drawAllBackgroundCells();
+    }
+
+    public void drawAllBackgroundCells(){
+        int row , column;
 
         for(row=1 ; row <= MAXROW ; row++){
             for(column=1 ; column <= MAXCOLUMN ; column++){
@@ -348,6 +352,7 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     private void newGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newGameButtonMouseClicked
         // TODO add your handling code here:
+        gic.newGameButtonClicked();
 }//GEN-LAST:event_newGameButtonMouseClicked
 
     private void saveGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveGameButtonMouseClicked
