@@ -16,10 +16,15 @@
   */
 package jgomoku;
 
-public class GomokuAi{
+public class GomokuAi implements Runnable{
 
     public Move getAiMove(BoardData bd , boolean blackToMove){
         return null;
+    }
+
+    @Override
+    public void run() {
+        
     }
     
 }
