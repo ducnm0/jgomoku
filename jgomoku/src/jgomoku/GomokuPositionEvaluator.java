@@ -17,17 +17,8 @@
 
 package jgomoku;
 
-interface UserInterface extends PlayerInterface{
-
-    public void setReplayMode();
-    void setCallback(GameController gameController);
-    void moveWhite(int row , int column);
-    void moveBlack(int row , int column);
-    void removeWhite(int row , int column);
-    void removeBlack(int row , int column);
-    void printText(String text);
-    void getBlackMove(int whiteMoveRow , int whiteMoveColumn);
-    void getWhiteMove(int blackMoveRow , int blackMoveColumn);
-    void waitAiMove(boolean blackMove , int row , int column);
-    void gameFinished(boolean blackMove , int row , int column);
+public class GomokuPositionEvaluator {
+    public float getPositionValue(BoardData bd){
+        return (float) 0.0;
+    }
 }

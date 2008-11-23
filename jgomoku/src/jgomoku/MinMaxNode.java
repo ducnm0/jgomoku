@@ -17,17 +17,17 @@
 
 package jgomoku;
 
-interface UserInterface extends PlayerInterface{
+import java.util.*;
 
-    public void setReplayMode();
-    void setCallback(GameController gameController);
-    void moveWhite(int row , int column);
-    void moveBlack(int row , int column);
-    void removeWhite(int row , int column);
-    void removeBlack(int row , int column);
-    void printText(String text);
-    void getBlackMove(int whiteMoveRow , int whiteMoveColumn);
-    void getWhiteMove(int blackMoveRow , int blackMoveColumn);
-    void waitAiMove(boolean blackMove , int row , int column);
-    void gameFinished(boolean blackMove , int row , int column);
+public class MinMaxNode {
+    public float value;
+    public List<MinMaxNode> children;
+
+    public MinMaxNode(BoardData bd){
+
+    }
+
+    public MinMaxNode(BoardData bd , List<Move> proposedMoves){
+        
+    }
 }

@@ -16,6 +16,10 @@
   */
 package jgomoku;
 
-public class GomokuAi {
+public class GomokuAi{
 
+    public Move getAiMove(BoardData bd , boolean blackToMove){
+        return null;
+    }
+    
 }
