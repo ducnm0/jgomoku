@@ -17,6 +17,7 @@
 
 package jgomoku;
 
+import java.io.*;
 import java.util.*;
 
 public class GomokuGameHistory {
@@ -87,10 +88,55 @@ public class GomokuGameHistory {
     }
 
     public boolean loadGame(String filename){
+        try {
+            BufferedReader bfR = new BufferedReader(new FileReader(filename));
+            while(true){
+                try {
+                    String line =bfR.readLine();
+                    if(line == null){
+                        if(moves.size() > 0){
+                            currentMove=0;
+                            gameFinished=true;
+                            return true;
+                        }
+                        return false;
+                    }
+                    int spaceIndex=line.indexOf(" ");
+                    int n1=Integer.parseInt(line.subSequence(0 , spaceIndex).toString());
+                    int n2=Integer.parseInt(line.substring(spaceIndex+1).toString());
+                    Move m=new Move(n1 , n2);
+                    moves.add(m);
+                }
+                catch (IOException ex) {
+                    ex.printStackTrace();
+                    return false;
+                }
+            }
+            
+        }
+        catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
         return false;
     }
 
     public boolean saveGame(String file){
-        return false;
+        try {
+            BufferedWriter bfW = new BufferedWriter(new FileWriter(file));
+            Iterator<Move> it=moves.iterator();
+            Move m=null;
+            while(it.hasNext()){
+                m=it.next();
+                bfW.write(m.row + " " + m.column + "\n");
+            }
+            bfW.flush();
+            bfW.close();
+            return true;
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 }

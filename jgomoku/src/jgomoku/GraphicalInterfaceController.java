@@ -208,7 +208,7 @@ public class GraphicalInterfaceController implements UserInterface{
         gc.sendPlayerInput("previous");
     }
 
-    void newGameButtonClicked() {
+    public void newGameButtonClicked() {
         if(gc.removeOldGame()){
             graphicalInterface.newGameButton.setEnabled(false);
             graphicalInterface.saveGameButton.setEnabled(false);
@@ -219,6 +219,24 @@ public class GraphicalInterfaceController implements UserInterface{
             graphicalInterface.loadGameButton.setEnabled(true);
         }
         
+    }
+
+    public void saveFile(String fileOnDisk) {
+        gc.sendPlayerInput("save  " + fileOnDisk);
+    }
+
+    public void loadFile(String fileOnDisk){
+        gc.sendPlayerInput("load " + fileOnDisk);
+    }
+
+    @Override
+    public void setReplayMode() {
+        graphicalInterface.nextMoveButton.setEnabled(true);
+        graphicalInterface.previousMoveButton.setEnabled(true);
+        graphicalInterface.newGameButton.setEnabled(true);
+        graphicalInterface.saveGameButton.setEnabled(false);
+        graphicalInterface.loadGameButton.setEnabled(false);
+        graphicalInterface.startGameButton.setEnabled(false);
     }
         
 }

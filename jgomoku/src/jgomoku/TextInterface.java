@@ -174,4 +174,9 @@ public class TextInterface implements UserInterface{
         
     }
 
+    @Override
+    public void setReplayMode() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

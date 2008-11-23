@@ -22,6 +22,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.RenderingHints;
+import javax.swing.JFileChooser;
 
 public class GraphicalInterface extends javax.swing.JPanel {
 
@@ -212,6 +213,29 @@ public class GraphicalInterface extends javax.swing.JPanel {
         bc.repaint();
     }
 
+    private String getFileOnDisk(boolean forLoading){
+        JFileChooser fc=new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result;
+        File targetFile=null;
+
+        if(forLoading){
+            result=fc.showOpenDialog(this);
+        }
+        else{
+            result=fc.showSaveDialog(this);
+        }
+
+        if(result == JFileChooser.APPROVE_OPTION){
+            targetFile=fc.getSelectedFile();
+        }
+
+        if(targetFile != null){
+            return targetFile.getAbsolutePath();
+        }
+        return null;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -352,19 +376,39 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     private void newGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newGameButtonMouseClicked
         // TODO add your handling code here:
+        if(! newGameButton.isEnabled()){
+            return;
+        }
         gic.newGameButtonClicked();
 }//GEN-LAST:event_newGameButtonMouseClicked
 
     private void saveGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveGameButtonMouseClicked
         // TODO add your handling code here:
+        if(! saveGameButton.isEnabled()){
+            return;
+        }
+        String f=getFileOnDisk(false);
+        if(f != null){
+            gic.saveFile(f);
+        }
     }//GEN-LAST:event_saveGameButtonMouseClicked
 
     private void loadGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadGameButtonMouseClicked
         // TODO add your handling code here:
+        if(! loadGameButton.isEnabled()){
+            return;
+        }
+        String f=getFileOnDisk(true);
+        if(f != null){
+            gic.loadFile(f);
+        }
     }//GEN-LAST:event_loadGameButtonMouseClicked
 
     private void startGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameButtonMouseClicked
         // TODO add your handling code here:
+        if(! startGameButton.isEnabled()){
+            return;
+        }
         boolean blackHuman , whiteHuman;
 
         if(blackPlayerComboBox.getSelectedIndex() == 0){
@@ -385,11 +429,17 @@ public class GraphicalInterface extends javax.swing.JPanel {
 
     private void previousMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMoveButtonMouseClicked
         // TODO add your handling code here:
+        if(! previousMoveButton.isEnabled()){
+            return;
+        }
         gic.getPreviousMove();
     }//GEN-LAST:event_previousMoveButtonMouseClicked
 
     private void nextMoveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMoveButtonMouseClicked
         // TODO add your handling code here:
+        if(! nextMoveButton.isEnabled()){
+            return;
+        }
         gic.getNextMove();
     }//GEN-LAST:event_nextMoveButtonMouseClicked
 

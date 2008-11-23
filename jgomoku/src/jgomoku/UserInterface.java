@@ -18,6 +18,8 @@
 package jgomoku;
 
 interface UserInterface {
+
+    public void setReplayMode();
     void setCallback(GameController gameController);
     void moveWhite(int row , int column);
     void moveBlack(int row , int column);

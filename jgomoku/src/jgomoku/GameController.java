@@ -55,8 +55,7 @@ public class GameController {
         waitMove=true;
         waitBlack=true;
     }
-
-
+    
     public boolean removeOldGame(){
         if(waitMove || doingReplay){
             waitMove=false;
@@ -84,6 +83,8 @@ public class GameController {
         if(ggh.loadGame(fileName)){
             gameHistory=ggh;
             gomokuGame=new GomokuGame(gameHistory);
+            doingReplay=true;
+            humanUserInterface.setReplayMode();
         }
         else{
             humanUserInterface.printText("game file loading failed");
