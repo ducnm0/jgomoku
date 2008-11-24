@@ -58,11 +58,11 @@ public class GomokuPositionEvaluator {
                 if(side == 'b')positionValue+=9;
                 else positionValue-=9;
             case 5:
-                if(side == 'b')positionValue+=27;
-                else positionValue-=27;
+                if(side == 'b')positionValue+=5000;
+                else positionValue-=5000;
             default:
-                if(side == 'b')positionValue+=27 + (length - 5) * 10;
-                else positionValue-=27 + (length - 5) * 10;
+                if(side == 'b')positionValue+=5000;
+                else positionValue-=5000;
         }
     }
 
