@@ -56,8 +56,10 @@ public class GameController {
         else if(whiteHuman){
             humanUserInterface.printText("waiting for ai move");
         }
-        if(t.isAlive()){
-            t.interrupt();
+        if(t != null){
+            if(t.isAlive()){
+                t.interrupt();
+            }
         }
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
