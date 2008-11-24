@@ -266,4 +266,17 @@ public class GomokuGame extends BoardData{
         }
         return false;
     }
+
+    char[][] exportPositionToAi(){
+        int row , column;
+        char[][] bd=new char[size][size];
+
+        for(row=0 ; row<size ; row++){
+            for(column=0 ; column<size ; column++){
+                bd[row][column]=board[row][column];
+            }
+        }
+
+        return bd;
+    }
 }

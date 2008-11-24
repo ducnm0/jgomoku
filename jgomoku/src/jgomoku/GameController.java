@@ -49,7 +49,12 @@ public class GameController {
 
     public void newGame(boolean blackHuman , boolean whiteHuman){
         gomokuGame=new GomokuGame(15);
-        humanUserInterface.printText("waiting for black move");
+        if(blackHuman){
+            humanUserInterface.printText("waiting for black move");
+        }
+        else{
+            humanUserInterface.printText("waiting for ai move");
+        }
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
         waitMove=true;
@@ -140,8 +145,54 @@ public class GameController {
                 humanUserInterface.printText("illegal move");
             }
         }
+        else if(waitBlack && ! blackHuman){
+            if(gomokuGame.moveBlack(row, column)){
+                if(gomokuGame.isGameOver()){
+                    humanUserInterface.printText("black won the game");
+                    humanUserInterface.gameFinished(true , row , column);
+                    doingReplay=true;
+                    waitMove=false;
+                }
+                else if(whiteHuman){
+                    humanUserInterface.printText("waiting for white move");
+                    humanUserInterface.getWhiteMove(row, column);
+                }
+                else{
+                    humanUserInterface.printText("waiting for ai move");
+                    (new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this))).start();
+                    humanUserInterface.waitAiMove(true, row, column);
+                }
+                waitBlack=false;
+            }
+            else{
+                humanUserInterface.printText("illegal ai move");
+            }
+        }
+        else if(! waitBlack && ! blackHuman){
+            if(gomokuGame.moveWhite(row, column)){
+                if(gomokuGame.isGameOver()){
+                    humanUserInterface.printText("white won the game");
+                    humanUserInterface.gameFinished(false, row, column);
+                    doingReplay=true;
+                    waitMove=false;
+                }
+                else if(blackHuman){
+                    humanUserInterface.printText("waiting for black move");
+                    humanUserInterface.getBlackMove(row, column);
+                }
+                else{
+                    humanUserInterface.printText("waiting for ai move");
+                    (new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this))).start();
+                    humanUserInterface.waitAiMove(false, row, column);
+                }
+                waitBlack=true;
+            }
+            else{
+                humanUserInterface.printText("illegal ai move");
+            }
+        }
         else{
-            //todo implement for ai
+            humanUserInterface.printText("weird boolean error");
         }
     }
 

@@ -17,9 +17,14 @@
 package jgomoku;
 
 public class GomokuAi implements Runnable{
+    private char[][] boardPosition;
+    boolean blackToMove;
+    GameController gc;
 
-    public Move getAiMove(BoardData bd , boolean blackToMove){
-        return null;
+    GomokuAi(char[][] position , boolean blackToMove , GameController gc){
+        boardPosition=position;
+        this.blackToMove=blackToMove;
+        this.gc=gc;
     }
 
     @Override

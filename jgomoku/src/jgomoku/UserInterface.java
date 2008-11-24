@@ -17,7 +17,7 @@
 
 package jgomoku;
 
-interface UserInterface extends PlayerInterface{
+interface UserInterface{
 
     public void setReplayMode();
     void setCallback(GameController gameController);
