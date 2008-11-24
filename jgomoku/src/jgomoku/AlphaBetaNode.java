@@ -1,5 +1,5 @@
  /*
-  *Copyright 2008 Cristian Achim
+  *Copyright 2008 Cristian Cols
   *
   * Licensed under the Apache License, Version 2.0 (the "License");
   * you may not use this file except in compliance with the License.
@@ -18,6 +18,15 @@
 package jgomoku;
 
 import java.util.*;
+
+class ValueMove extends Move{
+    public float moveValue;
+
+    ValueMove(int row , int column , float value){
+        super(row , column);
+        moveValue=value;
+    }
+}
 
 public class AlphaBetaNode {
     private float value;
