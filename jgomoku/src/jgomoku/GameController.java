@@ -163,7 +163,7 @@ public class GameController {
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this));
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 6));
                     t.start();
                     humanUserInterface.waitAiMove(true, row, column);
                 }
@@ -187,7 +187,7 @@ public class GameController {
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this));
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 6));
                     t.start();
                     humanUserInterface.waitAiMove(false, row, column);
                 }

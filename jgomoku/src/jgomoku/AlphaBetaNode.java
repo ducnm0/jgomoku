@@ -20,16 +20,35 @@ package jgomoku;
 import java.util.*;
 
 public class AlphaBetaNode {
-    public float value;
-    public List<AlphaBetaNode> children;
-    char[][] boardPosition;
+    private float value;
+    private List<AlphaBetaNode> children;
+    private char[][] boardPosition;
+    private int searchDepth;
+    private List<Move> proposedMoves;
 
-    public AlphaBetaNode(char[][] bd){
+    public AlphaBetaNode(char[][] bd , int depth){
         boardPosition=bd;
+        searchDepth=depth;
     }
 
     public Move getBestMove(){
-        Move m=new Move(0,0);
+        Move m=new ValueMove(0,0,0);
+
+        /*
+         *
+         *TODO
+         * call moveproposer
+         * recurse by creating new nodes for each move
+         * or calculate position value if depth is 0
+         * return best move with position value attached and make alpha beta decisions
+         * check for thread.interrupted and return null if so all the way up
+         *  simply:
+         * if(Thread.interrupted){
+         *  return null
+         * }
+         *(to implement stoping the thread if the user exits the current game on the ai move)
+         *
+         */
 
         return m;
     }

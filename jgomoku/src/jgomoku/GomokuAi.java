@@ -18,19 +18,21 @@ package jgomoku;
 
 public class GomokuAi implements Runnable{
     private char[][] boardPosition;
-    boolean blackToMove;
-    GameController gc;
-    Move bestMove;
+    private boolean blackToMove;
+    private GameController gc;
+    private Move bestMove;
+    private int searchDepth;
 
-    GomokuAi(char[][] position , boolean blackToMove , GameController gc){
+    GomokuAi(char[][] position , boolean blackToMove , GameController gc , int depth){
         boardPosition=position;
         this.blackToMove=blackToMove;
         this.gc=gc;
+        this.searchDepth=depth;
     }
 
     @Override
     public void run() {
-        bestMove=(new AlphaBetaNode(boardPosition)).getBestMove();
+        bestMove=(new AlphaBetaNode(boardPosition , searchDepth)).getBestMove();
 
         if(bestMove == null){
             return;
