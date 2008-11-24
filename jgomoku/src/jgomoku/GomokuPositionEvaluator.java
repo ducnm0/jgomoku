@@ -21,10 +21,6 @@ public class GomokuPositionEvaluator {
     private int positionValue=0;
     private int size=15;
     private char[][] boardData;
-    private int LineOf2=0;
-    private int LineOf3=0;
-    private int LineOf4=0;
-    private int LineOf5=0;
 
     public int getPositionValue(char[][] boardData){
         int row , column;
@@ -44,6 +40,32 @@ public class GomokuPositionEvaluator {
         return positionValue;
     }
 
+    private void modifyValues(int length , char side){
+        int val;
+
+        switch(length){
+            case 0:
+                return;
+            case 1:
+                return;
+            case 2:
+                if(side == 'b')positionValue+=1;
+                else positionValue-=1;
+            case 3:
+                if(side == 'b')positionValue+=3;
+                else positionValue-=3;
+            case 4:
+                if(side == 'b')positionValue+=9;
+                else positionValue-=9;
+            case 5:
+                if(side == 'b')positionValue+=27;
+                else positionValue-=27;
+            default:
+                if(side == 'b')positionValue+=27 + (length - 5) * 10;
+                else positionValue-=27 + (length - 5) * 10;
+        }
+    }
+
     private void checkHorizontalLine(char side){
         int row , column;
         int length=0;
@@ -54,9 +76,11 @@ public class GomokuPositionEvaluator {
                     length++;
                 }
                 else{
+                    modifyValues(length , side);
                     length=0;
                 }
             }
+            modifyValues(length , side);
             length=0;
         }
     }
@@ -71,9 +95,11 @@ public class GomokuPositionEvaluator {
                     length++;
                 }
                 else{
+                    modifyValues(length , side);
                     length=0;
                 }
             }
+            modifyValues(length , side);
             length=0;
         }
     }
@@ -90,9 +116,11 @@ public class GomokuPositionEvaluator {
                     length++;
                 }
                 else{
+                    modifyValues(length , side);
                     length=0;
                 }
             }
+            modifyValues(length , side);
             length=0;
         }
 
@@ -103,9 +131,11 @@ public class GomokuPositionEvaluator {
                     length++;
                 }
                 else{
+                    modifyValues(length , side);
                     length=0;
                 }
             }
+            modifyValues(length , side);
             length=0;
         }
     }
@@ -122,9 +152,11 @@ public class GomokuPositionEvaluator {
                     length++;
                 }
                 else{
+                    modifyValues(length , side);
                     length=0;
                 }
             }
+            modifyValues(length , side);
             length=0;
         }
 
@@ -135,9 +167,11 @@ public class GomokuPositionEvaluator {
                     length++;
                 }
                 else{
+                    modifyValues(length , side);
                     length=0;
                 }
             }
+            modifyValues(length , side);
             length=0;
         }
     }
