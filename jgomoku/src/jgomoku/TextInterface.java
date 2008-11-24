@@ -18,6 +18,7 @@
 package jgomoku;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
@@ -37,24 +38,24 @@ import java.util.StringTokenizer;
 
 
 public class TextInterface implements UserInterface{
-    private TextBoardData board=null;
+    private TextBoardData boardData=null;
     private GameController gc;
     private int size=0;
     private boolean blackHuman=false;
     private boolean whiteHuman=false;
+    private boolean blackMove=false;
+    private boolean whiteMove=false;
+    private boolean isSecondPlayerHuman=false;
 
     public TextInterface(){
         size=15;
-        board=new TextBoardData();
-        printBoard();
-        getUserInput();
+        boardData=new TextBoardData();
+        
         
     }
 
     public TextInterface(int size){
-        board=new TextBoardData(size);
-        printBoard();
-        getUserInput();
+        boardData=new TextBoardData(size);
     }
 
     public void printBoard(){
@@ -70,9 +71,9 @@ public class TextInterface implements UserInterface{
            if(j<9)System.out.print((j+1)+" ");
            else System.out.print((j+1)+"");
         for(int i=0;i<size;i++){
-           if(board.getValue(j,i)=='o')
+           if(boardData.getValue(j,i)=='o')
                 System.out.print("|  ");
-           else if(board.getValue(j, i)=='w')
+           else if(boardData.getValue(j, i)=='w')
                System.out.print("|X ");
            else
                System.out.print("|O ");
@@ -98,11 +99,51 @@ public class TextInterface implements UserInterface{
 
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
-        System.out.println("black="+blackHuman+ "white="+whiteHuman);
-        gc.newGame(blackHuman, whiteHuman);
-        //gc.sendPlayerInput("new blackplayer=human whiteplayer");
+        if((blackHuman && isSecondPlayerHuman) || (whiteHuman && isSecondPlayerHuman)){
+            gc.sendPlayerInput("new human human");
+        }else{
+            if(blackHuman)gc.sendPlayerInput("new human computer");
+            else gc.sendPlayerInput("new computer human");
+        }
+        if(blackHuman){
+            blackMove=true;
+            setMoves();
+        }else{
+            System.out.println("Whait for inteligence to move");
+        }
+        
 
     }
+    private void setMoves(){
+        if(blackMove){
+            getUserMove();
+        }else{
+            getUserMove();
+        }
+    }
+    private void getUserMove(){
+        printBoard();
+        if(blackMove)System.out.println("Enter black move <row,col>=");
+        else System.out.println("Enter white move <row,col>=");
+        String player=new String();
+        StringTokenizer st;
+        BufferedReader flux_intrare = new BufferedReader(new InputStreamReader(System.in));
+        try{
+            player=flux_intrare.readLine();
+            System.out.println(player);
+            String tmp[]=player.split(",");
+            int row=Integer.parseInt(tmp[0]);
+            int col=Integer.parseInt(tmp[1]);
+            if(blackMove)moveBlack(row, col);
+            else if(whiteMove)moveWhite(row, col);
+            
+        }catch(Exception e){
+            System.out.println("Invalid Move");
+            getUserMove();
+        }
+    }
+
+
     @Override
     public void printText(String text){
       System.out.println("status:"+text);
@@ -120,17 +161,29 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void moveBlack(int row , int column){
-        
+        gc.sendPlayerInput("move " + row + " " + column);
+        boardData.moveBlack(row, column);
+        printBoard();
+        blackMove=false;
+        whiteMove=true;
+        setMoves();  
     }
 
     @Override
     public void moveWhite(int row , int column){
-        
+        gc.sendPlayerInput("move " + row + " " + column);
+        boardData.moveBlack(row, column);
+        printBoard();
+        whiteMove=false;
+        blackMove=true;
+        setMoves();  
     }
 
     public String getUserInput(){
+
         if(!blackHuman && !whiteHuman){
             getPlayer();
+            getSecondPlayerStatus();
             startGame(blackHuman, whiteHuman);
         }else{
             startGame(blackHuman, whiteHuman);
@@ -147,7 +200,6 @@ public class TextInterface implements UserInterface{
         BufferedReader flux_intrare = new BufferedReader(new InputStreamReader(System.in));
         try{
             player=flux_intrare.readLine();
-            System.out.println(player);
             int tmpPlayer;
             tmpPlayer=Integer.parseInt(player);
             if(tmpPlayer==1){
@@ -167,14 +219,44 @@ public class TextInterface implements UserInterface{
             getPlayer();
         }
     }
+    private void getSecondPlayerStatus(){
+        System.out.println("Second player status:");
+        System.out.println("1. for human");
+        System.out.println("2. for computer");
+        System.out.print("Your choice=");
+        String player=new String();
+        StringTokenizer st;
+        BufferedReader flux_intrare = new BufferedReader(new InputStreamReader(System.in));
+        try{
+            player=flux_intrare.readLine();
+            int tmpPlayer;
+            tmpPlayer=Integer.parseInt(player);
+            if(tmpPlayer==1){
+                isSecondPlayerHuman=true;
+                System.out.println("you choose human");
+            }
+            else if(tmpPlayer==2){
+                isSecondPlayerHuman=false;
+                System.out.println("you choose computer");
+            }
+            else{
+                System.out.println("Invalid choiche");
+                getSecondPlayerStatus();
+            }
+        }catch(Exception e){
+            System.out.println("Invalid entry");
+            getSecondPlayerStatus();
+        }
+    }
     @Override
     public void setCallback(GameController gc){
         this.gc=gc;
+        getUserInput();
     }
 
     @Override
     public void getBlackMove(int whiteMoveRow , int whiteMoveColumn){
-
+        
     }
 
     @Override
