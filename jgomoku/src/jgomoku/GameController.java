@@ -27,6 +27,7 @@ public class GameController {
     private boolean waitBlack;
     private boolean doingReplay;
     private GomokuAi ai;
+    Thread t;
 
     GameController(){
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
@@ -52,8 +53,11 @@ public class GameController {
         if(blackHuman){
             humanUserInterface.printText("waiting for black move");
         }
-        else{
+        else if(whiteHuman){
             humanUserInterface.printText("waiting for ai move");
+        }
+        if(t.isAlive()){
+            t.interrupt();
         }
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
@@ -159,7 +163,8 @@ public class GameController {
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    (new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this))).start();
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this));
+                    t.start();
                     humanUserInterface.waitAiMove(true, row, column);
                 }
                 waitBlack=false;
@@ -182,7 +187,8 @@ public class GameController {
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    (new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this))).start();
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this));
+                    t.start();
                     humanUserInterface.waitAiMove(false, row, column);
                 }
                 waitBlack=true;

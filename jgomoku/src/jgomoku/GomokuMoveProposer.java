@@ -19,15 +19,29 @@ package jgomoku;
 
 import java.util.*;
 
-public class MinMaxNode {
-    public float value;
-    public List<MinMaxNode> children;
-
-    public MinMaxNode(BoardData bd){
-
+public class GomokuMoveProposer {
+    char[][] gomokuPosition;
+    boolean blackToMove;
+    
+    GomokuMoveProposer(char[][] pos , boolean blackToMove){
+        this.gomokuPosition=pos;
+        this.blackToMove=blackToMove;
     }
 
-    public MinMaxNode(BoardData bd , List<Move> proposedMoves){
-        
+    List<Move> proposeMoves(){
+        List<Move> mList=new ArrayList<Move>();
+        int row , column;
+        Move m;
+
+        for(row=0 ; row<15 ; row++){
+            for(column=0 ; column<15 ; column++){
+                if(gomokuPosition[row][column] == 'o'){
+                    m=new Move(row , column);
+                    mList.add(m);
+                }
+            }
+        }
+
+        return mList;
     }
 }

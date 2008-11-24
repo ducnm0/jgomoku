@@ -14,29 +14,27 @@
   * limitations under the License.
   *
   */
+
 package jgomoku;
 
-public class GomokuAi implements Runnable{
-    private char[][] boardPosition;
-    boolean blackToMove;
-    GameController gc;
-    Move bestMove;
+import java.util.*;
 
-    GomokuAi(char[][] position , boolean blackToMove , GameController gc){
-        boardPosition=position;
-        this.blackToMove=blackToMove;
-        this.gc=gc;
+public class AlphaBetaNode {
+    public float value;
+    public List<AlphaBetaNode> children;
+    char[][] boardPosition;
+
+    public AlphaBetaNode(char[][] bd){
+        boardPosition=bd;
     }
 
-    @Override
-    public void run() {
-        bestMove=(new AlphaBetaNode(boardPosition)).getBestMove();
+    public Move getBestMove(){
+        Move m=new Move(0,0);
 
-        if(bestMove == null){
-            return;
-        }
-
-        gc.sendPlayerInput("move " + bestMove.row + " " + bestMove.column);
+        return m;
     }
-    
+
+    public AlphaBetaNode(BoardData bd , List<Move> proposedMoves){
+        
+    }
 }
