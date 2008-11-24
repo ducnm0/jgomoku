@@ -21,6 +21,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+ class TextBoardData extends BoardData {
+
+    public TextBoardData(){
+        super();
+    }
+    public TextBoardData(int size){
+        super(size);
+    }
+    public char getValue(int row,int column){
+        return board[row][column];
+    }
+
+}
+
+
 public class TextInterface implements UserInterface{
     private TextBoardData board=null;
     private GameController gc;
@@ -31,15 +46,15 @@ public class TextInterface implements UserInterface{
     public TextInterface(){
         size=15;
         board=new TextBoardData();
-
         printBoard();
+        getUserInput();
         
     }
 
     public TextInterface(int size){
         board=new TextBoardData(size);
-
         printBoard();
+        getUserInput();
     }
 
     public void printBoard(){
@@ -78,17 +93,19 @@ public class TextInterface implements UserInterface{
               System.out.print(" "+(i+1));
        }
         System.out.println();
-        getUserInput();
+        
     }
 
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
+        System.out.println("black="+blackHuman+ "white="+whiteHuman);
         gc.newGame(blackHuman, whiteHuman);
+        //gc.sendPlayerInput("new blackplayer=human whiteplayer");
 
     }
     @Override
     public void printText(String text){
-      
+      System.out.println("status:"+text);
     }
 
     @Override
@@ -114,6 +131,7 @@ public class TextInterface implements UserInterface{
     public String getUserInput(){
         if(!blackHuman && !whiteHuman){
             getPlayer();
+            startGame(blackHuman, whiteHuman);
         }else{
             startGame(blackHuman, whiteHuman);
         }
