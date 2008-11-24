@@ -29,7 +29,7 @@ class ValueMove extends Move{
 }
 
 public class AlphaBetaNode {
-    private float value;
+    private int positionValue;
     private List<AlphaBetaNode> children;
     private char[][] boardPosition;
     private int searchDepth;
