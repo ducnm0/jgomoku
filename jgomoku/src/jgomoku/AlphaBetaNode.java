@@ -40,6 +40,13 @@ public class AlphaBetaNode {
         searchDepth=depth;
     }
 
+
+    private void alphaBeta(char[][]bd,int alpha, int beta, int depth){
+        
+    }
+
+
+    
     public Move getBestMove(){
         Move m=new ValueMove(0,0,0);
 

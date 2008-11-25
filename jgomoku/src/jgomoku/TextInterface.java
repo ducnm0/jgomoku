@@ -46,6 +46,7 @@ public class TextInterface implements UserInterface{
     private boolean blackMove=false;
     private boolean whiteMove=false;
     private boolean isSecondPlayerHuman=false;
+    private boolean finished=false;
 
     public TextInterface(){
         size=15;
@@ -134,8 +135,8 @@ public class TextInterface implements UserInterface{
             String tmp[]=player.split(",");
             int row=Integer.parseInt(tmp[0]);
             int col=Integer.parseInt(tmp[1]);
-            if(blackMove)moveBlack(row, col);
-            else if(whiteMove)moveWhite(row, col);
+            if(blackMove)moveBlack(row-1, col-1);
+            else if(whiteMove)moveWhite(row-1, col-1);
             
         }catch(Exception e){
             System.out.println("Invalid Move");
@@ -166,7 +167,8 @@ public class TextInterface implements UserInterface{
         printBoard();
         blackMove=false;
         whiteMove=true;
-        setMoves();  
+        if(!finished)
+            setMoves();
     }
 
     @Override
@@ -176,7 +178,8 @@ public class TextInterface implements UserInterface{
         printBoard();
         whiteMove=false;
         blackMove=true;
-        setMoves();  
+        if(!finished)
+            setMoves();
     }
 
     public String getUserInput(){
@@ -271,7 +274,7 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void gameFinished(boolean blackMove , int row , int column){
-        
+        finished=true;
     }
 
     @Override
