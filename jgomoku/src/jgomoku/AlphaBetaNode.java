@@ -38,9 +38,10 @@ public class AlphaBetaNode {
     private boolean blackToMove;
     private int alpha , beta;
     private GomokuAi gAI;
-    private Move bestMove;
+    private ValueMove bestMove;
+    private ValueMove currentMove;
 
-    public AlphaBetaNode(char[][] bd , boolean blackToMove , int aplha , int beta , int depth , GomokuAi gAI){
+    public AlphaBetaNode(char[][] bd , boolean blackToMove , int alpha , int beta , int depth , GomokuAi gAI){
         boardPosition=bd;
         searchDepth=depth;
         this.blackToMove=blackToMove;
@@ -54,8 +55,12 @@ public class AlphaBetaNode {
         /*
          *
          *TODO
-         * call moveproposer
-         * recurse by creating new nodes for each move
+         * call moveproposer -> result in proposedMoves
+         * recurse by creating new nodes for each move in proposedMoves
+         *
+         * currentMove=(new AlphaBetaNode(...)).getBestMove();
+         * compare currentMove to bestMove and alphabeta
+         *
          * or calculate position value if depth is 0
          * return best move with position value attached and make alpha beta decisions
          * check for thread.interrupted and return null if so all the way up
