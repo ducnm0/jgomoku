@@ -56,13 +56,7 @@ public class AlphaBetaNode {
 
 
     private void alphaBeta(){
-        proposedMoves=gAI.proposeMoves(boardPosition, blackToMove);
-        currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
-
-        if(currentMove==null || Thread.interrupted() ){
-                bestMove=null;
-                return;
-        }
+        proposedMoves=gAI.proposeMoves(boardPosition, blackToMove);    
          if(searchDepth==0){
             int value=gAI.getPositionValue(boardPosition);
             bestMove=new ValueMove(value);
@@ -76,7 +70,7 @@ public class AlphaBetaNode {
             }else{
                boardPosition[move.row][move.column]='w';
             }
-            currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
+            currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,!blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
             boardPosition[move.row][move.column]='o';
             if(currentMove==null || Thread.interrupted()){
                 bestMove=null;
