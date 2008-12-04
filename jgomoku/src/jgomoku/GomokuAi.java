@@ -16,6 +16,8 @@
   */
 package jgomoku;
 
+import java.util.*;
+
 public class GomokuAi implements Runnable{
     private char[][] boardPosition;
     private boolean blackToMove;
@@ -41,6 +43,14 @@ public class GomokuAi implements Runnable{
         }
 
         gc.sendPlayerInput("move " + bestMove.row + " " + bestMove.column);
+    }
+
+    List<Move> proposeMoves(char[][] boardPosition , boolean blackToMove){
+        return this.moveProposer.proposeMoves(boardPosition, blackToMove);
+    }
+
+    int getPositionValue(char[][] boardPosition){
+        return this.posEval.getPositionValue(boardPosition);
     }
     
 }

@@ -58,10 +58,14 @@ public class AlphaBetaNode {
          * call moveproposer -> result in proposedMoves
          * recurse by creating new nodes for each move in proposedMoves
          *
-         * currentMove=(new AlphaBetaNode(...)).getBestMove();
-         * compare currentMove to bestMove and alphabeta
+         *      currentMove=(new AlphaBetaNode(...)).getBestMove();
+         *      compare currentMove to bestMove and alphabeta
          *
          * or calculate position value if depth is 0
+         *
+         *      
+         *
+         *
          * return best move with position value attached and make alpha beta decisions
          * check for thread.interrupted and return null if so all the way up
          *  simply:
