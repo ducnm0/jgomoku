@@ -20,15 +20,8 @@ package jgomoku;
 import java.util.*;
 
 public class GomokuMoveProposer {
-    char[][] gomokuPosition;
-    boolean blackToMove;
-    
-    GomokuMoveProposer(char[][] pos , boolean blackToMove){
-        this.gomokuPosition=pos;
-        this.blackToMove=blackToMove;
-    }
 
-    List<Move> proposeMoves(){
+    List<Move> proposeMoves(char[][] gomokuPosition , boolean blackToMove){
         List<Move> mList=new ArrayList<Move>();
         int row , column;
         Move m;

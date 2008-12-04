@@ -29,27 +29,28 @@ class ValueMove extends Move{
 }
 
 public class AlphaBetaNode {
+    
     private int positionValue;
     private List<AlphaBetaNode> children;
     private char[][] boardPosition;
     private int searchDepth;
     private List<Move> proposedMoves;
+    private boolean blackToMove;
+    private int alpha , beta;
+    private GomokuAi gAI;
+    private Move bestMove;
 
-    public AlphaBetaNode(char[][] bd , int depth){
+    public AlphaBetaNode(char[][] bd , boolean blackToMove , int aplha , int beta , int depth , GomokuAi gAI){
         boardPosition=bd;
         searchDepth=depth;
+        this.blackToMove=blackToMove;
+        this.alpha=alpha;
+        this.beta=beta;
+        this.gAI=gAI;
     }
 
 
-    private void alphaBeta(char[][]bd,int alpha, int beta, int depth){
-        
-    }
-
-
-    
-    public Move getBestMove(){
-        Move m=new ValueMove(0,0,0);
-
+    private void alphaBeta(){
         /*
          *
          *TODO
@@ -65,8 +66,13 @@ public class AlphaBetaNode {
          *(to implement stoping the thread if the user exits the current game on the ai move)
          *
          */
+    }
 
-        return m;
+
+    
+    public Move getBestMove(){
+        alphaBeta();
+        return bestMove;
     }
 
     public AlphaBetaNode(BoardData bd , List<Move> proposedMoves){

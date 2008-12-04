@@ -22,6 +22,8 @@ public class GomokuAi implements Runnable{
     private GameController gc;
     private Move bestMove;
     private int searchDepth;
+    private GomokuPositionEvaluator posEval=new GomokuPositionEvaluator();
+    private GomokuMoveProposer moveProposer=new GomokuMoveProposer();
 
     GomokuAi(char[][] position , boolean blackToMove , GameController gc , int depth){
         boardPosition=position;
@@ -32,7 +34,7 @@ public class GomokuAi implements Runnable{
 
     @Override
     public void run() {
-        bestMove=(new AlphaBetaNode(boardPosition , searchDepth)).getBestMove();
+        bestMove=(new AlphaBetaNode(boardPosition , blackToMove , 1000000 , 1000000 , searchDepth , this)).getBestMove();
 
         if(bestMove == null){
             return;
