@@ -56,6 +56,9 @@ public class AlphaBetaNode {
          *
          *TODO
          * call moveproposer -> result in proposedMoves
+         *
+         *      gAI.proposeMoves(...);
+         *
          * recurse by creating new nodes for each move in proposedMoves
          *
          *      currentMove=(new AlphaBetaNode(...)).getBestMove();
@@ -63,7 +66,7 @@ public class AlphaBetaNode {
          *
          * or calculate position value if depth is 0
          *
-         *      
+         *      gAI.getPositionValue(...);
          *
          *
          * return best move with position value attached and make alpha beta decisions
