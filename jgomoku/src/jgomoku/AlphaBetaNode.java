@@ -80,40 +80,19 @@ public class AlphaBetaNode {
                boardPosition[move.row][move.column]='w';
             }
             currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
+            boardPosition[move.row][move.column]='o';
+            if(currentMove==null){
+             if(Thread.interrupted()){
+                bestMove=null;
+                return;
+              }
+            }
             alpha=maxValue(alpha,-(int)currentMove.moveValue);
             if(beta<=alpha){
                 break;
             }
             
         }
-
-
-        /*
-         *
-         *TODO
-         * call moveproposer -> result in proposedMoves
-         *
-         *      gAI.proposeMoves(...);
-         *
-         * recurse by creating new nodes for each move in proposedMoves
-         *
-         *      currentMove=(new AlphaBetaNode(...)).getBestMove();
-         *      compare currentMove to bestMove and alphabeta
-         *
-         * or calculate position value if depth is 0
-         *
-         *      gAI.getPositionValue(...);
-         *
-         *
-         * return best move with position value attached and make alpha beta decisions
-         * check for thread.interrupted and return null if so all the way up
-         *  simply:
-         * if(Thread.interrupted){
-         *  return null
-         * }
-         *(to implement stoping the thread if the user exits the current game on the ai move)
-         *
-         */
     }
 
 
