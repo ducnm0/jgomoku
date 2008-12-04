@@ -82,7 +82,7 @@ public class AlphaBetaNode {
 
 
     
-    public Move getBestMove(){
+    public ValueMove getBestMove(){
         alphaBeta();
         return bestMove;
     }
