@@ -22,6 +22,10 @@ public class Move {
     public int column;
     public boolean isBlack;
 
+    Move(){
+        
+    }
+
     Move(int row , int column){
         this.row=row;
         this.column=column;

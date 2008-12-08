@@ -22,157 +22,264 @@ public class GomokuPositionEvaluator {
     private int size=15;
     private char[][] boardData;
 
-    public int getPositionValue(char[][] boardData){
+    public int getPositionValue(char[][] gomokuPosition){
         int row , column;
+        int length;
+        int blackStones , whiteStones;
 
-        this.boardData=boardData;
+        char[] stoneHistory=new char[15];
+        Move[] moveHistory=new Move[15];
 
-        this.checkHorizontalLine('b');
-        this.checkVerticalLine('b');
-        this.checkMainDiagonalLine('b');
-        this.checkSecondaryDiagonalLine('b');
+        int i , aux;
 
-        this.checkHorizontalLine('w');
-        this.checkVerticalLine('w');
-        this.checkMainDiagonalLine('w');
-        this.checkSecondaryDiagonalLine('w');
+
+        //all lines
+        for(row=0 ; row<size ; row++){
+            length=0;
+            blackStones=0;
+            whiteStones=0;
+            for(column=0 ; column<size ; column++){
+                length++;
+
+                switch(gomokuPosition[row][column]){
+                    case 'b':
+                        blackStones++;
+                        stoneHistory[length]='b';
+                        break;
+                    case 'w':
+                        whiteStones++;
+                        stoneHistory[length]='w';
+                        break;
+                    default:
+                        stoneHistory[length]='o';
+                }
+                moveHistory[length].row=row;
+                moveHistory[length].column=column;
+
+                if(length >= 5){
+                    if(length > 5 && stoneHistory[length - 5] == 'b'){
+                        blackStones--;
+                    }
+                    else if(length > 5 && stoneHistory[length-5] == 'w'){
+                        whiteStones--;
+                    }
+                    if(blackStones == 0 || whiteStones == 0){   
+                        if(blackStones == 0){
+                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
+                        }
+                        else{
+                            positionValue+=(3*blackStones/3)*(5-blackStones);
+                        }
+                    }
+                }
+            }
+        }
+
+        //all columns
+        for(column=0 ; column<size ; column++){
+            length=0;
+            blackStones=0;
+            whiteStones=0;
+            for(row=0 ; row<size ; row++){
+                length++;
+                switch(gomokuPosition[row][column]){
+                    case 'b':
+                        blackStones++;
+                        stoneHistory[length]='b';
+                        break;
+                    case 'w':
+                        whiteStones++;
+                        stoneHistory[length]='w';
+                        break;
+                    default:
+                        stoneHistory[length]='o';
+                }
+                moveHistory[length].row=row;
+                moveHistory[length].column=column;
+
+                if(length >= 5){
+                    if(length > 5 && stoneHistory[length - 5] == 'b'){
+                        blackStones--;
+                    }
+                    else if(length > 5 && stoneHistory[length-5] == 'w'){
+                        whiteStones--;
+                    }
+                    if(blackStones == 0 || whiteStones == 0){
+                        if(blackStones == 0){
+                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
+                        }
+                        else{
+                            positionValue+=(3*blackStones/3)*(5-blackStones);
+                        }
+                    }
+                }
+            }
+        }
+
+        //diagonals above , parallel to and including the main board matrice diagonal
+        for(aux=0 ; aux<size ; aux++){
+            length=0;
+            blackStones=0;
+            whiteStones=0;
+            for(column=size-1-aux , row=0 ; column<size ; column++ , row++){
+                length++;
+                switch(gomokuPosition[row][column]){
+                    case 'b':
+                        blackStones++;
+                        stoneHistory[length]='b';
+                        break;
+                    case 'w':
+                        whiteStones++;
+                        stoneHistory[length]='w';
+                        break;
+                    default:
+                        stoneHistory[length]='o';
+                }
+                moveHistory[length].row=row;
+                moveHistory[length].column=column;
+
+                if(length >= 5){
+                    if(length > 5 && stoneHistory[length - 5] == 'b'){
+                        blackStones--;
+                    }
+                    else if(length > 5 && stoneHistory[length-5] == 'w'){
+                        whiteStones--;
+                    }
+                    if(blackStones == 0 || whiteStones == 0){
+                        if(blackStones == 0){
+                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
+                        }
+                        else{
+                            positionValue+=(3*blackStones/3)*(5-blackStones);
+                        }
+                    }
+                }
+            }
+        }
+
+        //diagonals below and parallel to the main board matrice diagonal
+        for(aux=0 ; aux<size-1 ; aux++){
+            length=0;
+            blackStones=0;
+            whiteStones=0;
+            for(row=size-1-aux , column=0 ; row<=size-1 ; row++ , column++){
+                length++;
+                switch(gomokuPosition[row][column]){
+                    case 'b':
+                        blackStones++;
+                        stoneHistory[length]='b';
+                        break;
+                    case 'w':
+                        whiteStones++;
+                        stoneHistory[length]='w';
+                        break;
+                    default:
+                        stoneHistory[length]='o';
+                }
+                moveHistory[length].row=row;
+                moveHistory[length].column=column;
+
+                if(length >= 5){
+                    if(length > 5 && stoneHistory[length - 5] == 'b'){
+                        blackStones--;
+                    }
+                    else if(length > 5 && stoneHistory[length-5] == 'w'){
+                        whiteStones--;
+                    }
+                    if(blackStones == 0 || whiteStones == 0){
+                        if(blackStones == 0){
+                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
+                        }
+                        else{
+                            positionValue+=(3*blackStones/3)*(5-blackStones);
+                        }
+                    }
+                }
+            }
+        }
+
+        //diagonals above , parallel to and including the secondary board matrice diagonal
+        for(aux=0 ; aux<size ; aux++){
+            length=0;
+            blackStones=0;
+            whiteStones=0;
+            for(row=aux , column=0 ; row>=0 ; row-- , column++){
+                length++;
+                switch(gomokuPosition[row][column]){
+                    case 'b':
+                        blackStones++;
+                        stoneHistory[length]='b';
+                        break;
+                    case 'w':
+                        whiteStones++;
+                        stoneHistory[length]='w';
+                        break;
+                    default:
+                        stoneHistory[length]='o';
+                }
+                moveHistory[length].row=row;
+                moveHistory[length].column=column;
+
+                if(length >= 5){
+                    if(length > 5 && stoneHistory[length - 5] == 'b'){
+                        blackStones--;
+                    }
+                    else if(length > 5 && stoneHistory[length-5] == 'w'){
+                        whiteStones--;
+                    }
+                    if(blackStones == 0 || whiteStones == 0){
+                        if(blackStones == 0){
+                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
+                        }
+                        else{
+                            positionValue+=(3*blackStones/3)*(5-blackStones);
+                        }
+                    }
+                }
+            }
+        }
+
+        //diagonals below and parallel to the secondary board matrice diagonal
+        for(aux=0 ; aux<size-1 ; aux++){
+            length=0;
+            blackStones=0;
+            whiteStones=0;
+            for(column=size-1-aux , row=size-1 ; column<=size-1 ; column++ , row--){
+                length++;
+                switch(gomokuPosition[row][column]){
+                    case 'b':
+                        blackStones++;
+                        stoneHistory[length]='b';
+                        break;
+                    case 'w':
+                        whiteStones++;
+                        stoneHistory[length]='w';
+                        break;
+                    default:
+                        stoneHistory[length]='o';
+                }
+                moveHistory[length].row=row;
+                moveHistory[length].column=column;
+
+                if(length >= 5){
+                    if(length > 5 && stoneHistory[length - 5] == 'b'){
+                        blackStones--;
+                    }
+                    else if(length > 5 && stoneHistory[length-5] == 'w'){
+                        whiteStones--;
+                    }
+                    if(blackStones == 0 || whiteStones == 0){
+                        if(blackStones == 0){
+                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
+                        }
+                        else{
+                            positionValue+=(3*blackStones/3)*(5-blackStones);
+                        }
+                    }
+                }
+            }
+        }
 
         return positionValue;
-    }
-
-    private void modifyValues(int length , char side){
-        int val;
-
-        switch(length){
-            case 0:
-                return;
-            case 1:
-                return;
-            case 2:
-                if(side == 'b')positionValue+=1;
-                else positionValue-=1;
-            case 3:
-                if(side == 'b')positionValue+=3;
-                else positionValue-=3;
-            case 4:
-                if(side == 'b')positionValue+=9;
-                else positionValue-=9;
-            case 5:
-                if(side == 'b')positionValue+=5000;
-                else positionValue-=5000;
-            default:
-                if(side == 'b')positionValue+=5000;
-                else positionValue-=5000;
-        }
-    }
-
-    private void checkHorizontalLine(char side){
-        int row , column;
-        int length=0;
-
-        for(row=0 ; row<size ; row++){
-            for(column=0 ; column<size ; column++){
-                if(boardData[row][column] == side){
-                    length++;
-                }
-                else{
-                    modifyValues(length , side);
-                    length=0;
-                }
-            }
-            modifyValues(length , side);
-            length=0;
-        }
-    }
-
-    private void checkVerticalLine(char side){
-        int row , column;
-        int length=0;
-
-        for(column=0 ; column<size ; column++){
-            for(row=0 ; row<size ; row++){
-                if(boardData[row][column] == side){
-                    length++;
-                }
-                else{
-                    modifyValues(length , side);
-                    length=0;
-                }
-            }
-            modifyValues(length , side);
-            length=0;
-        }
-    }
-
-    private void checkMainDiagonalLine(char side){
-        int row , column;
-        int length=0;
-        int aux;
-
-        //diagonals above , parallel to and including the main boardData matrice diagonal
-        for(aux=0 ; aux<size ; aux++){
-            for(column=size-1-aux , row=0 ; column<size ; column++ , row++){
-                if(boardData[row][column] == side){
-                    length++;
-                }
-                else{
-                    modifyValues(length , side);
-                    length=0;
-                }
-            }
-            modifyValues(length , side);
-            length=0;
-        }
-
-        //diagonals below and parallel to the main boardData matrice diagonal
-        for(aux=0 ; aux<size-1 ; aux++){
-            for(row=size-1-aux , column=0 ; row<=size-1 ; row++ , column++){
-                if(boardData[row][column] == side){
-                    length++;
-                }
-                else{
-                    modifyValues(length , side);
-                    length=0;
-                }
-            }
-            modifyValues(length , side);
-            length=0;
-        }
-    }
-
-    private void checkSecondaryDiagonalLine(char side){
-        int row , column;
-        int length=0;
-        int aux;
-
-        //diagonals above , parallel to and including the secondary boardData matrice diagonal
-        for(aux=0 ; aux<size ; aux++){
-            for(row=aux , column=0 ; row>=0 ; row-- , column++){
-                if(boardData[row][column] == side){
-                    length++;
-                }
-                else{
-                    modifyValues(length , side);
-                    length=0;
-                }
-            }
-            modifyValues(length , side);
-            length=0;
-        }
-
-        //diagonals below and parallel to the secondary boardData matrice diagonal
-        for(aux=0 ; aux<size-1 ; aux++){
-            for(column=size-1-aux , row=size-1 ; column<=size-1 ; column++ , row--){
-                if(boardData[row][column] == side){
-                    length++;
-                }
-                else{
-                    modifyValues(length , side);
-                    length=0;
-                }
-            }
-            modifyValues(length , side);
-            length=0;
-        }
     }
 }

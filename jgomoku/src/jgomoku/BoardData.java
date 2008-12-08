@@ -18,8 +18,8 @@
 package jgomoku;
 
 public class BoardData {
-    protected static char board[][];
-    protected static int size;
+    protected char board[][];
+    protected int size;
 
     public BoardData(){
      int row , column;

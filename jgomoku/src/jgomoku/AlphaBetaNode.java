@@ -20,13 +20,13 @@ package jgomoku;
 import java.util.*;
 
 class ValueMove extends Move{
-    public float moveValue;
+    public int moveValue;
 
-    ValueMove(int row , int column , float value){
+    ValueMove(int row , int column , int value){
         super(row , column);
         moveValue=value;
     }
-    ValueMove(float value){
+    ValueMove(int value){
         super(0,0);
         moveValue=value;
     }
@@ -56,14 +56,29 @@ public class AlphaBetaNode {
 
 
     private void alphaBeta(){
-        proposedMoves=gAI.proposeMoves(boardPosition, blackToMove);    
          if(searchDepth==0){
             int value=gAI.getPositionValue(boardPosition);
             bestMove=new ValueMove(value);
+            return;
         }
 
+         if(blackToMove){
+             if((new GomokuGame(boardPosition)).checkWinner('w')){
+                 bestMove=new ValueMove(-1000000);
+                 return;
+             }
+         }
+         else{
+            if((new GomokuGame(boardPosition)).checkWinner('b')){
+                bestMove=new ValueMove(1000000);
+                return;
+            }
+         }
+
+        proposedMoves=gAI.proposeMoves(boardPosition, blackToMove);
         Iterator it=proposedMoves.iterator();
         while(it.hasNext()){
+
             Move move=(Move)it.next();
             if(blackToMove){
                boardPosition[move.row][move.column]='b';
@@ -72,10 +87,12 @@ public class AlphaBetaNode {
             }
             currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,!blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
             boardPosition[move.row][move.column]='o';
+
             if(currentMove==null || Thread.interrupted()){
                 bestMove=null;
                 return;
               }
+
             
             alpha=maxValue(alpha,-(int)currentMove.moveValue);
             if(beta<=alpha){

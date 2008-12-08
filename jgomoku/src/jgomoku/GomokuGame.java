@@ -42,6 +42,10 @@ public class GomokuGame extends BoardData{
         isGameOver=true;
     }
 
+    public GomokuGame(char[][] board){
+        this.board=board;
+    }
+
     @Override
     public boolean moveWhite(int row , int column){
         if(isGameOver){
@@ -84,7 +88,7 @@ public class GomokuGame extends BoardData{
         return gameHistory.saveGame(file);
     }
 
-    public void checkWinner(char side){
+    public boolean checkWinner(char side){
         boolean isOver=false;
         if(side != 'w'){
             if(checkHorizontalWinner('b')){
@@ -102,7 +106,7 @@ public class GomokuGame extends BoardData{
             if(isOver){
                 winner='b';
                 isGameOver=true;
-                return;
+                return true;
             }
         }
         if(side != 'b'){
@@ -121,9 +125,10 @@ public class GomokuGame extends BoardData{
             if(isOver){
                 winner='w';
                 isGameOver=true;
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     private boolean checkHorizontalWinner(char side){
@@ -255,8 +260,6 @@ public class GomokuGame extends BoardData{
     }
 
     public boolean isGameOver(){
-        gameHistory.setGameFinished();
-
         return isGameOver;
     }
 
