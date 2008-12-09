@@ -44,6 +44,7 @@ public class GomokuGame extends BoardData{
 
     public GomokuGame(char[][] board){
         this.board=board;
+        this.size=15;
     }
 
     @Override

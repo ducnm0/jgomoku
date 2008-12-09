@@ -26,7 +26,7 @@ class ValueMoveComparator implements Comparator{
         ValueMove v0=(ValueMove) arg0;
         ValueMove v1=(ValueMove) arg1;
 
-        return Math.abs(v0.moveValue)-Math.abs(v1.moveValue);
+        return Math.abs(v1.moveValue)-Math.abs(v0.moveValue); // reverse - largest is first
     }
     
 }
@@ -344,6 +344,7 @@ public class GomokuMoveProposer {
         }
 
         Collections.sort(mList, new ValueMoveComparator());
+        mList=mList.subList(0, 11);
 
         return mList;
     }

@@ -150,7 +150,7 @@ public class GraphicalInterfaceController implements UserInterface{
         graphicalInterface.nextMoveButton.setEnabled(false);
         graphicalInterface.previousMoveButton.setEnabled(false);
         graphicalInterface.loadGameButton.setEnabled(false);
-        waitForMove=true;
+        this.waitForMove=blackHuman;
         blackToMove=true;
         graphicalInterface.newGameButton.setEnabled(true);
     }

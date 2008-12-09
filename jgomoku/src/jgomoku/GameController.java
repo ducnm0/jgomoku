@@ -53,7 +53,7 @@ public class GameController {
         if(blackHuman){
             humanUserInterface.printText("waiting for black move");
         }
-        else if(whiteHuman){
+        else{
             humanUserInterface.printText("waiting for ai move");
         }
         if(t != null){
@@ -63,6 +63,10 @@ public class GameController {
         }
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
+        if(! blackHuman){
+            t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 6));
+            t.start();
+        }
         waitMove=true;
         waitBlack=true;
     }
@@ -129,7 +133,7 @@ public class GameController {
                 humanUserInterface.printText("illegal move");
             }
         }
-        else if(!waitBlack && whiteHuman){
+        else if(! waitBlack && whiteHuman){
             if(gomokuGame.moveWhite(row, column)){
                 if(gomokuGame.isGameOver()){
                     humanUserInterface.printText("white won the game");

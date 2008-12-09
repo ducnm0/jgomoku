@@ -36,7 +36,7 @@ public class GomokuAi implements Runnable{
 
     @Override
     public void run() {
-        bestMove=(new AlphaBetaNode(boardPosition , blackToMove , 1000000 , 1000000 , searchDepth , this)).getBestMove();
+        bestMove=(new AlphaBetaNode(boardPosition , blackToMove , -1000000 , 1000000 , searchDepth , this)).getBestMove();
 
         if(bestMove == null){
             return;
