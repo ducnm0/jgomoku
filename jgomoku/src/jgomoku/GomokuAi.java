@@ -19,7 +19,7 @@ package jgomoku;
 import java.util.*;
 
 public class GomokuAi implements Runnable{
-    private char[][] boardPosition;
+    private char[][] boardPosition=null;
     private boolean blackToMove;
     private GameController gc;
     private Move bestMove;

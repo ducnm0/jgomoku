@@ -20,7 +20,7 @@ public class GomokuGame extends BoardData{
 
     private char winner;
     private boolean newGame=true;
-    GomokuGameHistory gameHistory;
+    private GomokuGameHistory gameHistory;
     private boolean isGameOver;
 
     public GomokuGame(){
@@ -43,8 +43,8 @@ public class GomokuGame extends BoardData{
     }
 
     public GomokuGame(char[][] board){
+        super(15);
         this.board=board;
-        this.size=15;
     }
 
     @Override

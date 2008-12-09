@@ -34,8 +34,6 @@ class ValueMove extends Move{
 
 public class AlphaBetaNode {
     
-    private int positionValue;
-    private List<AlphaBetaNode> children;
     private char[][] boardPosition;
     private int searchDepth;
     private List<Move> proposedMoves;
@@ -57,8 +55,8 @@ public class AlphaBetaNode {
 
     private void alphaBeta(){
          if(searchDepth==0){
-            int value=gAI.getPositionValue(boardPosition);
-            bestMove=new ValueMove(value);
+            int positionValue=gAI.getPositionValue(boardPosition);
+            bestMove=new ValueMove(positionValue);
             return;
         }
 
@@ -86,9 +84,10 @@ public class AlphaBetaNode {
                boardPosition[move.row][move.column]='w';
             }
             currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,!blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
+            System.out.println(currentMove.row + currentMove.column);
             boardPosition[move.row][move.column]='o';
 
-            if(currentMove==null || Thread.interrupted()){
+            if(currentMove==null || Thread.interrupted()){    
                 bestMove=null;
                 return;
               }
@@ -100,6 +99,8 @@ public class AlphaBetaNode {
             }
             
         }
+
+        bestMove=new ValueMove(alpha);
     }
 
 

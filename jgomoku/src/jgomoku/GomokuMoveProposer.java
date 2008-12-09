@@ -55,8 +55,14 @@ public class GomokuMoveProposer {
         int blackStones;
         int whiteStones;
 
-        char[] stoneHistory=new char[15];
-        Move[] moveHistory=new Move[15];
+        nodeInfluence=new int[15][15];
+        nodeCoefficient=new int[15][15];
+
+        char[] stoneHistory=new char[20];
+        Move[] moveHistory=new Move[20];
+        for(i=0 ; i<20 ; i++){
+            moveHistory[i]=new Move();
+        }
 
         /*
         for(row=0 ; row<15 ; row++){
@@ -344,7 +350,12 @@ public class GomokuMoveProposer {
         }
 
         Collections.sort(mList, new ValueMoveComparator());
-        mList=mList.subList(0, 11);
+        if(mList.size() > 12){
+            mList=mList.subList(0, 11);
+        }
+        if(mList.size() == 0){
+            mList.add(new Move(7 , 7));
+        }
 
         return mList;
     }

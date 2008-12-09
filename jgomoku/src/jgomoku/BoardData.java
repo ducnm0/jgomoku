@@ -33,6 +33,7 @@ public class BoardData {
  }
  public BoardData(int size){
         int row , column;
+        this.size=size;
 
         board=new char[size][size];
         for(row=0 ; row<size ; row++){

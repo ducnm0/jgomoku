@@ -27,11 +27,13 @@ public class GomokuPositionEvaluator {
         int length;
         int blackStones , whiteStones;
 
-        char[] stoneHistory=new char[15];
-        Move[] moveHistory=new Move[15];
-
         int i , aux;
 
+        char[] stoneHistory=new char[20];
+        Move[] moveHistory=new Move[20];
+        for(i=0 ; i<20 ; i++){
+            moveHistory[i]=new Move();
+        }
 
         //all lines
         for(row=0 ; row<size ; row++){
@@ -280,6 +282,7 @@ public class GomokuPositionEvaluator {
             }
         }
 
+        System.out.println(positionValue);
         return positionValue;
     }
 }
