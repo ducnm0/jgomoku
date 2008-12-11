@@ -26,18 +26,13 @@ class ValueMoveComparator implements Comparator{
         ValueMove v0=(ValueMove) arg0;
         ValueMove v1=(ValueMove) arg1;
 
-        return Math.abs(v1.moveValue)-Math.abs(v0.moveValue); // reverse - largest is first
+        return v1.moveValue-v0.moveValue; // reverse - largest is first
     }
     
 }
 public class GomokuMoveProposer {
 
     private List<ValueMove> movesToPropose;
-
-    private int[][] nodeCoefficient;
-    /*
-     * number of possible winning lines that contain the node
-     */
 
     private int[][] nodeInfluence;
 
@@ -46,34 +41,66 @@ public class GomokuMoveProposer {
      * contains all five node lines that might bring a win
      */
 
-    List<Move> proposeMoves(char[][] gomokuPosition , boolean blackToMove){
-        List<Move> mList=new ArrayList<Move>();
-        int row , column;
-        int length , aux , i;
-        Move m;
+    private List<ValueMove> mList=new ArrayList<ValueMove>();
+    private int row , column;
+    private int length , aux , i;
+    private Move m;
 
-        int blackStones;
-        int whiteStones;
+    private int blackStones;
+    private int whiteStones;
 
-        nodeInfluence=new int[15][15];
-        nodeCoefficient=new int[15][15];
+    private char[] stoneHistory=new char[20];
+    private Move[] moveHistory=new Move[20];
 
-        char[] stoneHistory=new char[20];
-        Move[] moveHistory=new Move[20];
-        for(i=0 ; i<20 ; i++){
-            moveHistory[i]=new Move();
+    private char[][] gomokuPosition;
+    private boolean blackToMove;
+
+    void inLineStuff(){
+        length++;
+        switch(gomokuPosition[row][column]){
+            case 'b':
+                blackStones++;
+                break;
+            case 'w':
+                whiteStones++;
+                break;
         }
-
-        /*
-        for(row=0 ; row<15 ; row++){
-            for(column=0 ; column<15 ; column++){
-                if(gomokuPosition[row][column] == 'o'){
-                    m=new Move(row , column);
-                    mList.add(m);
+        stoneHistory[length]=gomokuPosition[row][column];
+        moveHistory[length].row=row;
+        moveHistory[length].column=column;
+        
+        if(length >= 5){
+            if(length > 5 && stoneHistory[length - 5] == 'b'){
+                blackStones--;
+            }
+            else if(length > 5 && stoneHistory[length-5] == 'w'){
+                whiteStones--;
+            }
+            if(blackStones == 0 || whiteStones == 0){
+                for(i=4 ; i >=0 ; i--){
+                    if(stoneHistory[length-i] == 'o'){
+                        nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]++;
+                    }
                 }
             }
         }
-         */
+    }
+
+    List<Move> proposeMoves(char[][] gomokuPosition , boolean blackToMove){
+        this.gomokuPosition=gomokuPosition;
+        this.blackToMove=blackToMove;
+        nodeInfluence=new int[15][15];
+        for(row=0 ; row<15 ; row++){
+            for(column=0 ; column<15 ; column++){
+                nodeInfluence[row][column]=0;
+            }
+        }
+
+        stoneHistory=new char[20];
+        moveHistory=new Move[20];
+        for(i=0 ; i<20 ; i++){
+            moveHistory[i]=new Move();
+        }
 
         //all lines
         for(row=0 ; row<size ; row++){
@@ -81,42 +108,7 @@ public class GomokuMoveProposer {
             blackStones=0;
             whiteStones=0;
             for(column=0 ; column<size ; column++){
-                length++;
-                
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        for(i=5 ; i >=0 ; i--){
-                            nodeCoefficient[moveHistory[length-i].row][moveHistory[length-i].column]++;
-                            if(blackStones == 0){
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]+3*blackStones/3;
-                            }
-                            else{
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]-3*whiteStones/3;
-                            }
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -126,41 +118,7 @@ public class GomokuMoveProposer {
             blackStones=0;
             whiteStones=0;
             for(row=0 ; row<size ; row++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        for(i=5 ; i >=0 ; i--){
-                            nodeCoefficient[moveHistory[length-i].row][moveHistory[length-i].column]++;
-                            if(blackStones == 0){
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]+3*blackStones/3;
-                            }
-                            else{
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]-3*whiteStones/3;
-                            }
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -170,41 +128,7 @@ public class GomokuMoveProposer {
             blackStones=0;
             whiteStones=0;
             for(column=size-1-aux , row=0 ; column<size ; column++ , row++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        for(i=5 ; i >=0 ; i--){
-                            nodeCoefficient[moveHistory[length-i].row][moveHistory[length-i].column]++;
-                            if(blackStones == 0){
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]+3*blackStones/3;
-                            }
-                            else{
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]-3*whiteStones/3;
-                            }
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -214,41 +138,7 @@ public class GomokuMoveProposer {
             blackStones=0;
             whiteStones=0;
             for(row=size-1-aux , column=0 ; row<=size-1 ; row++ , column++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        for(i=5 ; i >=0 ; i--){
-                            nodeCoefficient[moveHistory[length-i].row][moveHistory[length-i].column]++;
-                            if(blackStones == 0){
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]+3*blackStones/3;
-                            }
-                            else{
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]-3*whiteStones/3;
-                            }
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -258,41 +148,7 @@ public class GomokuMoveProposer {
             blackStones=0;
             whiteStones=0;
             for(row=aux , column=0 ; row>=0 ; row-- , column++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        for(i=5 ; i >=0 ; i--){
-                            nodeCoefficient[moveHistory[length-i].row][moveHistory[length-i].column]++;
-                            if(blackStones == 0){
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]+3*blackStones/3;
-                            }
-                            else{
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]-3*whiteStones/3;
-                            }
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -302,47 +158,12 @@ public class GomokuMoveProposer {
             blackStones=0;
             whiteStones=0;
             for(column=size-1-aux , row=size-1 ; column<=size-1 ; column++ , row--){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        for(i=5 ; i >=0 ; i--){
-                            nodeCoefficient[moveHistory[length-i].row][moveHistory[length-i].column]++;
-                            if(blackStones == 0){
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]+3*blackStones/3;
-                            }
-                            else{
-                                nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]=nodeInfluence[moveHistory[length-i].row][moveHistory[length-i].column]-3*whiteStones/3;
-                            }
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
         
         for(row=0 ; row<15 ; row++){
             for(column=0 ; column < 15 ; column++){
-                nodeInfluence[row][column]=nodeInfluence[row][column] * nodeCoefficient[row][column];
                 if(nodeInfluence[row][column] != 0){
                     mList.add(new ValueMove(row , column , nodeInfluence[row][column]));
                 }
@@ -353,10 +174,19 @@ public class GomokuMoveProposer {
         if(mList.size() > 12){
             mList=mList.subList(0, 11);
         }
+        /*
         if(mList.size() == 0){
-            mList.add(new Move(7 , 7));
+            mList.add(new ValueMove(7 , 7 , 0));
         }
-
-        return mList;
+*/
+        List<Move> l=new ArrayList<Move>();
+        Iterator<ValueMove> it=mList.iterator();
+        ValueMove m1;
+        while(it.hasNext()){
+            m1=it.next();
+            l.add(new Move(m1.row , m1.column));
+        }
+        
+        return l;
     }
 }

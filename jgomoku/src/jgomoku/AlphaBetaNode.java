@@ -26,10 +26,6 @@ class ValueMove extends Move{
         super(row , column);
         moveValue=value;
     }
-    ValueMove(int value){
-        super(0,0);
-        moveValue=value;
-    }
 }
 
 public class AlphaBetaNode {
@@ -56,19 +52,19 @@ public class AlphaBetaNode {
     private void alphaBeta(){
          if(searchDepth==0){
             int positionValue=gAI.getPositionValue(boardPosition);
-            bestMove=new ValueMove(positionValue);
+            bestMove=new ValueMove(-1 , -1 , positionValue);
             return;
         }
 
          if(blackToMove){
              if((new GomokuGame(boardPosition)).checkWinner('w')){
-                 bestMove=new ValueMove(-1000000);
+                 bestMove=new ValueMove(-1 , -1 , -1000000);
                  return;
              }
          }
          else{
             if((new GomokuGame(boardPosition)).checkWinner('b')){
-                bestMove=new ValueMove(1000000);
+                bestMove=new ValueMove(-1 , -1 , 1000000);
                 return;
             }
          }
@@ -84,7 +80,6 @@ public class AlphaBetaNode {
                boardPosition[move.row][move.column]='w';
             }
             currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,!blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
-            System.out.println(currentMove.row + currentMove.column);
             boardPosition[move.row][move.column]='o';
 
             if(currentMove==null || Thread.interrupted()){    
@@ -94,13 +89,17 @@ public class AlphaBetaNode {
 
             
             alpha=maxValue(alpha,-(int)currentMove.moveValue);
+            if(bestMove == null){
+                bestMove=new ValueMove(move.row , move.column , alpha);
+            }
+            else if(bestMove.moveValue != alpha){
+                bestMove.moveValue=alpha;
+            }
             if(beta<=alpha){
                 break;
             }
             
         }
-
-        bestMove=new ValueMove(alpha);
     }
 
 

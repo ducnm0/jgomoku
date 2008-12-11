@@ -22,18 +22,95 @@ public class GomokuPositionEvaluator {
     private int size=15;
     private char[][] boardData;
 
+    int row , column;
+    int length;
+    int blackStones , whiteStones;
+
+    int blackTwos;
+    int whiteTwos;
+    int blackThrees;
+    int whiteThrees;
+    int blackFours;
+    int whiteFours;
+
+    int i , aux;
+
+    char[] stoneHistory=new char[20];
+    Move[] moveHistory=new Move[20];
+
+    char[][] gomokuPosition;
+
+    private void inLineStuff(){
+        length++;
+        switch(gomokuPosition[row][column]){
+            case 'b':
+                blackStones++;
+                break;
+            case 'w':
+                whiteStones++;
+                break;
+        }
+        stoneHistory[length]=gomokuPosition[row][column];
+        moveHistory[length].row=row;
+        moveHistory[length].column=column;
+
+        if(length >= 5){
+            if(length > 5 && stoneHistory[length - 5] == 'b'){
+                blackStones--;
+            }
+            else if(length > 5 && stoneHistory[length-5] == 'w'){
+                whiteStones--;
+            }
+            if(blackStones == 0 || whiteStones == 0){
+                for(i=4 ; i >=0 ; i--){
+                    if(stoneHistory[length-i] == 'o'){
+                        if(blackStones == 0){
+                            positionValue-=3*whiteStones/3;
+                            switch(whiteStones){
+                                case 2:
+                                    whiteTwos++;
+                                    break;
+                                case 3:
+                                    whiteThrees++;
+                                    break;
+                                case 4:
+                                    whiteFours++;
+                                    break;
+                            }
+                        }
+                        else{
+                            positionValue+=3*blackStones/3;
+                            switch(blackStones){
+                                case 2:
+                                    blackTwos++;
+                                    break;
+                                case 3:
+                                    blackThrees++;
+                                    break;
+                                case 4:
+                                    blackFours++;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public int getPositionValue(char[][] gomokuPosition){
-        int row , column;
-        int length;
-        int blackStones , whiteStones;
 
-        int i , aux;
-
-        char[] stoneHistory=new char[20];
-        Move[] moveHistory=new Move[20];
+        this.gomokuPosition=gomokuPosition;
         for(i=0 ; i<20 ; i++){
             moveHistory[i]=new Move();
         }
+
+        blackTwos=0;
+        whiteTwos=0;
+        blackThrees=0;
+        whiteThrees=0;
+        blackFours=0;
+        whiteFours=0;
 
         //all lines
         for(row=0 ; row<size ; row++){
@@ -41,39 +118,7 @@ public class GomokuPositionEvaluator {
             blackStones=0;
             whiteStones=0;
             for(column=0 ; column<size ; column++){
-                length++;
-
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){   
-                        if(blackStones == 0){
-                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
-                        }
-                        else{
-                            positionValue+=(3*blackStones/3)*(5-blackStones);
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -83,38 +128,7 @@ public class GomokuPositionEvaluator {
             blackStones=0;
             whiteStones=0;
             for(row=0 ; row<size ; row++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        if(blackStones == 0){
-                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
-                        }
-                        else{
-                            positionValue+=(3*blackStones/3)*(5-blackStones);
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -124,38 +138,7 @@ public class GomokuPositionEvaluator {
             blackStones=0;
             whiteStones=0;
             for(column=size-1-aux , row=0 ; column<size ; column++ , row++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        if(blackStones == 0){
-                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
-                        }
-                        else{
-                            positionValue+=(3*blackStones/3)*(5-blackStones);
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -165,38 +148,7 @@ public class GomokuPositionEvaluator {
             blackStones=0;
             whiteStones=0;
             for(row=size-1-aux , column=0 ; row<=size-1 ; row++ , column++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        if(blackStones == 0){
-                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
-                        }
-                        else{
-                            positionValue+=(3*blackStones/3)*(5-blackStones);
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -206,38 +158,7 @@ public class GomokuPositionEvaluator {
             blackStones=0;
             whiteStones=0;
             for(row=aux , column=0 ; row>=0 ; row-- , column++){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        if(blackStones == 0){
-                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
-                        }
-                        else{
-                            positionValue+=(3*blackStones/3)*(5-blackStones);
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
@@ -247,42 +168,10 @@ public class GomokuPositionEvaluator {
             blackStones=0;
             whiteStones=0;
             for(column=size-1-aux , row=size-1 ; column<=size-1 ; column++ , row--){
-                length++;
-                switch(gomokuPosition[row][column]){
-                    case 'b':
-                        blackStones++;
-                        stoneHistory[length]='b';
-                        break;
-                    case 'w':
-                        whiteStones++;
-                        stoneHistory[length]='w';
-                        break;
-                    default:
-                        stoneHistory[length]='o';
-                }
-                moveHistory[length].row=row;
-                moveHistory[length].column=column;
-
-                if(length >= 5){
-                    if(length > 5 && stoneHistory[length - 5] == 'b'){
-                        blackStones--;
-                    }
-                    else if(length > 5 && stoneHistory[length-5] == 'w'){
-                        whiteStones--;
-                    }
-                    if(blackStones == 0 || whiteStones == 0){
-                        if(blackStones == 0){
-                            positionValue-=(3*whiteStones/3)*(5-whiteStones);
-                        }
-                        else{
-                            positionValue+=(3*blackStones/3)*(5-blackStones);
-                        }
-                    }
-                }
+                inLineStuff();
             }
         }
 
-        System.out.println(positionValue);
-        return positionValue;
+        return blackFours*100+blackThrees*10+blackTwos-whiteFours*100-whiteThrees*10-whiteTwos;
     }
 }
