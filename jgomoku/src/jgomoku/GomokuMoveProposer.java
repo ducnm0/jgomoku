@@ -19,17 +19,44 @@ package jgomoku;
 
 import java.util.*;
 
-class ValueMoveComparator implements Comparator{
+class DirectionMove extends Move{
 
-    @Override
-    public int compare(Object arg0, Object arg1) {
-        ValueMove v0=(ValueMove) arg0;
-        ValueMove v1=(ValueMove) arg1;
-
-        return v1.moveValue-v0.moveValue; // reverse - largest is first
-    }
+    private boolean isBlackConnected;
     
+    public static final char HORIZONTAL='h';
+    public static final char VERTICAL='v';
+    public static final char FIRSTDIAGONAL='f';
+    public static final char SECONDDIAGONAL='s';
+
+    private char direction;
+
+    public DirectionMove(int row , int column , boolean isBlackConnected ,  char direction){
+        super(row , column);
+        this.isBlackConnected=isBlackConnected;
+        this.direction=direction;
+    }
+
+    public boolean isBlackConnected(){
+        return isBlackConnected;
+    }
+
+    public boolean isHorizontal(){
+        return direction == 'h';
+    }
+
+    public boolean isVertical(){
+        return direction == 'v';
+    }
+
+    public boolean isFirstDiagonal(){
+        return direction == 'f';
+    }
+
+    public boolean isSecondDiagonal(){
+        return direction == 's';
+    }
 }
+
 public class GomokuMoveProposer {
 
     private List<Move> blackFoursUncapped;
@@ -49,9 +76,11 @@ public class GomokuMoveProposer {
     private List<Move> blackOnesCapped;
     private List<Move> whiteOnesCapped;
 
+    private List<DirectionMove>[][] movesLocations;
+
     private List<Move> movesToPropose;
 
-     private static int size=15;
+    private static int size=15;
 
     private List<ValueMove> mList=new ArrayList<ValueMove>();
     private int row , column;
@@ -65,7 +94,14 @@ public class GomokuMoveProposer {
     private char[][] gomokuPosition;
     private boolean blackToMove;
 
+    private char currentDirection;
+
     public GomokuMoveProposer(){
+        for(row=0 ; row<15 ; row++){
+            for(column=0 ; column<15 ; column++){
+                movesLocations[row][column]=new ArrayList<DirectionMove>();
+            }
+        }
         blackFoursUncapped=new ArrayList<Move>();
         whiteFoursUncapped=new ArrayList<Move>();
         blackFoursCapped=new ArrayList<Move>();
@@ -85,6 +121,11 @@ public class GomokuMoveProposer {
     }
 
     private void cleanUpLists(){
+        for(row=0 ; row<15 ; row++){
+            for(column=0 ; column<15 ; column++){
+                movesLocations[row][column].clear();
+            }
+        }
         blackFoursUncapped.clear();
         whiteFoursUncapped.clear();
         blackFoursCapped.clear();
@@ -345,12 +386,15 @@ public class GomokuMoveProposer {
         this.gomokuPosition=gomokuPosition;
         this.blackToMove=blackToMove;
 
+        cleanUpLists();
+
         moveHistory=new Move[20];
         for(i=0 ; i<20 ; i++){
             moveHistory[i]=new Move();
         }
 
         //all lines
+        this.currentDirection=DirectionMove.HORIZONTAL;
         for(row=0 ; row<size ; row++){
             length=0;
             blackStones=0;
@@ -362,6 +406,7 @@ public class GomokuMoveProposer {
         }
 
         //all columns
+        this.currentDirection=DirectionMove.VERTICAL;
         for(column=0 ; column<size ; column++){
             length=0;
             blackStones=0;
@@ -373,6 +418,7 @@ public class GomokuMoveProposer {
         }
 
         //diagonals above , parallel to and including the main board matrice diagonal
+        this.currentDirection=DirectionMove.FIRSTDIAGONAL;
         for(aux=0 ; aux<size ; aux++){
             length=0;
             blackStones=0;
@@ -395,6 +441,7 @@ public class GomokuMoveProposer {
         }
 
         //diagonals above , parallel to and including the secondary board matrice diagonal
+        this.currentDirection=DirectionMove.SECONDDIAGONAL;
         for(aux=0 ; aux<size ; aux++){
             length=0;
             blackStones=0;
@@ -416,25 +463,39 @@ public class GomokuMoveProposer {
             inLineStuff(true);
         }
 
+        if(blackToMove){
+            //winning moves black
+            if(! blackFoursUncapped.isEmpty()){
+                return blackFoursUncapped;
+            }
+            if(! blackFoursCapped.isEmpty()){
+                return blackFoursCapped;
+            }
+            // obligatory moves black
+            if(! whiteFoursUncapped.isEmpty()){
+                return whiteFoursUncapped;
+            }
+            if(! whiteFoursCapped.isEmpty()){
+                return whiteFoursCapped;
+            }
+        }
+        else{
+            // winning moves white
+            if(! whiteFoursUncapped.isEmpty()){
+                return whiteFoursUncapped;
+            }
+            if(! whiteFoursCapped.isEmpty()){
+                return whiteFoursCapped;
+            }
+            // obligatiry moves white
+            if(! blackFoursUncapped.isEmpty()){
+                return blackFoursUncapped;
+            }
+            if(! blackFoursCapped.isEmpty()){
+                return blackFoursCapped;
+            }
+        }
         
-
-        Collections.sort(mList, new ValueMoveComparator());
-        if(mList.size() > 12){
-            mList=mList.subList(0, 11);
-        }
-        /*
-        if(mList.size() == 0){
-            mList.add(new ValueMove(7 , 7 , 0));
-        }
-*/
-        List<Move> l=new ArrayList<Move>();
-        Iterator<ValueMove> it=mList.iterator();
-        ValueMove m1;
-        while(it.hasNext()){
-            m1=it.next();
-            l.add(new Move(m1.row , m1.column));
-        }
-        
-        return l;
+        return null;
     }
 }
