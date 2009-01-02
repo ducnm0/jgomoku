@@ -22,35 +22,55 @@ public class GomokuAi implements Runnable{
     private char[][] boardPosition=null;
     private boolean blackToMove;
     private GameController gc;
-    private Move bestMove;
+    private ValueMove bestMove;
     private int searchDepth;
     private GomokuPositionEvaluator posEval=new GomokuPositionEvaluator();
     private GomokuMoveProposer moveProposer=new GomokuMoveProposer();
+    private GomokuGame winningPosChecker;
 
     GomokuAi(char[][] position , boolean blackToMove , GameController gc , int depth){
         boardPosition=position;
         this.blackToMove=blackToMove;
         this.gc=gc;
         this.searchDepth=depth;
+        this.winningPosChecker=new GomokuGame();
     }
 
     @Override
     public void run() {
-        bestMove=(new AlphaBetaNode(boardPosition , blackToMove , -1000000 , 1000000 , searchDepth , this)).getBestMove();
+        bestMove=(new AlphaBetaNode(boardPosition , blackToMove , -4000000 , 4000000 , searchDepth , this)).getBestMove();
 
         if(bestMove == null){
             return;
         }
-
+/*
+        gc.notifyFromAi();
+        try{
+            Thread.sleep(0);
+        }
+        catch(Exception e){
+        }*/
         gc.sendPlayerInput("move " + bestMove.row + " " + bestMove.column);
+        System.out.print("thread exiting");
     }
 
+    //used by gamecontroller
+    public Move getAiMove(){
+        return bestMove;
+    }
+
+    //used only by alphabetanode
     List<Move> proposeMoves(char[][] boardPosition , boolean blackToMove){
         return this.moveProposer.proposeMoves(boardPosition, blackToMove);
     }
 
+    //used only by alphabetanode
+    boolean isGameOver(char[][] boardPosition , char side){
+        return winningPosChecker.resetAndCheckBoardPosition(boardPosition , side);
+    }
+
+    //used only by alphabetanode
     int getPositionValue(char[][] boardPosition){
         return this.posEval.getPositionValue(boardPosition);
     }
-    
 }

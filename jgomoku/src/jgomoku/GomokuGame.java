@@ -271,7 +271,7 @@ public class GomokuGame extends BoardData{
         return false;
     }
 
-    char[][] exportPositionToAi(){
+    public char[][] exportPositionToAi(){
         int row , column;
         char[][] bd=new char[size][size];
 
@@ -282,5 +282,13 @@ public class GomokuGame extends BoardData{
         }
 
         return bd;
+    }
+
+    public boolean resetAndCheckBoardPosition(char[][] boardPosition , char side){
+        this.board=boardPosition;
+        if(checkWinner(side)){
+            return true;
+        }
+        return false;
     }
 }

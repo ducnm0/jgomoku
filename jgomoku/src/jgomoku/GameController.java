@@ -14,11 +14,12 @@
   * limitations under the License.
   *
   */
+
 package jgomoku;
 
 import java.util.*;
 
-public class GameController {
+public class GameController/* extends TimerTask*/{
     private GomokuGame gomokuGame;
     private UserInterface humanUserInterface;
     private boolean blackHuman , whiteHuman;
@@ -27,8 +28,20 @@ public class GameController {
     private boolean waitBlack;
     private boolean doingReplay;
     private GomokuAi ai;
-    Thread t;
+    private Thread t;
+    /*
+    private boolean notifiedByAi;
+    private TimerTask querryAiMove;
+    private Timer hundredms;
 
+    private void timerSetup(){
+        
+    }
+
+    private void timerCancel(){
+        hundredms.cancel();
+    }
+*/
     GameController(){
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
         humanUserInterface.setCallback(this);
@@ -63,12 +76,12 @@ public class GameController {
         }
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
-        if(! blackHuman){
-            t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 2));
-            t.start();
-        }
         waitMove=true;
         waitBlack=true;
+        if(! blackHuman){
+            t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 4));
+            t.start();
+        }
     }
     
     public boolean removeOldGame(){
@@ -107,8 +120,14 @@ public class GameController {
     }
 
     private void makeMove(int row , int column){
-        if(! waitMove){
+        if(! this.waitMove){
             System.out.println("error not waiting move");
+            if(waitMove == true){
+                System.out.println("wait move true");
+            }
+            else if(waitMove == false){
+                System.out.println("wait move false");
+            }
             return;
         }
         if(waitBlack && blackHuman){
@@ -126,6 +145,9 @@ public class GameController {
                 else{
                     humanUserInterface.printText("waiting for ai move");
                     humanUserInterface.waitAiMove(true , row , column);
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 4));
+                    waitBlack=! waitBlack;
+                    t.start();
                 }
                 waitBlack=false;
             }
@@ -148,6 +170,9 @@ public class GameController {
                 else{
                     humanUserInterface.printText("waiting for ai move");
                     humanUserInterface.waitAiMove(false , row , column);
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 4));
+                    waitBlack=! waitBlack;
+                    t.start();
                 }
                 waitBlack=true;
             }
@@ -169,9 +194,10 @@ public class GameController {
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 2));
-                    t.start();
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 4));
                     humanUserInterface.waitAiMove(true, row, column);
+                    waitBlack=false;
+                    t.start();
                 }
                 waitBlack=false;
             }
@@ -179,7 +205,7 @@ public class GameController {
                 humanUserInterface.printText("illegal ai move");
             }
         }
-        else if(! waitBlack && ! blackHuman){
+        else if(! waitBlack && ! whiteHuman){
             if(gomokuGame.moveWhite(row, column)){
                 if(gomokuGame.isGameOver()){
                     humanUserInterface.printText("white won the game");
@@ -193,9 +219,10 @@ public class GameController {
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 2));
-                    t.start();
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 4));
                     humanUserInterface.waitAiMove(false, row, column);
+                    waitBlack=true;
+                    t.start();
                 }
                 waitBlack=true;
             }
@@ -353,4 +380,19 @@ public class GameController {
             saveGame(token);
         }
     }
+/*
+    public void notifyFromAi(){
+        this.notifiedByAi=true;
+    }
+
+    private void timerCallback(){
+        this.timerCancel();
+        
+    }
+
+    @Override
+    public void run() {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+ */
 }

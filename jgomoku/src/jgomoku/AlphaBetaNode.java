@@ -57,23 +57,26 @@ public class AlphaBetaNode {
         }
 
          if(blackToMove){
-             if((new GomokuGame(boardPosition)).checkWinner('w')){
+             if(gAI.isGameOver(boardPosition, 'w')
+                     /*(new GomokuGame(boardPosition)).checkWinner('w')*/){
                  bestMove=new ValueMove(-1 , -1 , -1000000);
                  return;
              }
          }
          else{
-            if((new GomokuGame(boardPosition)).checkWinner('b')){
+            if(gAI.isGameOver(boardPosition , 'b')
+                    /* (new GomokuGame(boardPosition)).checkWinner('b')*/){
                 bestMove=new ValueMove(-1 , -1 , 1000000);
                 return;
             }
          }
 
         proposedMoves=gAI.proposeMoves(boardPosition, blackToMove);
-        Iterator it=proposedMoves.iterator();
+        Iterator<Move> it=proposedMoves.iterator();
+        Move move;
         while(it.hasNext()){
 
-            Move move=(Move)it.next();
+            move=it.next();
             if(blackToMove){
                boardPosition[move.row][move.column]='b';
             }else{
@@ -101,8 +104,6 @@ public class AlphaBetaNode {
             
         }
     }
-
-
     
     public ValueMove getBestMove(){
         alphaBeta();

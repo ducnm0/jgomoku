@@ -23,7 +23,6 @@ public class Move {
     public boolean isBlack;
 
     Move(){
-        
     }
 
     Move(int row , int column){
