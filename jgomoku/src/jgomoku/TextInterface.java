@@ -278,11 +278,13 @@ public class TextInterface implements UserInterface{
     public void waitAiMove(boolean blackMove , int row , int column){
         System.out.println("Ai move="+blackMove+ " row="+row+" column="+column);
         if(blackMove){
-            moveBlack(row-1 , column-1);
+            boardData.moveBlack(row-1, column-1);
+
         }
         else{
-            moveWhite(row-1 , column-1);
+            boardData.moveWhite(row-1, column-1);
         }
+        gc.sendPlayerInput("move " + row + " " + column);
     }
 
     @Override
