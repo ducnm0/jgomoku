@@ -146,8 +146,6 @@ public class TextInterface implements UserInterface{
             String tmp[]=player.split(",");
             int row=Integer.parseInt(tmp[0]);
             int col=Integer.parseInt(tmp[1]);
-//            if(blackMove)moveBlack(row-1, col-1);
-//            else moveWhite(row-1, col-1);
             gc.sendPlayerInput("move " + row + " " + col);
             
         }catch(Exception e){
@@ -270,8 +268,8 @@ public class TextInterface implements UserInterface{
     @Override
     public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
         System.out.println("Get white Move ="+boardData.getValue(blackMoveRow, blackMoveColumn));
-        blackMove=true;
         boardData.moveBlack(blackMoveRow-1, blackMoveColumn-1);
+        blackMove=true;
         getUserMove();
 
     }
