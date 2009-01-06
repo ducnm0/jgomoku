@@ -102,6 +102,12 @@ public class TextInterface implements UserInterface{
 
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
+        if(!blackHuman && !whiteHuman){
+            getPlayer();
+            getSecondPlayerStatus();
+        }
+
+
         if((blackHuman && isSecondPlayerHuman) || (whiteHuman && isSecondPlayerHuman)){
             gc.sendPlayerInput("new human human");
         }else{
@@ -175,14 +181,7 @@ public class TextInterface implements UserInterface{
     }
 
     public String getUserInput(){
-        if(!blackHuman && !whiteHuman){
-            getPlayer();
-            getSecondPlayerStatus();
-            startGame(blackHuman, whiteHuman);
-        }else{
-            startGame(blackHuman, whiteHuman);
-        }
-
+        startGame(false,false);
         return "";
     }
     public void getPlayer(){
