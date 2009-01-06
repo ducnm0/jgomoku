@@ -146,8 +146,9 @@ public class TextInterface implements UserInterface{
             String tmp[]=player.split(",");
             int row=Integer.parseInt(tmp[0]);
             int col=Integer.parseInt(tmp[1]);
-            if(blackMove)moveBlack(row-1, col-1);
-            else moveWhite(row-1, col-1);
+//            if(blackMove)moveBlack(row-1, col-1);
+//            else moveWhite(row-1, col-1);
+            gc.sendPlayerInput("move " + row + " " + col);
             
         }catch(Exception e){
             System.out.println("Invalid Move");
@@ -183,8 +184,6 @@ public class TextInterface implements UserInterface{
         System.out.println("Move White");
         boardData.moveWhite(row, column);
         gc.sendPlayerInput("move " + row + " " + column);
- 
-
     }
 
     public String getUserInput(){
@@ -265,16 +264,18 @@ public class TextInterface implements UserInterface{
     public void getBlackMove(int whiteMoveRow , int whiteMoveColumn){
         System.out.println("Get Black Move ="+boardData.getValue(whiteMoveRow, whiteMoveColumn));
         blackMove=false;
+        moveWhite(whiteMoveRow-1 , whiteMoveColumn-1);
         getUserMove();
-        moveWhite(whiteMoveRow , whiteMoveColumn);
+        
     }
 
     @Override
     public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
         System.out.println("Get white Move ="+boardData.getValue(blackMoveRow, blackMoveColumn));
         blackMove=true;
+        moveBlack(blackMoveRow-1 , blackMoveColumn-1);
         getUserMove();
-        moveBlack(blackMoveRow , blackMoveColumn);
+
     }
 
     @Override
