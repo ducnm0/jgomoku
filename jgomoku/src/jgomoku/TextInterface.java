@@ -111,28 +111,15 @@ public class TextInterface implements UserInterface{
         System.out.println("Start game");
         if(blackHuman){
             blackMove=false;
-            setMoves();
+            getUserMove();
         }else{
             blackMove=true;
-            setMoves();
+            getUserMove();
         }
         
 
     }
-    private void setMoves(){
-        if(blackMove){
-            getUserMove();
-        }else{
-            if(isSecondPlayerHuman){
-                blackMove=false;
-                getUserMove();
-            }else{
-               
-                getUserMove();
-            }
-           
-        }
-    }
+    
     private void getUserMove(){
         printBoard();
         if(blackMove)System.out.println("Enter black move <row,col>=");
@@ -157,7 +144,13 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void printText(String text){
-      System.out.println("status:"+text);
+         System.out.println("status:"+text);
+        if(text.equals("illegal move")){
+            getUserInput();
+        }else if(text.equals("illegal ai move")){
+            System.exit(1);
+        }
+     
     }
 
     @Override
@@ -279,7 +272,6 @@ public class TextInterface implements UserInterface{
         System.out.println("Ai move="+blackMove+ " row="+row+" column="+column);
         if(blackMove){
             boardData.moveBlack(row-1, column-1);
-
         }
         else{
             boardData.moveWhite(row-1, column-1);
