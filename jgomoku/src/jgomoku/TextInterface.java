@@ -112,7 +112,8 @@ public class TextInterface implements UserInterface{
             setMoves();
         }else{
             waitForMove=true;
-            System.out.println("Whait for inteligence to move");
+            System.out.println("Wait for inteligence to move");
+            setMoves();
         }
         
 
@@ -121,10 +122,11 @@ public class TextInterface implements UserInterface{
         if(blackMove){
             getUserMove();
         }else{
-            if(isSecondPlayerHuman)
-                getUserMove();
-            else{
+            if(isSecondPlayerHuman){
                 blackMove=false;
+                getUserMove();
+            }else{
+               
                 getUserMove();
             }
            
@@ -144,7 +146,7 @@ public class TextInterface implements UserInterface{
             int row=Integer.parseInt(tmp[0]);
             int col=Integer.parseInt(tmp[1]);
             if(blackMove)moveBlack(row-1, col-1);
-            else if(whiteMove)moveWhite(row-1, col-1);
+            else moveWhite(row-1, col-1);
             
         }catch(Exception e){
             System.out.println("Invalid Move");
@@ -170,6 +172,7 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void moveBlack(int row , int column){
+        System.out.println("Move Black");
         gc.sendPlayerInput("move " + row + " " + column);
         boardData.moveBlack(row, column);
         printBoard();
@@ -181,6 +184,7 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void moveWhite(int row , int column){
+        System.out.println("Move White");
         gc.sendPlayerInput("move " + row + " " + column);
         boardData.moveBlack(row, column);
         printBoard();
@@ -266,12 +270,14 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void getBlackMove(int whiteMoveRow , int whiteMoveColumn){
-        
+        System.out.println("Get Black Move");
+        //moveWhite(whiteMoveRow , whiteMoveColumn);
     }
 
     @Override
     public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
-
+        System.out.println("Get white Move");
+        //moveBlack(blackMoveRow , blackMoveColumn);
     }
 
     @Override
@@ -279,10 +285,10 @@ public class TextInterface implements UserInterface{
         System.out.println("Ai move="+blackMove+ " row="+row+" column="+column);
         waitForMove=false;
         if(blackMove){
-            moveBlack(row-1 , column-1);
+            moveBlack(row , column);
         }
         else{
-            moveWhite(row-1 , column-1);
+            moveWhite(row , column);
         }
     }
 
