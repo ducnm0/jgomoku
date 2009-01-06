@@ -174,16 +174,13 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void moveBlack(int row , int column){
-        System.out.println("Move Black");
-        boardData.moveBlack(row, column);
-        //gc.sendPlayerInput("move " + row + " " + column);
+
+       
     }
 
     @Override
     public void moveWhite(int row , int column){
-        System.out.println("Move White");
-        boardData.moveWhite(row, column);
-       // gc.sendPlayerInput("move " + row + " " + column);
+
     }
 
     public String getUserInput(){
@@ -264,7 +261,8 @@ public class TextInterface implements UserInterface{
     public void getBlackMove(int whiteMoveRow , int whiteMoveColumn){
         System.out.println("Get Black Move ="+boardData.getValue(whiteMoveRow, whiteMoveColumn));
         blackMove=false;
-        moveWhite(whiteMoveRow-1 , whiteMoveColumn-1);
+        System.out.println("Move White");
+        boardData.moveWhite(whiteMoveRow-1, whiteMoveColumn-1);
         getUserMove();
         
     }
@@ -273,7 +271,7 @@ public class TextInterface implements UserInterface{
     public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
         System.out.println("Get white Move ="+boardData.getValue(blackMoveRow, blackMoveColumn));
         blackMove=true;
-        moveBlack(blackMoveRow-1 , blackMoveColumn-1);
+        boardData.moveBlack(blackMoveRow-1, blackMoveColumn-1);
         getUserMove();
 
     }
