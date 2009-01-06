@@ -45,6 +45,7 @@ public class TextInterface implements UserInterface{
     private boolean whiteHuman=false;
     private boolean blackMove=false;
     private boolean whiteMove=false;
+    private boolean waitForMove;
     private boolean isSecondPlayerHuman=false;
     private boolean finished=false;
 
@@ -110,6 +111,7 @@ public class TextInterface implements UserInterface{
             blackMove=true;
             setMoves();
         }else{
+            waitForMove=true;
             System.out.println("Whait for inteligence to move");
         }
         
@@ -119,7 +121,13 @@ public class TextInterface implements UserInterface{
         if(blackMove){
             getUserMove();
         }else{
-            getUserMove();
+            if(isSecondPlayerHuman)
+                getUserMove();
+            else{
+                blackMove=false;
+                getUserMove();
+            }
+           
         }
     }
     private void getUserMove(){
@@ -183,7 +191,6 @@ public class TextInterface implements UserInterface{
     }
 
     public String getUserInput(){
-
         if(!blackHuman && !whiteHuman){
             getPlayer();
             getSecondPlayerStatus();
@@ -269,7 +276,14 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void waitAiMove(boolean blackMove , int row , int column){
-        
+        System.out.println("Ai move="+blackMove+ " row="+row+" column="+column);
+        waitForMove=false;
+        if(blackMove){
+            moveBlack(row-1 , column-1);
+        }
+        else{
+            moveWhite(row-1 , column-1);
+        }
     }
 
     @Override
