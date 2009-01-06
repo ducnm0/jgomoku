@@ -176,14 +176,14 @@ public class TextInterface implements UserInterface{
     public void moveBlack(int row , int column){
         System.out.println("Move Black");
         boardData.moveBlack(row, column);
-        gc.sendPlayerInput("move " + row + " " + column);
+        //gc.sendPlayerInput("move " + row + " " + column);
     }
 
     @Override
     public void moveWhite(int row , int column){
         System.out.println("Move White");
         boardData.moveWhite(row, column);
-        gc.sendPlayerInput("move " + row + " " + column);
+       // gc.sendPlayerInput("move " + row + " " + column);
     }
 
     public String getUserInput(){
