@@ -61,6 +61,7 @@ public class TextInterface implements UserInterface{
     }
 
     public void printBoard(){
+
        System.out.print(" ");
        for(int i=0;i<size;i++){
            if(i<10)
@@ -107,12 +108,12 @@ public class TextInterface implements UserInterface{
             if(blackHuman)gc.sendPlayerInput("new human computer");
             else gc.sendPlayerInput("new computer human");
         }
+        System.out.println("Start game");
         if(blackHuman){
-            blackMove=true;
+            blackMove=false;
             setMoves();
         }else{
-            waitForMove=true;
-            System.out.println("Wait for inteligence to move");
+            blackMove=true;
             setMoves();
         }
         
@@ -173,25 +174,17 @@ public class TextInterface implements UserInterface{
     @Override
     public void moveBlack(int row , int column){
         System.out.println("Move Black");
-        gc.sendPlayerInput("move " + row + " " + column);
         boardData.moveBlack(row, column);
-        printBoard();
-        blackMove=false;
-        whiteMove=true;
-        if(!finished)
-            setMoves();
+        gc.sendPlayerInput("move " + row + " " + column);
     }
 
     @Override
     public void moveWhite(int row , int column){
         System.out.println("Move White");
+        boardData.moveWhite(row, column);
         gc.sendPlayerInput("move " + row + " " + column);
-        boardData.moveBlack(row, column);
-        printBoard();
-        whiteMove=false;
-        blackMove=true;
-        if(!finished)
-            setMoves();
+ 
+
     }
 
     public String getUserInput(){
@@ -270,25 +263,28 @@ public class TextInterface implements UserInterface{
 
     @Override
     public void getBlackMove(int whiteMoveRow , int whiteMoveColumn){
-        System.out.println("Get Black Move");
-        //moveWhite(whiteMoveRow , whiteMoveColumn);
+        System.out.println("Get Black Move ="+boardData.getValue(whiteMoveRow, whiteMoveColumn));
+        blackMove=false;
+        getUserMove();
+        moveWhite(whiteMoveRow , whiteMoveColumn);
     }
 
     @Override
     public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
-        System.out.println("Get white Move");
-        //moveBlack(blackMoveRow , blackMoveColumn);
+        System.out.println("Get white Move ="+boardData.getValue(blackMoveRow, blackMoveColumn));
+        blackMove=true;
+        getUserMove();
+        moveBlack(blackMoveRow , blackMoveColumn);
     }
 
     @Override
     public void waitAiMove(boolean blackMove , int row , int column){
         System.out.println("Ai move="+blackMove+ " row="+row+" column="+column);
-        waitForMove=false;
         if(blackMove){
-            moveBlack(row , column);
+            moveBlack(row-1 , column-1);
         }
         else{
-            moveWhite(row , column);
+            moveWhite(row-1 , column-1);
         }
     }
 
