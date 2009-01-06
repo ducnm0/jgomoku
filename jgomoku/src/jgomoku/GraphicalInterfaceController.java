@@ -41,6 +41,15 @@ class LocalBoardData extends BoardData{
         }
         return false;
     }
+
+    public void reset(){
+        int row , column;
+        for(row=0 ; row<this.size ; row++){
+            for(column=0 ; column<this.size ; column++){
+                this.board[row][column]='o';
+            }
+        }
+    }
 }
 
 public class GraphicalInterfaceController implements UserInterface{
@@ -108,15 +117,13 @@ public class GraphicalInterfaceController implements UserInterface{
         waitForMove=true;
         blackToMove=true;
         moveWhite(whiteMoveRow , whiteMoveColumn);
-        formerDrawn=false;
     }
 
     @Override
     public void getWhiteMove(int blackMoveRow , int blackMoveColumn){
+        moveBlack(blackMoveRow , blackMoveColumn);
         waitForMove=true;
         blackToMove=false;
-        moveBlack(blackMoveRow , blackMoveColumn);
-        formerDrawn=false;
     }
 
     @Override
@@ -128,11 +135,13 @@ public class GraphicalInterfaceController implements UserInterface{
         else{
             moveWhite(row , column);
         }
+        blackToMove=! blackToMove;
     }
 
     @Override
     public void gameFinished(boolean blackMove , int row , int column){
         waitForMove=false;
+        this.boardData.reset();
         if(blackMove){
             moveBlack(row , column);
         }
@@ -145,7 +154,6 @@ public class GraphicalInterfaceController implements UserInterface{
     }
 
     public void startGame(boolean blackHuman , boolean whiteHuman){
-        gc.newGame(blackHuman, whiteHuman);
         graphicalInterface.startGameButton.setEnabled(false);
         graphicalInterface.nextMoveButton.setEnabled(false);
         graphicalInterface.previousMoveButton.setEnabled(false);
@@ -153,6 +161,7 @@ public class GraphicalInterfaceController implements UserInterface{
         this.waitForMove=blackHuman;
         blackToMove=true;
         graphicalInterface.newGameButton.setEnabled(true);
+        gc.newGame(blackHuman, whiteHuman); // last for thread safety
     }
 
     public void mouseMoved(int row , int column){
@@ -196,7 +205,12 @@ public class GraphicalInterfaceController implements UserInterface{
 
     public void mouseClicked(int row , int column){
         if(waitForMove){
-            gc.sendPlayerInput("move " + row + " " + column);
+            if(boardData.isBlanck(row, column) ||
+                    (row == formerRow && column == formerColumn)){
+
+                this.formerDrawn=false;
+                gc.sendPlayerInput("move " + row + " " + column);
+            }
         }
     }
 
@@ -217,6 +231,8 @@ public class GraphicalInterfaceController implements UserInterface{
             graphicalInterface.drawAllBackgroundCells();
             graphicalInterface.startGameButton.setEnabled(true);
             graphicalInterface.loadGameButton.setEnabled(true);
+            this.waitForMove=false;
+            this.boardData.reset();
         }
         
     }

@@ -27,21 +27,8 @@ public class GameController/* extends TimerTask*/{
     private boolean waitMove;
     private boolean waitBlack;
     private boolean doingReplay;
-    private GomokuAi ai;
     private Thread t;
-    /*
-    private boolean notifiedByAi;
-    private TimerTask querryAiMove;
-    private Timer hundredms;
-
-    private void timerSetup(){
-        
-    }
-
-    private void timerCancel(){
-        hundredms.cancel();
-    }
-*/
+    
     GameController(){
         humanUserInterface=new GraphicalInterfaceController(15 , 15);
         humanUserInterface.setCallback(this);
@@ -76,18 +63,18 @@ public class GameController/* extends TimerTask*/{
         }
         this.blackHuman=blackHuman;
         this.whiteHuman=whiteHuman;
-        waitMove=true;
-        waitBlack=true;
+        this.waitMove=true;
+        this.waitBlack=true;
         if(! blackHuman){
-            t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 4));
+            t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 2));
             t.start();
         }
     }
     
     public boolean removeOldGame(){
-        if(waitMove || doingReplay){
-            waitMove=false;
-            doingReplay=false;
+        if(this.waitMove || this.doingReplay){
+            this.waitMove=false;
+            this.doingReplay=false;
 
             return true;
         }
@@ -96,11 +83,11 @@ public class GameController/* extends TimerTask*/{
     }
 
     private void saveGame(String fileName){
-        if(gomokuGame.saveGame(fileName)){
-            humanUserInterface.printText("game saved");
+        if(this.gomokuGame.saveGame(fileName)){
+            this.humanUserInterface.printText("game saved");
         }
         else{
-            humanUserInterface.printText("game saving failed");
+            this.humanUserInterface.printText("game saving failed");
         }
     }
 
@@ -122,12 +109,6 @@ public class GameController/* extends TimerTask*/{
     private void makeMove(int row , int column){
         if(! this.waitMove){
             System.out.println("error not waiting move");
-            if(waitMove == true){
-                System.out.println("wait move true");
-            }
-            else if(waitMove == false){
-                System.out.println("wait move false");
-            }
             return;
         }
         if(waitBlack && blackHuman){
@@ -137,19 +118,21 @@ public class GameController/* extends TimerTask*/{
                     humanUserInterface.gameFinished(true , row , column);
                     doingReplay=true;
                     waitMove=false;
+                    waitBlack=false;
                 }
                 else if(whiteHuman){
                     humanUserInterface.printText("waiting for white move");
                     humanUserInterface.getWhiteMove(row , column);
+                    waitBlack=false;
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
                     humanUserInterface.waitAiMove(true , row , column);
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 4));
-                    waitBlack=! waitBlack;
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 2));
+                    waitBlack=false;
                     t.start();
                 }
-                waitBlack=false;
+                //waitBlack=false;-moved into to if elses
             }
             else{
                 humanUserInterface.printText("illegal move");
@@ -162,19 +145,21 @@ public class GameController/* extends TimerTask*/{
                     humanUserInterface.gameFinished(false , row , column);
                     doingReplay=true;
                     waitMove=false;
+                    waitBlack=true;
                 }
                 else if(blackHuman){
                     humanUserInterface.printText("waiting for black move");
                     humanUserInterface.getBlackMove(row , column);
+                    waitBlack=true;
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
                     humanUserInterface.waitAiMove(false , row , column);
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 4));
-                    waitBlack=! waitBlack;
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 2));
+                    waitBlack=true;
                     t.start();
                 }
-                waitBlack=true;
+                //waitBlack=true;-moved into the if elses
             }
             else{
                 humanUserInterface.printText("illegal move");
@@ -187,19 +172,21 @@ public class GameController/* extends TimerTask*/{
                     humanUserInterface.gameFinished(true , row , column);
                     doingReplay=true;
                     waitMove=false;
+                    waitBlack=false;
                 }
                 else if(whiteHuman){
                     humanUserInterface.printText("waiting for white move");
                     humanUserInterface.getWhiteMove(row, column);
+                    waitBlack=false;
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 4));
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , false , this , 2));
                     humanUserInterface.waitAiMove(true, row, column);
                     waitBlack=false;
                     t.start();
                 }
-                waitBlack=false;
+                //waitBlack=false;-moved into the if elses
             }
             else{
                 humanUserInterface.printText("illegal ai move");
@@ -212,19 +199,21 @@ public class GameController/* extends TimerTask*/{
                     humanUserInterface.gameFinished(false, row, column);
                     doingReplay=true;
                     waitMove=false;
+                    waitBlack=true;
                 }
                 else if(blackHuman){
                     humanUserInterface.printText("waiting for black move");
                     humanUserInterface.getBlackMove(row, column);
+                    waitBlack=true;
                 }
                 else{
                     humanUserInterface.printText("waiting for ai move");
-                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 4));
+                    t=new Thread(new GomokuAi(gomokuGame.exportPositionToAi() , true , this , 2));
                     humanUserInterface.waitAiMove(false, row, column);
                     waitBlack=true;
                     t.start();
                 }
-                waitBlack=true;
+                //waitBlack=true;-moved to the if elses
             }
             else{
                 humanUserInterface.printText("illegal ai move");
@@ -380,19 +369,4 @@ public class GameController/* extends TimerTask*/{
             saveGame(token);
         }
     }
-/*
-    public void notifyFromAi(){
-        this.notifiedByAi=true;
-    }
-
-    private void timerCallback(){
-        this.timerCancel();
-        
-    }
-
-    @Override
-    public void run() {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
- */
 }

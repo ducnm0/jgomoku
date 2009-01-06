@@ -30,8 +30,9 @@ public class BoardData {
                 board[row][column]='o';
             }
         }
- }
- public BoardData(int size){
+    }
+    
+    public BoardData(int size){
         int row , column;
         this.size=size;
 

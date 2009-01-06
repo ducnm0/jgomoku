@@ -82,10 +82,6 @@ public class GomokuGameHistory {
         
         return m;
     }
-    
-    public void advanceMove(){
-        
-    }
 
     public boolean loadGame(String filename){
         try {

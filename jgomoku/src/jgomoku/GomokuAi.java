@@ -14,6 +14,7 @@
   * limitations under the License.
   *
   */
+
 package jgomoku;
 
 import java.util.*;
@@ -28,7 +29,8 @@ public class GomokuAi implements Runnable{
     private GomokuMoveProposer moveProposer=new GomokuMoveProposer();
     private GomokuGame winningPosChecker;
 
-    GomokuAi(char[][] position , boolean blackToMove , GameController gc , int depth){
+    GomokuAi(char[][] position , boolean blackToMove , GameController gc ,
+            int depth){
         boardPosition=position;
         this.blackToMove=blackToMove;
         this.gc=gc;
@@ -38,25 +40,18 @@ public class GomokuAi implements Runnable{
 
     @Override
     public void run() {
-        bestMove=(new AlphaBetaNode(boardPosition , blackToMove , -4000000 , 4000000 , searchDepth , this)).getBestMove();
+        bestMove=(new AlphaBetaNode(boardPosition , blackToMove , -1000000 ,
+                1000000 , searchDepth , this)).getBestMove();
 
         if(bestMove == null){
             return;
         }
-/*
-        gc.notifyFromAi();
-        try{
-            Thread.sleep(0);
-        }
-        catch(Exception e){
-        }*/
-        gc.sendPlayerInput("move " + bestMove.row + " " + bestMove.column);
-        System.out.print("thread exiting");
-    }
 
-    //used by gamecontroller
-    public Move getAiMove(){
-        return bestMove;
+        if(Thread.interrupted()){
+            return;
+        }
+        
+        gc.sendPlayerInput("move " + bestMove.row + " " + bestMove.column);
     }
 
     //used only by alphabetanode
@@ -71,6 +66,6 @@ public class GomokuAi implements Runnable{
 
     //used only by alphabetanode
     int getPositionValue(char[][] boardPosition){
-        return this.posEval.getPositionValue(boardPosition);
+        return this.posEval.getPositionValue(boardPosition , blackToMove);
     }
 }

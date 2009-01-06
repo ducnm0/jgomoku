@@ -39,7 +39,8 @@ public class AlphaBetaNode {
     private ValueMove bestMove;
     private ValueMove currentMove;
 
-    public AlphaBetaNode(char[][] bd , boolean blackToMove , int alpha , int beta , int depth , GomokuAi gAI){
+    public AlphaBetaNode(char[][] bd , boolean blackToMove , int alpha ,
+            int beta , int depth , GomokuAi gAI){
         boardPosition=bd;
         searchDepth=depth;
         this.blackToMove=blackToMove;
@@ -57,15 +58,13 @@ public class AlphaBetaNode {
         }
 
          if(blackToMove){
-             if(gAI.isGameOver(boardPosition, 'w')
-                     /*(new GomokuGame(boardPosition)).checkWinner('w')*/){
+             if(gAI.isGameOver(boardPosition, 'w')){
                  bestMove=new ValueMove(-1 , -1 , -1000000);
                  return;
              }
          }
          else{
-            if(gAI.isGameOver(boardPosition , 'b')
-                    /* (new GomokuGame(boardPosition)).checkWinner('b')*/){
+            if(gAI.isGameOver(boardPosition , 'b')){
                 bestMove=new ValueMove(-1 , -1 , 1000000);
                 return;
             }
@@ -82,7 +81,8 @@ public class AlphaBetaNode {
             }else{
                boardPosition[move.row][move.column]='w';
             }
-            currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,!blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
+            currentMove=(ValueMove) (new AlphaBetaNode(boardPosition,
+                    !blackToMove,alpha,beta,searchDepth-1,gAI)).getBestMove();
             boardPosition[move.row][move.column]='o';
 
             if(currentMove==null || Thread.interrupted()){    
@@ -109,17 +109,11 @@ public class AlphaBetaNode {
         alphaBeta();
         return bestMove;
     }
-
-    public AlphaBetaNode(BoardData bd , List<Move> proposedMoves){
-        
-    }
-
     
     private int maxValue(int alpha,int beta){
         if(alpha>beta){
             return alpha;
         }
            return beta;
-        
     }
 }

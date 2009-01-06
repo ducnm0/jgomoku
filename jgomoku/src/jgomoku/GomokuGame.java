@@ -284,6 +284,7 @@ public class GomokuGame extends BoardData{
         return bd;
     }
 
+    //only used by gomokuAi
     public boolean resetAndCheckBoardPosition(char[][] boardPosition , char side){
         this.board=boardPosition;
         if(checkWinner(side)){

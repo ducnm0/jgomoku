@@ -48,7 +48,7 @@ class ValueMoveComparator implements Comparator{
         ValueMove vm1=(ValueMove) ob1;
         ValueMove vm2=(ValueMove) ob2;
 
-        return vm1.moveValue > vm2.moveValue ? -1 : 1;
+        return vm1.moveValue > vm2.moveValue ? 1 : -1;
     }
 }
 /*
@@ -161,19 +161,6 @@ public class GomokuMoveProposer {
         whiteFoursCapped=new ArrayList<Move>();
 
         finalMoveList=new ArrayList<Move>();
-        /*
-        blackThreesUncapped.clear();
-        whiteThreesUncapped.clear();
-        blackThreesCapped.clear();
-        whiteThreesCapped.clear();
-        blackTwosUncapped.clear();
-        whiteTwosUncapped.clear();
-        blackTwosCapped.clear();
-        whiteTwosCapped.clear();
-        blackOnesUncapped.clear();
-        whiteOnesUncapped.clear();
-        blackOnesCapped.clear();
-        whiteOnesCapped.clear();*/
     }
 
     private void addBlackUncapped(int index){
@@ -586,7 +573,7 @@ public class GomokuMoveProposer {
         }
 
         if(lineEnders.isEmpty()){
-            ArrayList t=new ArrayList();
+            ArrayList<Move> t=new ArrayList<Move>();
             t.add(new Move(7 , 7));
             return t;
         }
@@ -607,15 +594,9 @@ public class GomokuMoveProposer {
             if(! blackFoursUncapped.isEmpty()){
                 return blackFoursUncapped;
             }
-            if(! blackFoursCapped.isEmpty()){
-                return blackFoursCapped;
-            }
             // obligatory moves black
             if(! whiteFoursUncapped.isEmpty()){
                 return whiteFoursUncapped;
-            }
-            if(! whiteFoursCapped.isEmpty()){
-                return whiteFoursCapped;
             }
         }
         else{
@@ -623,15 +604,9 @@ public class GomokuMoveProposer {
             if(! whiteFoursUncapped.isEmpty()){
                 return whiteFoursUncapped;
             }
-            if(! whiteFoursCapped.isEmpty()){
-                return whiteFoursCapped;
-            }
             // obligatiry moves white
             if(! blackFoursUncapped.isEmpty()){
                 return blackFoursUncapped;
-            }
-            if(! blackFoursCapped.isEmpty()){
-                return blackFoursCapped;
             }
         }
 
