@@ -184,7 +184,7 @@ public class TextInterface implements UserInterface{
         startGame(false,false);
         return "";
     }
-    public void getPlayer(){
+    public void getPlayer(){ 
         System.out.println("1. for black");
         System.out.println("2. for white");
         System.out.print("Your choice=");
