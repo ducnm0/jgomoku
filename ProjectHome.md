@@ -1,0 +1,1 @@
+This is a project to create a program with an interface for the board game gomoku and code for a computer player. It is an assignement for a university class project.
